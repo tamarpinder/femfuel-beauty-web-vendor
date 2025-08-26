@@ -59,9 +59,9 @@ export default function EarningsPage() {
   ];
 
   const currentData = earningsData[selectedPeriod];
-  const chartData = selectedPeriod === 'week' ? currentData.daily :
-                   selectedPeriod === 'month' ? currentData.weekly :
-                   currentData.monthly;
+  const chartData = selectedPeriod === 'week' ? earningsData.week.daily :
+                   selectedPeriod === 'month' ? earningsData.month.weekly :
+                   earningsData.year.monthly;
 
   return (
     <div className="p-6 space-y-6">
