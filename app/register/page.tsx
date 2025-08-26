@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { supabase } from '@/lib/api';
 import { SERVICE_CATEGORIES } from '@/lib/constants';
 
 export default function RegisterPage() {
@@ -24,7 +24,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  // Using imported supabase client
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
