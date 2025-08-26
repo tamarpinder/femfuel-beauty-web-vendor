@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
+import { Check, X, Phone, MessageCircle, Calendar } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
 
 interface Booking {
@@ -156,7 +157,9 @@ export default function BookingsPage() {
         <CardContent>
           {filteredBookings.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-6xl mb-4">📅</div>
+              <div className="flex justify-center mb-4">
+                <Calendar className="h-16 w-16 text-gray-400" />
+              </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 No hay reservaciones {activeTab === 'all' ? '' : tabs.find(t => t.key === activeTab)?.label.toLowerCase()}
               </h3>
@@ -220,7 +223,8 @@ export default function BookingsPage() {
                             onClick={() => updateBookingStatus(booking.id, 'confirmed')}
                             className="w-24"
                           >
-                            ✅ Confirmar
+                            <Check className="h-4 w-4 mr-1" />
+                            Confirmar
                           </Button>
                           <Button
                             size="sm"
@@ -228,7 +232,8 @@ export default function BookingsPage() {
                             onClick={() => updateBookingStatus(booking.id, 'cancelled')}
                             className="w-24 text-red-600"
                           >
-                            ❌ Cancelar
+                            <X className="h-4 w-4 mr-1" />
+                            Cancelar
                           </Button>
                         </>
                       )}
@@ -240,7 +245,8 @@ export default function BookingsPage() {
                             onClick={() => updateBookingStatus(booking.id, 'completed')}
                             className="w-24"
                           >
-                            ✅ Completar
+                            <Check className="h-4 w-4 mr-1" />
+                            Completar
                           </Button>
                           <Button
                             size="sm"
@@ -248,7 +254,8 @@ export default function BookingsPage() {
                             onClick={() => updateBookingStatus(booking.id, 'cancelled')}
                             className="w-24 text-red-600"
                           >
-                            ❌ Cancelar
+                            <X className="h-4 w-4 mr-1" />
+                            Cancelar
                           </Button>
                         </>
                       )}
@@ -267,7 +274,7 @@ export default function BookingsPage() {
                           className="px-2"
                           title="Llamar cliente"
                         >
-                          📞
+                          <Phone className="h-4 w-4" />
                         </Button>
                         <Button
                           size="sm"
@@ -275,7 +282,7 @@ export default function BookingsPage() {
                           className="px-2"
                           title="Enviar mensaje"
                         >
-                          💬
+                          <MessageCircle className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>

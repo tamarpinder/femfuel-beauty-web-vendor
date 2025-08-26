@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
+import { DollarSign, TrendingUp, Star, Target, Lightbulb, Download, Mail } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
 
 export default function EarningsPage() {
@@ -254,7 +255,7 @@ export default function EarningsPage() {
             <div className="space-y-4">
               <div className="p-4 bg-green-50 rounded-lg">
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-green-600 text-lg">📈</span>
+                  <TrendingUp className="h-5 w-5 text-green-600" />
                   <span className="font-medium text-green-800">Tendencia Positiva</span>
                 </div>
                 <p className="text-sm text-green-700">
@@ -264,7 +265,7 @@ export default function EarningsPage() {
 
               <div className="p-4 bg-blue-50 rounded-lg">
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-blue-600 text-lg">⭐</span>
+                  <Star className="h-5 w-5 text-blue-600" />
                   <span className="font-medium text-blue-800">Servicio Estrella</span>
                 </div>
                 <p className="text-sm text-blue-700">
@@ -274,7 +275,7 @@ export default function EarningsPage() {
 
               <div className="p-4 bg-purple-50 rounded-lg">
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-purple-600 text-lg">🎯</span>
+                  <Target className="h-5 w-5 text-purple-600" />
                   <span className="font-medium text-purple-800">Oportunidad</span>
                 </div>
                 <p className="text-sm text-purple-700">
@@ -284,7 +285,7 @@ export default function EarningsPage() {
 
               <div className="p-4 bg-yellow-50 rounded-lg">
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-yellow-600 text-lg">💡</span>
+                  <Lightbulb className="h-5 w-5 text-yellow-600" />
                   <span className="font-medium text-yellow-800">Recomendación</span>
                 </div>
                 <p className="text-sm text-yellow-700">
@@ -299,13 +300,16 @@ export default function EarningsPage() {
       {/* Action Buttons */}
       <div className="flex justify-center space-x-4">
         <Button variant="outline">
-          📊 Descargar Reporte
+          <Download className="h-4 w-4 mr-2" />
+          Descargar Reporte
         </Button>
         <Button variant="outline">
-          📧 Enviar por Email
+          <Mail className="h-4 w-4 mr-2" />
+          Enviar por Email
         </Button>
         <Button>
-          💰 Solicitar Pago
+          <DollarSign className="h-4 w-4 mr-2" />
+          Solicitar Pago
         </Button>
       </div>
     </div>

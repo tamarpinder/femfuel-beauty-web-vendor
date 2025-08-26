@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { BarChart3, Scissors, Calendar, DollarSign, MessageCircle, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { VENDOR_PHRASES } from '@/lib/constants';
 
@@ -11,32 +12,32 @@ const navigation = [
   {
     name: VENDOR_PHRASES.dashboard,
     href: '/dashboard',
-    icon: '📊',
+    icon: BarChart3,
   },
   {
     name: VENDOR_PHRASES.services,
     href: '/dashboard/services',
-    icon: '💅',
+    icon: Scissors,
   },
   {
     name: VENDOR_PHRASES.bookings,
     href: '/dashboard/bookings',
-    icon: '📅',
+    icon: Calendar,
   },
   {
     name: VENDOR_PHRASES.earnings,
     href: '/dashboard/earnings',
-    icon: '💰',
+    icon: DollarSign,
   },
   {
     name: 'Chat',
     href: '/dashboard/chat',
-    icon: '💬',
+    icon: MessageCircle,
   },
   {
     name: VENDOR_PHRASES.profile,
     href: '/dashboard/profile',
-    icon: '👤',
+    icon: User,
   },
 ];
 
@@ -83,7 +84,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
                   : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
               )}
             >
-              <span className="mr-3 text-lg">{item.icon}</span>
+              <item.icon className="mr-3 h-5 w-5" />
               {item.name}
             </Link>
           );

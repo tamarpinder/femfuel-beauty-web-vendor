@@ -3,6 +3,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
+import { Star, Scissors, TrendingUp } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
 import { useAuth } from '@/contexts/auth-context';
 
@@ -187,27 +188,36 @@ export default function DashboardPage() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
+              <div className="flex justify-center mb-2">
+                <Star className="h-8 w-8 text-femfuel-pink" />
+              </div>
               <div className="text-3xl font-bold text-femfuel-pink mb-2">
                 {stats.averageRating}
               </div>
               <p className="text-sm text-gray-600">
-                ⭐ Calificación Promedio
+                Calificación Promedio
               </p>
             </div>
             <div className="text-center">
+              <div className="flex justify-center mb-2">
+                <Scissors className="h-8 w-8 text-green-600" />
+              </div>
               <div className="text-3xl font-bold text-green-600 mb-2">
                 {stats.completedBookings}
               </div>
               <p className="text-sm text-gray-600">
-                ✅ Servicios Completados
+                Servicios Completados
               </p>
             </div>
             <div className="text-center">
+              <div className="flex justify-center mb-2">
+                <TrendingUp className="h-8 w-8 text-blue-600" />
+              </div>
               <div className="text-3xl font-bold text-blue-600 mb-2">
                 95%
               </div>
               <p className="text-sm text-gray-600">
-                📈 Tasa de Satisfacción
+                Tasa de Satisfacción
               </p>
             </div>
           </div>

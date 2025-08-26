@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { DashboardSidebar } from '@/components/dashboard-sidebar';
-import { DashboardHeader } from '@/components/dashboard-header';
-import { AuthProvider, useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
@@ -50,7 +49,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="h-screen flex bg-gray-50">
+    <div className="pt-20 h-screen flex bg-gray-50">
       {/* Sidebar */}
       <div className="hidden md:flex md:w-64 md:flex-col">
         <DashboardSidebar />
@@ -58,7 +57,6 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
-        <DashboardHeader />
         <main className="flex-1 overflow-auto">
           {children}
         </main>
@@ -73,8 +71,6 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <DashboardLayoutContent>{children}</DashboardLayoutContent>
-    </AuthProvider>
+    <DashboardLayoutContent>{children}</DashboardLayoutContent>
   );
 }

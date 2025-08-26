@@ -10,41 +10,7 @@ export default function VendorHomePage() {
   const greeting = DOMINICAN_GREETINGS[Math.floor(Math.random() * DOMINICAN_GREETINGS.length)];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-femfuel-pink/5 to-femfuel-gold/5">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <Image 
-                src="/femfuel-logo.png" 
-                alt="FemFuel Beauty" 
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-              />
-              <div>
-                <h1 className="text-xl font-display font-bold text-femfuel-black">
-                  FemFuel Beauty
-                </h1>
-                <p className="text-sm text-gray-600">Portal de Proveedores</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/login">
-                <Button variant="outline" size="sm">
-                  Iniciar Sesión
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm">
-                  Registrarse
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-femfuel-pink/5 to-femfuel-gold/5 pt-20 md:pt-0">
 
       {/* Hero Section */}
       <section className="py-16 lg:py-24">

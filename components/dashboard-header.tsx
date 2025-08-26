@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { Bell } from 'lucide-react';
 import { useAuth } from '@/contexts/auth-context';
 
 export function DashboardHeader() {
@@ -23,7 +24,7 @@ export function DashboardHeader() {
         <div className="flex items-center space-x-4">
           {/* Notifications */}
           <Button variant="outline" size="sm" className="relative">
-            <span className="text-lg">🔔</span>
+            <Bell className="h-4 w-4" />
             {/* Notification badge */}
             <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
               3

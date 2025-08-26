@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Plus, Edit3, Trash2, ToggleLeft, ToggleRight, Scissors } from 'lucide-react';
 import { VENDOR_PHRASES, SERVICE_CATEGORIES } from '@/lib/constants';
 
 export default function ServicesPage() {
@@ -172,7 +173,7 @@ export default function ServicesPage() {
           onClick={() => setShowAddForm(true)}
           className="flex items-center space-x-2"
         >
-          <span>➕</span>
+          <Plus className="h-4 w-4" />
           <span>{VENDOR_PHRASES.add_service}</span>
         </Button>
       </div>
@@ -336,14 +337,14 @@ export default function ServicesPage() {
                       variant="outline"
                       onClick={() => handleEditService(service)}
                     >
-                      ✏️
+                      <Edit3 className="h-4 w-4" />
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => toggleServiceStatus(service.id)}
                     >
-                      {service.is_active ? '❌' : '✅'}
+                      {service.is_active ? <ToggleRight className="h-4 w-4 text-green-600" /> : <ToggleLeft className="h-4 w-4 text-gray-400" />}
                     </Button>
                     <Button
                       size="sm"
@@ -351,7 +352,7 @@ export default function ServicesPage() {
                       onClick={() => deleteService(service.id)}
                       className="text-red-600 hover:text-red-700"
                     >
-                      🗑️
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -364,7 +365,9 @@ export default function ServicesPage() {
       {services.length === 0 && (
         <Card>
           <CardContent className="text-center py-12">
-            <div className="text-6xl mb-4">💅</div>
+            <div className="flex justify-center mb-4">
+              <Scissors className="h-16 w-16 text-gray-400" />
+            </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               No tienes servicios registrados
             </h3>
@@ -372,6 +375,7 @@ export default function ServicesPage() {
               Agrega tu primer servicio para que los clientes puedan encontrarte
             </p>
             <Button onClick={() => setShowAddForm(true)}>
+              <Plus className="h-4 w-4 mr-2" />
               {VENDOR_PHRASES.add_service}
             </Button>
           </CardContent>
