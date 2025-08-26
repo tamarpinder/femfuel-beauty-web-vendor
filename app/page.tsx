@@ -16,7 +16,7 @@ export default function VendorHomePage() {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
               <img 
-                src="/logo.png" 
+                src="/femfuel-logo.png" 
                 alt="FemFuel Beauty" 
                 className="h-10 w-10 rounded-full"
               />
@@ -197,7 +197,7 @@ export default function VendorHomePage() {
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <img 
-                src="/logo.png" 
+                src="/femfuel-logo.png" 
                 alt="FemFuel Beauty" 
                 className="h-8 w-8 rounded-full"
               />

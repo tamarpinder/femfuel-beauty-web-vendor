@@ -51,7 +51,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       {/* Logo */}
       <div className="flex items-center px-6 py-4 border-b border-gray-200">
         <img 
-          src="/Logo - Complete Transparency.png" 
+          src="/femfuel-logo.png" 
           alt="FemFuel Beauty" 
           className="h-8 w-8"
         />

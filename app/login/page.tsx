@@ -57,7 +57,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <img 
-              src="/Logo - Complete Transparency.png" 
+              src="/femfuel-logo.png" 
               alt="FemFuel Beauty" 
               className="h-12 w-12"
             />
