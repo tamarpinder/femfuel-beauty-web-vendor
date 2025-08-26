@@ -137,7 +137,7 @@ export default function CalendarPage() {
             ].map((viewOption) => (
               <button
                 key={viewOption.key}
-                onClick={() => setView(viewOption.key as any)}
+                onClick={() => setView(viewOption.key as 'month' | 'week' | 'day')}
                 className={`px-3 py-1 text-sm font-medium transition-colors ${
                   view === viewOption.key
                     ? 'bg-femfuel-pink text-white'

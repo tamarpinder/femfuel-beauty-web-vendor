@@ -8,7 +8,16 @@ import { VENDOR_PHRASES, SERVICE_CATEGORIES } from '@/lib/constants';
 
 export default function ServicesPage() {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [editingService, setEditingService] = useState<any>(null);
+  const [editingService, setEditingService] = useState<{
+    id: string;
+    name: string;
+    category: string;
+    price: number;
+    duration: number;
+    description: string;
+    is_active: boolean;
+    images: string[];
+  } | null>(null);
 
   // Mock services data - replace with Supabase data
   const [services, setServices] = useState([
@@ -82,7 +91,16 @@ export default function ServicesPage() {
     setShowAddForm(false);
   };
 
-  const handleEditService = (service: any) => {
+  const handleEditService = (service: {
+    id: string;
+    name: string;
+    category: string;
+    price: number;
+    duration: number;
+    description: string;
+    is_active: boolean;
+    images: string[];
+  }) => {
     setEditingService(service);
     setNewService({
       name: service.name,

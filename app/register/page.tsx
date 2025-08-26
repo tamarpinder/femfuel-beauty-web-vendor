@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -82,8 +83,8 @@ export default function RegisterPage() {
         // Redirect to a pending approval page or dashboard
         router.push('/dashboard?welcome=true');
       }
-    } catch (error: any) {
-      setError(error.message || 'Error al crear la cuenta');
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Error al crear la cuenta');
     } finally {
       setIsLoading(false);
     }
@@ -104,9 +105,11 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <img 
+            <Image 
               src="/femfuel-logo.png" 
               alt="FemFuel Beauty" 
+              width={48}
+              height={48}
               className="h-12 w-12"
             />
             <div>

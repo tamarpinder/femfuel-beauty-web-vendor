@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { DOMINICAN_GREETINGS, VENDOR_PHRASES } from '@/lib/constants';
 
@@ -15,9 +16,11 @@ export default function VendorHomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <img 
+              <Image 
                 src="/femfuel-logo.png" 
                 alt="FemFuel Beauty" 
+                width={40}
+                height={40}
                 className="h-10 w-10 rounded-full"
               />
               <div>
@@ -196,9 +199,11 @@ export default function VendorHomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <img 
+              <Image 
                 src="/femfuel-logo.png" 
                 alt="FemFuel Beauty" 
+                width={32}
+                height={32}
                 className="h-8 w-8 rounded-full"
               />
               <span className="text-xl font-display font-bold">FemFuel Beauty</span>

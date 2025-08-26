@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -43,8 +44,8 @@ export default function LoginPage() {
       }
 
       router.push('/dashboard');
-    } catch (error: any) {
-      setError(error.message || 'Error al iniciar sesión');
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Error al iniciar sesión');
     } finally {
       setIsLoading(false);
     }
@@ -56,9 +57,11 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <img 
+            <Image 
               src="/femfuel-logo.png" 
               alt="FemFuel Beauty" 
+              width={48}
+              height={48}
               className="h-12 w-12"
             />
             <div>

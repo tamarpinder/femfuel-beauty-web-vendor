@@ -57,7 +57,7 @@ export const profiles = {
     return { data, error };
   },
 
-  updateProfile: async (userId: string, updates: any) => {
+  updateProfile: async (userId: string, updates: Record<string, unknown>) => {
     const { data, error } = await supabase
       .from('profiles')
       .update(updates)
@@ -67,7 +67,7 @@ export const profiles = {
     return { data, error };
   },
 
-  createProfile: async (profile: any) => {
+  createProfile: async (profile: Record<string, unknown>) => {
     const { data, error } = await supabase
       .from('profiles')
       .insert(profile)
@@ -104,7 +104,7 @@ export const services = {
     return { data, error };
   },
 
-  update: async (serviceId: string, updates: any) => {
+  update: async (serviceId: string, updates: Record<string, unknown>) => {
     const { data, error } = await supabase
       .from('services')
       .update(updates)
@@ -140,7 +140,7 @@ export const bookings = {
   },
 
   updateStatus: async (bookingId: string, status: string, cancellationReason?: string) => {
-    const updates: any = { status };
+    const updates: Record<string, unknown> = { status };
     if (cancellationReason) {
       updates.cancellation_reason = cancellationReason;
     }

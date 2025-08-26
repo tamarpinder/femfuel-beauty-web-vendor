@@ -119,7 +119,7 @@ export default function ProfilePage() {
           ].map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
+              onClick={() => setActiveTab(tab.key as 'info' | 'business' | 'gallery' | 'hours')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.key
                   ? 'border-femfuel-pink text-femfuel-pink'

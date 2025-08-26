@@ -85,7 +85,7 @@ export default function EarningsPage() {
           ].map((period) => (
             <button
               key={period.key}
-              onClick={() => setSelectedPeriod(period.key as any)}
+              onClick={() => setSelectedPeriod(period.key as 'week' | 'month' | 'year')}
               className={`px-4 py-2 text-sm font-medium transition-colors ${
                 selectedPeriod === period.key
                   ? 'bg-femfuel-pink text-white'
@@ -268,7 +268,7 @@ export default function EarningsPage() {
                   <span className="font-medium text-blue-800">Servicio Estrella</span>
                 </div>
                 <p className="text-sm text-blue-700">
-                  El "Manicure Completo" es tu servicio más rentable con 25% de tus ingresos.
+                  El &quot;Manicure Completo&quot; es tu servicio más rentable con 25% de tus ingresos.
                 </p>
               </div>
 

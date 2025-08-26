@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { VENDOR_PHRASES } from '@/lib/constants';
@@ -50,9 +51,11 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
     <div className={cn('flex flex-col h-full bg-white border-r border-gray-200', className)}>
       {/* Logo */}
       <div className="flex items-center px-6 py-4 border-b border-gray-200">
-        <img 
+        <Image 
           src="/femfuel-logo.png" 
           alt="FemFuel Beauty" 
+          width={32}
+          height={32}
           className="h-8 w-8"
         />
         <div className="ml-3">
