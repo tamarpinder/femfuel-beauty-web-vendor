@@ -1,0 +1,80 @@
+'use client';
+
+import React from 'react';
+import { DashboardSidebar } from '@/components/dashboard-sidebar';
+import { DashboardHeader } from '@/components/dashboard-header';
+import { AuthProvider, useAuth } from '@/contexts/auth-context';
+import { useRouter } from 'next/navigation';
+
+function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
+  const { user, loading, profile } = useAuth();
+  const router = useRouter();
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-femfuel-pink mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!user) {
+    router.push('/login');
+    return null;
+  }
+
+  // Show approval pending message
+  if (profile && !profile.is_approved) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="max-w-md p-8 bg-white rounded-xl shadow-lg text-center">
+          <div className="text-6xl mb-4">⏳</div>
+          <h2 className="text-2xl font-bold text-femfuel-black mb-4">
+            Cuenta Pendiente de Aprobación
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Tu cuenta de proveedor está siendo revisada por nuestro equipo. 
+            Te notificaremos por email cuando sea aprobada.
+          </p>
+          <p className="text-sm text-gray-500">
+            Tiempo estimado: 24-48 horas
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen flex bg-gray-50">
+      {/* Sidebar */}
+      <div className="hidden md:flex md:w-64 md:flex-col">
+        <DashboardSidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <DashboardHeader />
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AuthProvider>
+      <DashboardLayoutContent>{children}</DashboardLayoutContent>
+    </AuthProvider>
+  );
+}
