@@ -1,5 +1,3 @@
-'use client'
-
 import { Card } from "@/components/ui/card"
 import { Users, BarChart3, CreditCard } from "lucide-react"
 
@@ -23,23 +21,23 @@ export function VendorValueProposition() {
   ]
 
   return (
-    <section className="py-16 bg-femfuel-purple">
+    <section className="py-16 bg-muted/30">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-femfuel-dark mb-4">¿Por qué elegir FemFuel Beauty?</h2>
-          <p className="text-lg text-femfuel-medium max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-foreground mb-4">¿Por qué elegir FemFuel Beauty?</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             La plataforma que impulsa tu crecimiento profesional
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => (
-            <Card key={index} className="p-6 text-center border-0 shadow-sm bg-white">
-              <div className="w-12 h-12 bg-femfuel-rose rounded-xl flex items-center justify-center mx-auto mb-4">
-                <benefit.icon className="w-6 h-6 text-white" />
+            <Card key={index} className="p-6 text-center border-0 shadow-sm">
+              <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
+                <benefit.icon className="w-6 h-6 text-primary-foreground" />
               </div>
-              <h3 className="text-xl font-semibold text-femfuel-dark mb-2">{benefit.title}</h3>
-              <p className="text-femfuel-medium">{benefit.description}</p>
+              <h3 className="text-xl font-semibold text-foreground mb-2">{benefit.title}</h3>
+              <p className="text-muted-foreground">{benefit.description}</p>
             </Card>
           ))}
         </div>

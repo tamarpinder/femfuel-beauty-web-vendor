@@ -6,31 +6,20 @@ import { VendorHowItWorks } from '@/components/vendor-how-it-works'
 import { VendorSocialProof } from '@/components/vendor-social-proof'
 import { VendorFinalCTA } from '@/components/vendor-final-cta'
 import { VendorHeader } from '@/components/vendor-header'
-import { VendorMobileHeader } from '@/components/vendor-mobile-header'
 import Image from 'next/image'
 
 export default function VendorHomePage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Headers */}
-      <VendorMobileHeader />
       <VendorHeader />
-
-      {/* Hero Section */}
-      <VendorHeroSection />
-
-      {/* Value Proposition */}
-      <VendorValueProposition />
-
-      {/* How It Works */}
-      <VendorHowItWorks />
-
-      {/* Social Proof */}
-      <VendorSocialProof />
-
-      {/* Final CTA */}
-      <VendorFinalCTA />
-
+      <main>
+        <VendorHeroSection />
+        <VendorValueProposition />
+        <VendorHowItWorks />
+        <VendorSocialProof />
+        <VendorFinalCTA />
+      </main>
+      
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-6xl mx-auto px-4">

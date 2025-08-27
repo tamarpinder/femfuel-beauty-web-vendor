@@ -7,9 +7,8 @@ import { Button } from '@/components/ui/Button'
 
 export function VendorHeroSection() {
   return (
-    <section className="relative px-4 py-12 md:py-16">
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Logo */}
+    <section className="py-16 bg-white">
+      <div className="max-w-6xl mx-auto px-4 text-center">
         <div className="mb-8">
           <div className="w-40 h-40 md:w-44 md:h-44 mx-auto flex items-center justify-center mb-6">
             <Image 
@@ -20,32 +19,38 @@ export function VendorHeroSection() {
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-femfuel-dark mb-2">
+
+          <h1 className="text-4xl md:text-5xl font-bold text-femfuel-dark mb-4">
             Haz crecer tu negocio de belleza
           </h1>
-          <p className="text-lg text-femfuel-medium mb-6">
-            Conecta con miles de clientes en República Dominicana
-          </p>
-          <div className="flex items-center justify-center gap-2 text-sm text-femfuel-medium mb-8">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="font-medium">4.9/5</span>
-            <span>•</span>
-            <span>500+ proveedores activos</span>
-          </div>
-        </div>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/register">
-            <Button size="lg" className="w-full sm:w-auto bg-femfuel-rose hover:bg-[#9f1853]">
-              Comenzar Gratis
-            </Button>
-          </Link>
-          <Link href="/login">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              Iniciar Sesión
-            </Button>
-          </Link>
+          <p className="text-xl text-femfuel-medium mb-6 max-w-2xl mx-auto">
+            Conecta con miles de clientes en República Dominicana y gestiona tu negocio de forma profesional
+          </p>
+
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              ))}
+              <span className="text-sm font-medium text-femfuel-dark ml-2">4.9/5</span>
+            </div>
+            <div className="w-1 h-1 bg-femfuel-medium rounded-full" />
+            <span className="text-sm text-femfuel-medium">500+ proveedores activos</span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/register">
+              <Button size="lg" className="px-8 bg-femfuel-rose hover:bg-[#9f1853] text-white">
+                Comenzar Gratis
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button variant="outline" size="lg" className="px-8 border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white">
+                Iniciar Sesión
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
