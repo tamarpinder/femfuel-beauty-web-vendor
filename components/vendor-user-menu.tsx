@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { User, Settings, Calendar, LogOut, ChevronDown, Scissors, HelpCircle, Building2 } from "lucide-react"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,

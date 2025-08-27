@@ -2,7 +2,7 @@
 
 import React from 'react';
 // Removed unused Card components - now using custom modern cards
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Star, Scissors, TrendingUp, Plus, Calendar, MessageCircle, BarChart, DollarSign, User, Clock } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
 import { useAuth } from '@/contexts/auth-context';

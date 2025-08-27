@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { Mail, Lock, User, Phone, Eye, EyeOff, Building } from "lucide-react"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"

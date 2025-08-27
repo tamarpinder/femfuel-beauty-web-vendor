@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from "next/navigation"
 import { LayoutDashboard, Scissors, Calendar, DollarSign, User } from "lucide-react"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 
 interface DashboardMobileNavigationProps {
   className?: string
