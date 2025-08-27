@@ -5,19 +5,19 @@ export function VendorValueProposition() {
   const benefits = [
     {
       icon: Users,
-      title: "💸 Más Clientes, Más Ingresos",
+      title: "Más Clientes, Más Ingresos",
       description: "Conecta con +75,000 usuarios activos que buscan servicios de belleza diariamente",
       color: "bg-gradient-to-br from-femfuel-rose to-pink-400"
     },
     {
       icon: BarChart3,
-      title: "📱 Gestión Profesional",
+      title: "Gestión Profesional",
       description: "Dashboard intuitivo que simplifica tu agenda, reservas y métricas de crecimiento",
       color: "bg-gradient-to-br from-femfuel-gold to-yellow-400"
     },
     {
       icon: CreditCard,
-      title: "🔒 Pagos Garantizados",
+      title: "Pagos Garantizados",
       description: "Recibe tus pagos de forma automática y segura, sin preocupaciones ni retrasos",
       color: "bg-gradient-to-br from-green-500 to-emerald-400"
     },

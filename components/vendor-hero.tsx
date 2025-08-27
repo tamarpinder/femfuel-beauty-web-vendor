@@ -35,7 +35,7 @@ export function VendorHero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button className="femfuel-button-lg">
               <UserPlus className="h-4 w-4" />
-              <span>✨ Comenzar Gratis</span>
+              <span>Comenzar Gratis</span>
             </button>
             <button className="glassmorphism-button-lg">
               <User className="h-4 w-4" />
