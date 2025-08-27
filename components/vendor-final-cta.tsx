@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { UserPlus } from "lucide-react"
 
 export function VendorFinalCTA() {
   return (
@@ -10,18 +10,27 @@ export function VendorFinalCTA() {
       
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-          ¿Listo para <span className="text-femfuel-rose">transformar</span> tu negocio?
+          <span className="text-femfuel-rose">transformar</span> tu negocio?
         </h2>
         <p className="text-xl text-black mb-8 max-w-2xl mx-auto">
           Únete a FemFuel Beauty hoy y comienza a generar más ingresos con la plataforma de belleza más exitosa de República Dominicana
         </p>
 
-        <Button 
-          size="lg" 
-          className="px-8 bg-white text-femfuel-rose hover:bg-white/95 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+        <button
+          className="
+            inline-flex items-center justify-center gap-2
+            h-11 px-8 rounded-md text-sm font-medium
+            bg-femfuel-rose text-white
+            hover:bg-femfuel-rose/90 hover:scale-105 hover:shadow-lg
+            hover:-translate-y-0.5
+            transition-all duration-300 shadow-md
+            cursor-pointer focus-visible:outline-none focus-visible:ring-2 
+            focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-femfuel-rose
+          "
         >
-          Comenzar
-        </Button>
+          <UserPlus className="h-4 w-4" />
+          <span>Comenzar</span>
+        </button>
         
         <p className="text-white/70 text-sm mt-4">
           Gratis por siempre • Sin comisiones ocultas • Soporte 24/7
