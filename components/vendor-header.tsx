@@ -113,16 +113,7 @@ export function VendorHeader() {
                   <>
                     <button
                       onClick={() => handleAuthClick("login")}
-                      className="
-                        inline-flex items-center justify-center gap-2
-                        h-9 px-4 rounded-md text-sm font-medium
-                        backdrop-blur-sm bg-white/5 border border-femfuel-rose text-femfuel-rose
-                        hover:bg-femfuel-rose/90 hover:text-white hover:border-femfuel-rose 
-                        hover:scale-105 hover:shadow-lg
-                        transition-all duration-300 shadow-sm
-                        cursor-pointer focus-visible:outline-none focus-visible:ring-2 
-                        focus-visible:ring-femfuel-rose focus-visible:ring-offset-2
-                      "
+                      className="glassmorphism-button"
                     >
                       <User className="h-4 w-4" />
                       <span>Iniciar Sesión</span>
