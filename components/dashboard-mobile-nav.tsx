@@ -8,7 +8,7 @@ interface DashboardMobileNavigationProps {
   className?: string
 }
 
-export function DashboardMobileNavigation({ className }: DashboardMobileNavigationProps) {
+export function DashboardMobileNavigation({}: DashboardMobileNavigationProps) {
   const router = useRouter()
   const pathname = usePathname()
 
