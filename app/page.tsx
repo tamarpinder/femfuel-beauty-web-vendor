@@ -6,6 +6,7 @@ import { VendorHowItWorks } from '@/components/vendor-how-it-works'
 import { VendorSocialProof } from '@/components/vendor-social-proof'
 import { VendorFinalCTA } from '@/components/vendor-final-cta'
 import { VendorFooter } from '@/components/vendor-footer'
+import { VendorMobileNav } from '@/components/vendor-mobile-nav'
 
 export default function VendorHomePage() {
   return (
@@ -18,6 +19,7 @@ export default function VendorHomePage() {
         <VendorFinalCTA />
       </main>
       <VendorFooter />
+      <VendorMobileNav />
     </div>
   )
 }

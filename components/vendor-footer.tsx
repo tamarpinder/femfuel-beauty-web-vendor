@@ -1,6 +1,6 @@
 export function VendorFooter() {
   return (
-    <footer className="bg-foreground text-background py-8">
+    <footer className="hidden md:block bg-foreground text-background py-8">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-center mb-4">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center mr-3">

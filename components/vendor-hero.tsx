@@ -3,6 +3,10 @@ import { Star, TrendingUp, User, UserPlus } from "lucide-react"
 export function VendorHero() {
   return (
     <section className="relative px-4 py-12 md:py-16 bg-gradient-to-b from-white to-femfuel-light">
+      {/* Mobile Login Button - Top Right */}
+      <button className="md:hidden absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-filter backdrop-blur-12 border border-femfuel-rose/20 rounded-full flex items-center justify-center hover:bg-femfuel-rose hover:text-white transition-all duration-300 shadow-lg z-10">
+        <User className="h-5 w-5 text-femfuel-rose hover:text-white transition-colors" />
+      </button>
       <div className="max-w-4xl mx-auto text-center">
         {/* Logo */}
         <div className="mb-8">

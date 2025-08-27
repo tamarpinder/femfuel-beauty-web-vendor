@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { VendorHeader } from "@/components/vendor-header";
-import { MobileHeader } from "@/components/mobile-header";
 import { AuthProvider } from "@/contexts/auth-context";
 import "./globals.css";
 
@@ -28,7 +27,6 @@ export default function RootLayout({
       >
         <AuthProvider>
           <VendorHeader />
-          <MobileHeader />
           {children}
         </AuthProvider>
       </body>
