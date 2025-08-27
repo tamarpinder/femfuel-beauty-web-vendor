@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/Button';
-import { Star, Scissors, TrendingUp } from 'lucide-react';
+import { Star, Scissors, TrendingUp, Plus, Calendar, MessageCircle, BarChart } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
 import { useAuth } from '@/contexts/auth-context';
 
@@ -160,19 +160,19 @@ export default function DashboardPage() {
           <CardContent>
             <div className="grid grid-cols-1 gap-3">
               <Button className="justify-start h-12">
-                <span className="mr-3 text-lg">➕</span>
+                <Plus className="mr-3 h-5 w-5" />
                 {VENDOR_PHRASES.add_service}
               </Button>
               <Button variant="outline" className="justify-start h-12">
-                <span className="mr-3 text-lg">📅</span>
+                <Calendar className="mr-3 h-5 w-5" />
                 Ver Calendario
               </Button>
               <Button variant="outline" className="justify-start h-12">
-                <span className="mr-3 text-lg">💬</span>
+                <MessageCircle className="mr-3 h-5 w-5" />
                 Mensajes de Clientes
               </Button>
               <Button variant="outline" className="justify-start h-12">
-                <span className="mr-3 text-lg">📊</span>
+                <BarChart className="mr-3 h-5 w-5" />
                 Ver {VENDOR_PHRASES.analytics}
               </Button>
             </div>

@@ -1,26 +1,62 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
+  /* FemFuel Beauty custom color scheme - unified across both apps */
+  --femfuel-rose: #b91c5c;
+  --femfuel-gold: #d4af37;
+  --femfuel-purple-bg: #f3e8ff;
+  --femfuel-dark-gray: #111827;
+  --femfuel-medium-gray: #4b5563;
+  --femfuel-light-gray: #f9fafb;
+  
   --background: #FFFFFF;
-  --foreground: #1A1A1A;
-  --primary: #FFB6C1;
-  --secondary: #FFD700;
+  --foreground: #111827;
+  --primary: #b91c5c;
+  --secondary: #d4af37;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
   min-height: 100vh;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* FemFuel Beauty custom utility classes */
+.femfuel-rose {
+  color: var(--femfuel-rose);
+}
+
+.bg-femfuel-rose {
+  background-color: var(--femfuel-rose);
+}
+
+.femfuel-gold {
+  color: var(--femfuel-gold);
+}
+
+.bg-femfuel-gold {
+  background-color: var(--femfuel-gold);
+}
+
+.bg-femfuel-purple {
+  background-color: var(--femfuel-purple-bg);
+}
+
+.text-femfuel-dark {
+  color: var(--femfuel-dark-gray);
+}
+
+.text-femfuel-medium {
+  color: var(--femfuel-medium-gray);
+}
+
+.bg-femfuel-light {
+  background-color: var(--femfuel-light-gray);
 }

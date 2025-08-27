@@ -60,10 +60,10 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
           className="h-8 w-8"
         />
         <div className="ml-3">
-          <h2 className="text-lg font-display font-bold text-femfuel-black">
+          <h2 className="text-lg font-bold text-femfuel-dark">
             FemFuel
           </h2>
-          <p className="text-xs text-gray-600">Panel de Proveedor</p>
+          <p className="text-xs text-femfuel-medium">Panel de Proveedor</p>
         </div>
       </div>
 
@@ -80,8 +80,8 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
               className={cn(
                 'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',
                 isActive
-                  ? 'bg-femfuel-pink text-white'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-femfuel-rose text-white'
+                  : 'text-femfuel-medium hover:bg-gray-100 hover:text-femfuel-dark'
               )}
             >
               <item.icon className="mr-3 h-5 w-5" />
