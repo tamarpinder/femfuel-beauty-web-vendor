@@ -51,7 +51,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="pt-24 min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex bg-gray-50">
       {/* Sidebar - Desktop only */}
       <div className="hidden md:flex md:w-64 md:flex-col">
         <DashboardSidebar />

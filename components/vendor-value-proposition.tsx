@@ -22,7 +22,7 @@ export function VendorValueProposition() {
   ]
 
   return (
-    <section className="px-4 py-12 bg-white">
+    <section className="px-4 py-12 bg-femfuel-purple">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-femfuel-dark mb-3">

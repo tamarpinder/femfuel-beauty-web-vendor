@@ -6,12 +6,14 @@ import { VendorHowItWorks } from '@/components/vendor-how-it-works'
 import { VendorSocialProof } from '@/components/vendor-social-proof'
 import { VendorFinalCTA } from '@/components/vendor-final-cta'
 import { VendorHeader } from '@/components/vendor-header'
+import { VendorMobileHeader } from '@/components/vendor-mobile-header'
 import Image from 'next/image'
 
 export default function VendorHomePage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
+      {/* Headers */}
+      <VendorMobileHeader />
       <VendorHeader />
 
       {/* Hero Section */}

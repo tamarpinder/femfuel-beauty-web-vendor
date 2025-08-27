@@ -13,8 +13,8 @@ interface VendorHeaderProps {
 
 export function VendorHeader({}: VendorHeaderProps) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 hidden md:block border-b border-gray-100 bg-white h-[72px]">
-      <div className="max-w-7xl mx-auto px-4 py-4 h-full">
+    <header className="hidden md:block border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
