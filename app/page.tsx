@@ -15,7 +15,7 @@ export default function VendorHomePage() {
 
       {/* Hero Section */}
       <section className="py-12 md:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
             <h1 className="text-4xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight">
               {greeting}
@@ -45,7 +45,7 @@ export default function VendorHomePage() {
 
       {/* Features Section */}
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-display font-bold text-center text-femfuel-black mb-12">
             ¿Por qué elegir FemFuel Beauty?
           </h2>
@@ -180,7 +180,7 @@ export default function VendorHomePage() {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <Image 
