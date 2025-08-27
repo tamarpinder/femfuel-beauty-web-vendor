@@ -132,7 +132,7 @@ export function VendorHeader() {
                       "
                     >
                       <UserPlus className="h-4 w-4" />
-                      <span>Comenzar Gratis</span>
+                      <span>Comenzar</span>
                     </button>
                   </>
                 )}

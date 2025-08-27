@@ -10,7 +10,7 @@ export function VendorFinalCTA() {
       
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-          ¿Listo para <span className="text-yellow-100">transformar</span> tu negocio?
+          ¿Listo para <span className="text-femfuel-rose">transformar</span> tu negocio?
         </h2>
         <p className="text-xl text-black mb-8 max-w-2xl mx-auto">
           Únete a FemFuel Beauty hoy y comienza a generar más ingresos con la plataforma de belleza más exitosa de República Dominicana
@@ -20,7 +20,7 @@ export function VendorFinalCTA() {
           size="lg" 
           className="px-8 bg-white text-femfuel-rose hover:bg-white/95 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
         >
-          ✨ Crear mi Cuenta de Proveedor
+          Comenzar
         </Button>
         
         <p className="text-white/70 text-sm mt-4">
