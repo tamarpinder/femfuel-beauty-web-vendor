@@ -4,7 +4,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { MapPin, User, ChevronDown, UserPlus } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,32 +111,38 @@ export function VendorHeader() {
                   <VendorUserMenu />
                 ) : (
                   <>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
+                    <button
                       onClick={() => handleAuthClick("login")}
                       className="
-                        border-femfuel-rose text-femfuel-rose 
-                        hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose hover:scale-105
-                        transition-all duration-300 shadow-sm hover:shadow-md
-                        flex items-center gap-2 cursor-pointer
+                        inline-flex items-center justify-center gap-2
+                        h-9 px-4 rounded-md text-sm font-medium
+                        backdrop-blur-sm bg-white/5 border border-femfuel-rose text-femfuel-rose
+                        hover:bg-femfuel-rose/90 hover:text-white hover:border-femfuel-rose 
+                        hover:scale-105 hover:shadow-lg
+                        transition-all duration-300 shadow-sm
+                        cursor-pointer focus-visible:outline-none focus-visible:ring-2 
+                        focus-visible:ring-femfuel-rose focus-visible:ring-offset-2
                       "
                     >
                       <User className="h-4 w-4" />
                       <span>Iniciar Sesión</span>
-                    </Button>
-                    <Button 
-                      size="sm"
+                    </button>
+                    <button
                       onClick={() => handleAuthClick("signup")}
                       className="
-                        bg-gradient-to-r from-femfuel-rose to-femfuel-rose/90 hover:from-femfuel-rose/90 hover:to-femfuel-rose 
-                        text-white transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105
-                        hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer
+                        inline-flex items-center justify-center gap-2
+                        h-9 px-4 rounded-md text-sm font-medium
+                        bg-femfuel-rose text-white
+                        hover:bg-femfuel-rose/90 hover:scale-105 hover:shadow-lg
+                        hover:-translate-y-0.5
+                        transition-all duration-300 shadow-md
+                        cursor-pointer focus-visible:outline-none focus-visible:ring-2 
+                        focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-femfuel-rose
                       "
                     >
                       <UserPlus className="h-4 w-4" />
                       <span>Comenzar Gratis</span>
-                    </Button>
+                    </button>
                   </>
                 )}
               </div>
