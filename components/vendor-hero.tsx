@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button"
-import { Star, TrendingUp } from "lucide-react"
+import { Star, TrendingUp, User, UserPlus } from "lucide-react"
 
 export function VendorHero() {
   return (
@@ -34,19 +33,14 @@ export function VendorHero() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button 
-              size="lg" 
-              className="px-8 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              ✨ Comenzar Gratis
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="px-8 border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white transition-colors"
-            >
-              Iniciar Sesión
-            </Button>
+            <button className="femfuel-button-lg">
+              <UserPlus className="h-4 w-4" />
+              <span>✨ Comenzar Gratis</span>
+            </button>
+            <button className="glassmorphism-button-lg">
+              <User className="h-4 w-4" />
+              <span>Iniciar Sesión</span>
+            </button>
           </div>
         </div>
       </div>
