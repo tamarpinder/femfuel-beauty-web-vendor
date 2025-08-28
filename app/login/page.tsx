@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-// Mock authentication - no Supabase needed for demo
+import { Mail, Lock, Eye, EyeOff, ArrowLeft, Info } from 'lucide-react';
+import { auth } from '@/lib/api';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,17 +19,52 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  // Test credentials
+  const testCredentials = {
+    email: 'test@femfuelbeauty.com',
+    password: 'TestVendor2025!'
+  };
+
+  const handleTestCredentials = () => {
+    setEmail(testCredentials.email);
+    setPassword(testCredentials.password);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      // Mock authentication for demo
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Real Supabase authentication
+      const { data, error: authError } = await auth.signIn(email, password);
+      
+      if (authError) {
+        throw new Error(authError.message);
+      }
+
+      if (!data.user) {
+        throw new Error('Error de autenticación');
+      }
+
+      // Check if user is a vendor by getting their profile
+      // This will be handled by the AuthContext, so we can redirect
       router.push('/dashboard');
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : 'Error al iniciar sesión');
+      if (error instanceof Error) {
+        // Translate common auth errors to Spanish
+        if (error.message.includes('Invalid login credentials')) {
+          setError('Credenciales incorrectas. Verifica tu email y contraseña.');
+        } else if (error.message.includes('Email not confirmed')) {
+          setError('Email no confirmado. Revisa tu bandeja de entrada.');
+        } else if (error.message.includes('Too many requests')) {
+          setError('Demasiados intentos. Espera unos minutos antes de intentar de nuevo.');
+        } else {
+          setError(error.message);
+        }
+      } else {
+        setError('Error al iniciar sesión. Inténtalo de nuevo.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -102,8 +137,17 @@ export default function LoginPage() {
               Volver al inicio
             </Link>
 
-            {/* Form Header */}
-            <div className="mb-8">
+            {/* Form Header with Centered Logo */}
+            <div className="mb-8 text-center">
+              <div className="mb-6">
+                <Image 
+                  src="/femfuel-logo.png" 
+                  alt="FemFuel Beauty" 
+                  width={110}
+                  height={110}
+                  className="w-[110px] h-[110px] mx-auto hover:scale-105 transition-transform duration-300"
+                />
+              </div>
               <h2 className="text-3xl font-bold text-femfuel-dark mb-2">
                 Acceso de Proveedores
               </h2>
@@ -160,6 +204,30 @@ export default function LoginPage() {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-white px-3 text-femfuel-medium">O continúa con email</span>
+              </div>
+            </div>
+
+            {/* Test Credentials Notice */}
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                <div className="flex-1">
+                  <h3 className="text-sm font-medium text-blue-900 mb-1">
+                    Credenciales de Prueba Disponibles
+                  </h3>
+                  <p className="text-sm text-blue-700 mb-3">
+                    Usa nuestras credenciales de prueba para explorar la plataforma con datos de ejemplo.
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleTestCredentials}
+                    className="border-blue-300 text-blue-700 hover:bg-blue-100 hover:border-blue-400"
+                  >
+                    Usar Credenciales de Prueba
+                  </Button>
+                </div>
               </div>
             </div>
 
