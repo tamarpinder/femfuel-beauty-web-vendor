@@ -77,7 +77,10 @@ export function VendorUserMenu() {
             <span>Configuración</span>
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+        <DropdownMenuItem 
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => window.open('mailto:soporte@femfuel.com?subject=Consulta de Vendor', '_blank')}
+        >
           <HelpCircle className="h-4 w-4" />
           <span>Soporte</span>
         </DropdownMenuItem>
