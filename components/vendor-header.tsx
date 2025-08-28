@@ -38,7 +38,7 @@ export function VendorHeader() {
   }
 
   const navItems = [
-    { href: "/", label: "Home" },
+    { href: "/dashboard", label: "Home" },
     { href: "/dashboard/services", label: "Servicios" },
     { href: "/dashboard/bookings", label: "Reservas" },
     { href: "/dashboard/earnings", label: "Billetera" }

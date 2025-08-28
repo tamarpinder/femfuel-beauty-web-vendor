@@ -10,7 +10,7 @@ export function VendorMobileNav() {
   const { user } = useAuth()
 
   const navItems = [
-    { id: "home", icon: Home, label: "Home", path: "/" },
+    { id: "home", icon: Home, label: "Home", path: user ? "/dashboard" : "/login" },
     { id: "servicios", icon: Scissors, label: "Servicios", path: user ? "/dashboard/services" : "/login" },
     { id: "reservas", icon: Calendar, label: "Reservas", path: user ? "/dashboard/bookings" : "/login" },
     { id: "billetera", icon: Wallet, label: "Billetera", path: user ? "/dashboard/earnings" : "/login" },
@@ -22,7 +22,7 @@ export function VendorMobileNav() {
   }
 
   const getActiveItem = () => {
-    if (pathname === "/") return "home"
+    if (pathname === "/" || pathname === "/dashboard") return "home"
     if (pathname.includes("/services")) return "servicios"
     if (pathname.includes("/bookings")) return "reservas"
     if (pathname.includes("/earnings")) return "billetera"
