@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 // Removed unused Card components - now using custom modern cards
 import { Button } from '@/components/ui/button';
 import { Star, Scissors, TrendingUp, Plus, Calendar, MessageCircle, BarChart, DollarSign, User, Clock } from 'lucide-react';
@@ -9,6 +10,12 @@ import { useAuth } from '@/contexts/auth-context';
 
 export default function DashboardPage() {
   const { profile } = useAuth();
+  const router = useRouter();
+
+  // Navigation handlers
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
 
   // Mock data - replace with real data from Supabase
   const stats = {
@@ -161,7 +168,9 @@ export default function DashboardPage() {
                   <p className="text-sm text-femfuel-medium">Actividad de hoy</p>
                 </div>
               </div>
-              <Button variant="outline" size="sm">Ver todas</Button>
+              <Button variant="outline" size="sm" onClick={() => handleNavigation('/dashboard/bookings')}>
+                Ver todas
+              </Button>
             </div>
             <div className="space-y-4">
               {recentBookings.map((booking) => (
@@ -208,19 +217,34 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="space-y-3">
-            <Button className="w-full justify-start h-12 bg-femfuel-rose hover:bg-[#9f1853]">
+            <Button 
+              className="w-full justify-start h-12 bg-femfuel-rose hover:bg-[#9f1853]"
+              onClick={() => handleNavigation('/dashboard/services')}
+            >
               <Plus className="mr-3 h-5 w-5" />
               {VENDOR_PHRASES.add_service}
             </Button>
-            <Button variant="outline" className="w-full justify-start h-12 hover:bg-gray-50">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-12 hover:bg-gray-50"
+              onClick={() => handleNavigation('/dashboard/calendar')}
+            >
               <Calendar className="mr-3 h-5 w-5" />
               Ver Calendario
             </Button>
-            <Button variant="outline" className="w-full justify-start h-12 hover:bg-gray-50">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-12 hover:bg-gray-50"
+              onClick={() => handleNavigation('/dashboard/chat')}
+            >
               <MessageCircle className="mr-3 h-5 w-5" />
               Mensajes
             </Button>
-            <Button variant="outline" className="w-full justify-start h-12 hover:bg-gray-50">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-12 hover:bg-gray-50"
+              onClick={() => handleNavigation('/dashboard/earnings')}
+            >
               <BarChart className="mr-3 h-5 w-5" />
               {VENDOR_PHRASES.analytics}
             </Button>
