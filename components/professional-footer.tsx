@@ -39,9 +39,11 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
         {/* Logo and Brand */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-femfuel-rose rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">F</span>
-            </div>
+            <img 
+              src="/femfuel-logo.png" 
+              alt="FemFuel Beauty"
+              className="w-10 h-10 object-contain hover:scale-105 transition-transform duration-300"
+            />
             <span className="text-2xl font-bold">FemFuel Beauty</span>
           </div>
           <p className="text-gray-400 text-lg max-w-md">
