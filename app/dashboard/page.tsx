@@ -188,13 +188,18 @@ export default function DashboardPage() {
                         </p>
                       </div>
                       <div className="text-right flex flex-col items-end gap-2">
-                        <p className="font-semibold text-femfuel-dark">RD${booking.price}</p>
+                        <p className="font-semibold text-femfuel-dark">RD${booking.price.toLocaleString()}</p>
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                           booking.status === 'pending'
                             ? 'bg-amber-100 text-amber-700'
+                            : booking.status === 'confirmed'
+                            ? 'bg-blue-100 text-blue-700'
                             : 'bg-green-100 text-green-700'
                         }`}>
-                          {booking.status === 'pending' ? 'Pendiente' : 'Confirmada'}
+                          {booking.status === 'pending' ? 'Pendiente' 
+                           : booking.status === 'confirmed' ? 'Confirmada'
+                           : booking.status === 'completed' ? 'Completada'
+                           : booking.status}
                         </span>
                       </div>
                     </div>

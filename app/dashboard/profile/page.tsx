@@ -36,7 +36,7 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     // Here you would save to Supabase
-    console.log('Saving profile:', formData);
+    // Profile data would be saved here
     setIsEditing(false);
     // Show success message
   };

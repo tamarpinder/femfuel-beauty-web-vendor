@@ -1,63 +1,264 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DollarSign, TrendingUp, Star, Target, Lightbulb, Download, Mail } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
+import { useAuth } from '@/contexts/auth-context';
+import { bookings } from '@/lib/api';
+
+interface EarningsData {
+  week: {
+    total: number;
+    services: number;
+    clients: number;
+    daily: { day: string; amount: number; services: number }[];
+  };
+  month: {
+    total: number;
+    services: number;
+    clients: number;
+    weekly: { week: string; amount: number; services: number }[];
+  };
+  year: {
+    total: number;
+    services: number;
+    clients: number;
+    monthly: { month: string; amount: number; services: number }[];
+  };
+}
+
+interface TopService {
+  name: string;
+  bookings: number;
+  revenue: number;
+  percentage: number;
+}
+
+interface BookingData {
+  id: string;
+  created_at: string;
+  total_amount?: number;
+  customer_id?: string;
+  status?: string;
+  service?: {
+    name?: string;
+  };
+}
+
+// Helper function outside component to avoid dependency issues
+const getWeekStart = (date: Date): Date => {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day;
+  return new Date(d.setDate(diff));
+};
 
 export default function EarningsPage() {
+  const { profile } = useAuth();
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month' | 'year'>('month');
+  const [earningsData, setEarningsData] = useState<EarningsData>({
+    week: { total: 0, services: 0, clients: 0, daily: [] },
+    month: { total: 0, services: 0, clients: 0, weekly: [] },
+    year: { total: 0, services: 0, clients: 0, monthly: [] }
+  });
+  const [topServices, setTopServices] = useState<TopService[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock earnings data - replace with Supabase data
-  const earningsData = {
-    week: {
-      total: 4200,
-      services: 8,
-      clients: 6,
-      daily: [
-        { day: 'Lun', amount: 800, services: 2 },
-        { day: 'Mar', amount: 600, services: 1 },
-        { day: 'Mié', amount: 1200, services: 2 },
-        { day: 'Jue', amount: 0, services: 0 },
-        { day: 'Vie', amount: 900, services: 2 },
-        { day: 'Sáb', amount: 700, services: 1 },
-        { day: 'Dom', amount: 0, services: 0 }
-      ]
-    },
-    month: {
-      total: 15750,
-      services: 28,
-      clients: 18,
-      weekly: [
-        { week: 'Sem 1', amount: 3200, services: 6 },
-        { week: 'Sem 2', amount: 4100, services: 8 },
-        { week: 'Sem 3', amount: 4250, services: 7 },
-        { week: 'Sem 4', amount: 4200, services: 7 }
-      ]
-    },
-    year: {
-      total: 125000,
-      services: 240,
-      clients: 85,
-      monthly: [
-        { month: 'Ene', amount: 12500, services: 22 },
-        { month: 'Feb', amount: 11200, services: 19 },
-        { month: 'Mar', amount: 13800, services: 25 },
-        { month: 'Abr', amount: 10900, services: 18 },
-        { month: 'May', amount: 14200, services: 26 },
-        { month: 'Jun', amount: 15750, services: 28 }
-      ]
+  const calculateEarningsData = useCallback((completedBookings: BookingData[]): EarningsData => {
+    const now = new Date();
+    const currentWeek = getWeekStart(now);
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const currentYear = new Date(now.getFullYear(), 0, 1);
+
+    // Week data
+    const weekBookings = completedBookings.filter(b => {
+      const bookingDate = new Date(b.created_at);
+      return bookingDate >= currentWeek;
+    });
+
+    const weeklyTotal = weekBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0);
+    const weeklyServices = weekBookings.length;
+    const weeklyClients = new Set(weekBookings.map(b => b.customer_id)).size;
+
+    // Generate daily data for current week
+    const dailyData = [];
+    const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(currentWeek);
+      day.setDate(currentWeek.getDate() + i);
+      const dayBookings = weekBookings.filter(b => {
+        const bookingDate = new Date(b.created_at);
+        return bookingDate.toDateString() === day.toDateString();
+      });
+      dailyData.push({
+        day: dayNames[day.getDay()],
+        amount: dayBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0),
+        services: dayBookings.length
+      });
     }
-  };
 
-  const topServices = [
-    { name: 'Manicure Completo', bookings: 12, revenue: 9600, percentage: 25 },
-    { name: 'Pedicure con Spa', bookings: 8, revenue: 9600, percentage: 25 },
-    { name: 'Corte y Peinado', bookings: 6, revenue: 7200, percentage: 18 },
-    { name: 'Tratamiento Facial', bookings: 4, revenue: 6000, percentage: 15 },
-    { name: 'Tinte de Cejas', bookings: 8, revenue: 3200, percentage: 8 }
-  ];
+    // Month data
+    const monthBookings = completedBookings.filter(b => {
+      const bookingDate = new Date(b.created_at);
+      return bookingDate >= currentMonth;
+    });
+
+    const monthlyTotal = monthBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0);
+    const monthlyServices = monthBookings.length;
+    const monthlyClients = new Set(monthBookings.map(b => b.customer_id)).size;
+
+    // Generate weekly data for current month
+    const weeklyData = [];
+    for (let week = 1; week <= 4; week++) {
+      const weekStart = new Date(currentMonth);
+      weekStart.setDate((week - 1) * 7 + 1);
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      
+      const weekBookings = monthBookings.filter(b => {
+        const bookingDate = new Date(b.created_at);
+        return bookingDate >= weekStart && bookingDate <= weekEnd;
+      });
+      
+      weeklyData.push({
+        week: `Sem ${week}`,
+        amount: weekBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0),
+        services: weekBookings.length
+      });
+    }
+
+    // Year data
+    const yearBookings = completedBookings.filter(b => {
+      const bookingDate = new Date(b.created_at);
+      return bookingDate >= currentYear;
+    });
+
+    const yearlyTotal = yearBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0);
+    const yearlyServices = yearBookings.length;
+    const yearlyClients = new Set(yearBookings.map(b => b.customer_id)).size;
+
+    // Generate monthly data for current year
+    const monthlyData = [];
+    const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    for (let month = 0; month < 12; month++) {
+      const monthBookings = yearBookings.filter(b => {
+        const bookingDate = new Date(b.created_at);
+        return bookingDate.getMonth() === month;
+      });
+      
+      monthlyData.push({
+        month: monthNames[month],
+        amount: monthBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0),
+        services: monthBookings.length
+      });
+    }
+
+    return {
+      week: {
+        total: weeklyTotal,
+        services: weeklyServices,
+        clients: weeklyClients,
+        daily: dailyData
+      },
+      month: {
+        total: monthlyTotal,
+        services: monthlyServices,
+        clients: monthlyClients,
+        weekly: weeklyData
+      },
+      year: {
+        total: yearlyTotal,
+        services: yearlyServices,
+        clients: yearlyClients,
+        monthly: monthlyData
+      }
+    };
+  }, []);
+
+  const calculateTopServices = useCallback((completedBookings: BookingData[]): TopService[] => {
+    const serviceStats = new Map();
+    const totalRevenue = completedBookings.reduce((sum, b) => sum + (b.total_amount || 0), 0);
+
+    // Count bookings and revenue per service
+    completedBookings.forEach(booking => {
+      const serviceName = booking.service?.name || 'Servicio Desconocido';
+      const revenue = booking.total_amount || 0;
+      
+      if (serviceStats.has(serviceName)) {
+        const stats = serviceStats.get(serviceName);
+        serviceStats.set(serviceName, {
+          bookings: stats.bookings + 1,
+          revenue: stats.revenue + revenue
+        });
+      } else {
+        serviceStats.set(serviceName, {
+          bookings: 1,
+          revenue: revenue
+        });
+      }
+    });
+
+    // Convert to array and calculate percentages
+    const topServicesArray: TopService[] = Array.from(serviceStats.entries())
+      .map(([name, stats]) => ({
+        name,
+        bookings: stats.bookings,
+        revenue: stats.revenue,
+        percentage: totalRevenue > 0 ? Math.round((stats.revenue / totalRevenue) * 100) : 0
+      }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 5);
+
+    return topServicesArray;
+  }, []);
+
+  const fetchEarningsData = useCallback(async () => {
+    if (!profile?.id) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await bookings.getByVendor(profile.id);
+
+      if (error) {
+        console.error('Error fetching data:', error);
+        return;
+      }
+
+      const allBookings = data || [];
+      const completedBookings = allBookings.filter((b: BookingData) => b.status === 'completed');
+
+      // Calculate earnings data
+      const calculatedEarnings = calculateEarningsData(completedBookings);
+      setEarningsData(calculatedEarnings);
+
+      // Calculate top services
+      const calculatedTopServices = calculateTopServices(completedBookings);
+      setTopServices(calculatedTopServices);
+
+    } catch (error) {
+      console.error('Error fetching earnings data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [profile?.id, calculateEarningsData, calculateTopServices]);
+
+  useEffect(() => {
+    if (profile?.id) {
+      fetchEarningsData();
+    }
+  }, [profile?.id, fetchEarningsData]);
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-gray-600">Cargando análisis de ingresos...</div>
+        </div>
+      </div>
+    );
+  }
 
   const currentData = earningsData[selectedPeriod];
   const chartData = selectedPeriod === 'week' ? earningsData.week.daily :
@@ -128,7 +329,7 @@ export default function EarningsPage() {
               {currentData.services}
             </div>
             <p className="text-xs text-gray-600">
-              Promedio: RD${Math.round(currentData.total / currentData.services).toLocaleString()}/servicio
+              Promedio: RD${currentData.services > 0 ? Math.round(currentData.total / currentData.services).toLocaleString() : 0}/servicio
             </p>
           </CardContent>
         </Card>
@@ -144,7 +345,7 @@ export default function EarningsPage() {
               {currentData.clients}
             </div>
             <p className="text-xs text-gray-600">
-              Promedio: RD${Math.round(currentData.total / currentData.clients).toLocaleString()}/cliente
+              Promedio: RD${currentData.clients > 0 ? Math.round(currentData.total / currentData.clients).toLocaleString() : 0}/cliente
             </p>
           </CardContent>
         </Card>
@@ -269,7 +470,7 @@ export default function EarningsPage() {
                   <span className="font-medium text-blue-800">Servicio Estrella</span>
                 </div>
                 <p className="text-sm text-blue-700">
-                  El &quot;Manicure Completo&quot; es tu servicio más rentable con 25% de tus ingresos.
+                  {topServices[0]?.name || "Tu servicio"} es tu servicio más rentable con {topServices[0]?.percentage || 0}% de tus ingresos.
                 </p>
               </div>
 

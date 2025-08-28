@@ -53,8 +53,8 @@ export function AuthModal({ isOpen, onClose, onAuthSuccess, initialMode = "login
 
       onAuthSuccess?.(mockUser)
       onClose()
-    } catch (error) {
-      console.error("Auth error:", error)
+    } catch {
+      // Handle auth error silently
     } finally {
       setIsLoading(false)
     }
@@ -79,8 +79,8 @@ export function AuthModal({ isOpen, onClose, onAuthSuccess, initialMode = "login
 
       onAuthSuccess?.(mockUser)
       onClose()
-    } catch (error) {
-      console.error("Social login error:", error)
+    } catch {
+      // Handle social login error silently
     } finally {
       setIsLoading(false)
     }

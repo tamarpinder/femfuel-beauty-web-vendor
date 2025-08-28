@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { MapPin, User, ChevronDown, UserPlus } from "lucide-react"
 import {
@@ -51,9 +52,11 @@ export function VendorHeader() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-8">
               <Link href="/" className="flex items-center gap-3 group">
-                <img 
+                <Image 
                   src="/femfuel-logo.png" 
                   alt="FemFuel Beauty"
+                  width={48}
+                  height={48}
                   className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"
                 />
                 <div>
@@ -142,10 +145,9 @@ export function VendorHeader() {
       <VendorAuthModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={(user) => {
+        onAuthSuccess={() => {
           // Handle successful authentication
           // In a real app, this would update the auth context
-          console.log('User authenticated:', user)
           window.location.href = '/dashboard'
         }}
         initialMode={authMode}

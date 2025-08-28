@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (currentSession?.user) {
         // Get vendor profile
-        const { data: profileData } = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', currentSession.user.id)
@@ -55,6 +55,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (profileData && profileData.role === 'vendor') {
           setProfile(profileData);
+        } else if (profileError) {
+          // If profile doesn't exist, sign out
+          await supabase.auth.signOut();
+          router.push('/login');
         } else {
           // Not a vendor, sign out
           await supabase.auth.signOut();

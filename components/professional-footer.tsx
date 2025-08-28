@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { ChevronDown, Facebook, Instagram, Twitter, Music } from "lucide-react"
 
 interface FooterSection {
@@ -39,9 +40,11 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
         {/* Logo and Brand */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <img 
+            <Image 
               src="/femfuel-logo.png" 
               alt="FemFuel Beauty"
+              width={40}
+              height={40}
               className="w-10 h-10 object-contain hover:scale-105 transition-transform duration-300"
             />
             <span className="text-2xl font-bold text-gray-900">FemFuel Beauty</span>

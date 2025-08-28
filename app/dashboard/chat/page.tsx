@@ -108,7 +108,7 @@ export default function ChatPage() {
     if (!messageInput.trim()) return;
     
     // Here you would send the message via Supabase
-    console.log('Sending message:', messageInput);
+    // Message would be sent here
     setMessageInput('');
   };
 

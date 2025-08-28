@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Star, TrendingUp, User, UserPlus } from "lucide-react"
 
 export function VendorHero() {
@@ -11,9 +12,11 @@ export function VendorHero() {
         {/* Logo */}
         <div className="mb-8">
           <div className="w-32 h-32 md:w-40 md:h-40 mx-auto flex items-center justify-center mb-6">
-            <img 
+            <Image 
               src="/femfuel-logo.png" 
               alt="FemFuel Beauty" 
+              width={160}
+              height={160}
               className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
             />
           </div>

@@ -1,58 +1,70 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Edit3, Trash2, ToggleLeft, ToggleRight, Scissors } from 'lucide-react';
 import { VENDOR_PHRASES, SERVICE_CATEGORIES } from '@/lib/constants';
+import { useAuth } from '@/contexts/auth-context';
+import { services } from '@/lib/api';
+
+interface Service {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  duration: number;
+  description: string;
+  is_active: boolean;
+  images: string[];
+}
 
 export default function ServicesPage() {
+  const { profile } = useAuth();
   const [showAddForm, setShowAddForm] = useState(false);
-  const [editingService, setEditingService] = useState<{
-    id: string;
-    name: string;
-    category: string;
-    price: number;
-    duration: number;
-    description: string;
-    is_active: boolean;
-    images: string[];
-  } | null>(null);
+  const [editingService, setEditingService] = useState<Service | null>(null);
+  const [allServices, setAllServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock services data - replace with Supabase data
-  const [services, setServices] = useState([
-    {
-      id: '1',
-      name: 'Manicure Completo',
-      category: 'nail_care',
-      price: 800,
-      duration: 60,
-      description: 'Manicure completo con esmaltado regular, incluye limado, cutícula y hidratación',
-      is_active: true,
-      images: []
-    },
-    {
-      id: '2',
-      name: 'Pedicure con Spa',
-      category: 'nail_care',
-      price: 1200,
-      duration: 90,
-      description: 'Pedicure relajante con exfoliación, hidratación profunda y masaje',
-      is_active: true,
-      images: []
-    },
-    {
-      id: '3',
-      name: 'Corte y Peinado',
-      category: 'hair_styling',
-      price: 1500,
-      duration: 75,
-      description: 'Corte de cabello profesional con peinado incluido',
-      is_active: false,
-      images: []
+  const fetchServices = useCallback(async () => {
+    if (!profile?.id) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await services.getByVendor(profile.id);
+      
+      if (error) {
+        console.error('Error fetching services:', error);
+        return;
+      }
+
+      if (data) {
+        const formattedServices: Service[] = data.map(service => ({
+          id: service.id,
+          name: service.name,
+          category: service.category,
+          price: service.price,
+          duration: service.duration,
+          description: service.description || '',
+          is_active: service.is_active,
+          images: service.images || []
+        }));
+        
+        setAllServices(formattedServices);
+      }
+    } catch (error) {
+      console.error('Error fetching services:', error);
+    } finally {
+      setLoading(false);
     }
-  ]);
+  }, [profile?.id]);
+
+  useEffect(() => {
+    if (profile?.id) {
+      fetchServices();
+    }
+  }, [profile?.id, fetchServices]);
 
   const [newService, setNewService] = useState({
     name: '',
@@ -63,45 +75,59 @@ export default function ServicesPage() {
     is_active: true
   });
 
-  const handleAddService = () => {
-    if (!newService.name || !newService.category || !newService.price) {
+  const handleAddService = async () => {
+    if (!profile?.id || !newService.name || !newService.category || !newService.price) {
       alert('Por favor completa todos los campos obligatorios');
       return;
     }
 
-    const service = {
-      id: Date.now().toString(),
-      name: newService.name,
-      category: newService.category,
-      price: Number(newService.price),
-      duration: Number(newService.duration) || 60,
-      description: newService.description,
-      is_active: newService.is_active,
-      images: []
-    };
+    try {
+      const { data, error } = await services.create({
+        vendor_id: profile.id,
+        name: newService.name,
+        category: newService.category,
+        price: Number(newService.price),
+        duration: Number(newService.duration) || 60,
+        description: newService.description,
+        images: []
+      });
+      
+      if (error) {
+        console.error('Error creating service:', error);
+        alert('Error al crear el servicio');
+        return;
+      }
 
-    setServices([...services, service]);
-    setNewService({
-      name: '',
-      category: '',
-      price: '',
-      duration: '',
-      description: '',
-      is_active: true
-    });
-    setShowAddForm(false);
+      if (data) {
+        const formattedService: Service = {
+          id: data.id,
+          name: data.name,
+          category: data.category,
+          price: data.price,
+          duration: data.duration,
+          description: data.description || '',
+          is_active: data.is_active,
+          images: data.images || []
+        };
+        
+        setAllServices([...allServices, formattedService]);
+        setNewService({
+          name: '',
+          category: '',
+          price: '',
+          duration: '',
+          description: '',
+          is_active: true
+        });
+        setShowAddForm(false);
+      }
+    } catch (error) {
+      console.error('Error creating service:', error);
+      alert('Error al crear el servicio');
+    }
   };
 
-  const handleEditService = (service: {
-    id: string;
-    name: string;
-    category: string;
-    price: number;
-    duration: number;
-    description: string;
-    is_active: boolean;
-    images: string[];
-  }) => {
+  const handleEditService = (service: Service) => {
     setEditingService(service);
     setNewService({
       name: service.name,
@@ -114,48 +140,111 @@ export default function ServicesPage() {
     setShowAddForm(true);
   };
 
-  const handleUpdateService = () => {
+  const handleUpdateService = async () => {
     if (!editingService) return;
 
-    const updatedServices = services.map(s => 
-      s.id === editingService.id 
-        ? {
-            ...s,
-            name: newService.name,
-            category: newService.category,
-            price: Number(newService.price),
-            duration: Number(newService.duration) || 60,
-            description: newService.description,
-            is_active: newService.is_active
-          }
-        : s
-    );
+    try {
+      const { data, error } = await services.update(editingService.id, {
+        name: newService.name,
+        category: newService.category,
+        price: Number(newService.price),
+        duration: Number(newService.duration) || 60,
+        description: newService.description,
+        is_active: newService.is_active
+      });
+      
+      if (error) {
+        console.error('Error updating service:', error);
+        alert('Error al actualizar el servicio');
+        return;
+      }
 
-    setServices(updatedServices);
-    setEditingService(null);
-    setNewService({
-      name: '',
-      category: '',
-      price: '',
-      duration: '',
-      description: '',
-      is_active: true
-    });
-    setShowAddForm(false);
-  };
+      if (data) {
+        const updatedServices = allServices.map(s => 
+          s.id === editingService.id 
+            ? {
+                ...s,
+                name: data.name,
+                category: data.category,
+                price: data.price,
+                duration: data.duration,
+                description: data.description,
+                is_active: data.is_active
+              }
+            : s
+        );
 
-  const toggleServiceStatus = (serviceId: string) => {
-    const updatedServices = services.map(s => 
-      s.id === serviceId ? { ...s, is_active: !s.is_active } : s
-    );
-    setServices(updatedServices);
-  };
-
-  const deleteService = (serviceId: string) => {
-    if (confirm('¿Estás segura de que quieres eliminar este servicio?')) {
-      setServices(services.filter(s => s.id !== serviceId));
+        setAllServices(updatedServices);
+        setEditingService(null);
+        setNewService({
+          name: '',
+          category: '',
+          price: '',
+          duration: '',
+          description: '',
+          is_active: true
+        });
+        setShowAddForm(false);
+      }
+    } catch (error) {
+      console.error('Error updating service:', error);
+      alert('Error al actualizar el servicio');
     }
   };
+
+  const toggleServiceStatus = async (serviceId: string) => {
+    const service = allServices.find(s => s.id === serviceId);
+    if (!service) return;
+
+    try {
+      const { error } = await services.update(serviceId, {
+        is_active: !service.is_active
+      });
+      
+      if (error) {
+        console.error('Error toggling service status:', error);
+        return;
+      }
+
+      const updatedServices = allServices.map(s => 
+        s.id === serviceId ? { ...s, is_active: !s.is_active } : s
+      );
+      setAllServices(updatedServices);
+    } catch (error) {
+      console.error('Error toggling service status:', error);
+    }
+  };
+
+  const deleteService = async (serviceId: string) => {
+    if (!confirm('¿Estás segura de que quieres eliminar este servicio?')) {
+      return;
+    }
+
+    try {
+      const { error } = await services.delete(serviceId);
+      
+      if (error) {
+        console.error('Error deleting service:', error);
+        alert('Error al eliminar el servicio');
+        return;
+      }
+
+      setAllServices(allServices.filter(s => s.id !== serviceId));
+    } catch (error) {
+      console.error('Error deleting service:', error);
+      alert('Error al eliminar el servicio');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-gray-600">Cargando servicios...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
@@ -295,7 +384,7 @@ export default function ServicesPage() {
 
       {/* Services List */}
       <div className="grid gap-4">
-        {services.map((service) => {
+        {allServices.map((service) => {
           const category = SERVICE_CATEGORIES[service.category as keyof typeof SERVICE_CATEGORIES];
           
           return (
@@ -362,7 +451,7 @@ export default function ServicesPage() {
         })}
       </div>
 
-      {services.length === 0 && (
+      {allServices.length === 0 && (
         <Card>
           <CardContent className="text-center py-12">
             <div className="flex justify-center mb-4">

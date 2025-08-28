@@ -70,13 +70,13 @@ export default function LoginPage() {
     }
   };
 
-  const handleSocialLogin = async (_provider: 'google' | 'facebook') => {
+  const handleSocialLogin = async () => {
     setIsLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
       router.push('/dashboard');
-    } catch (error) {
-      console.error('Social login error:', error);
+    } catch {
+      // Handle social login error silently
     } finally {
       setIsLoading(false);
     }
@@ -161,7 +161,7 @@ export default function LoginPage() {
               <Button
                 variant="outline"
                 className="w-full h-12 border-gray-200 hover:bg-gray-50 bg-transparent"
-                onClick={() => handleSocialLogin('google')}
+                onClick={() => handleSocialLogin()}
                 disabled={isLoading}
               >
                 <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ export default function LoginPage() {
               <Button
                 variant="outline"
                 className="w-full h-12 border-gray-200 hover:bg-gray-50 bg-transparent"
-                onClick={() => handleSocialLogin('facebook')}
+                onClick={() => handleSocialLogin()}
                 disabled={isLoading}
               >
                 <svg className="w-5 h-5 mr-3" fill="#1877F2" viewBox="0 0 24 24">

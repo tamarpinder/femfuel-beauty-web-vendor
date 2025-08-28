@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Check, X, Phone, MessageCircle, Calendar } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
+import { useAuth } from '@/contexts/auth-context';
+import { bookings } from '@/lib/api';
 
 interface Booking {
   id: string;
@@ -21,71 +23,80 @@ interface Booking {
 }
 
 export default function BookingsPage() {
+  const { profile } = useAuth();
   const [activeTab, setActiveTab] = useState<'pending' | 'confirmed' | 'completed' | 'all'>('pending');
+  const [allBookings, setAllBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock bookings data - replace with Supabase data
-  const [bookings, setBookings] = useState<Booking[]>([
-    {
-      id: '1',
-      clientName: 'María González',
-      clientPhone: '(809) 123-4567',
-      clientEmail: 'maria@email.com',
-      service: 'Manicure Completo',
-      date: '2024-01-22',
-      time: '2:00 PM',
-      status: 'pending',
-      price: 800,
-      notes: 'Prefiere esmalte rojo',
-      createdAt: '2024-01-20T10:00:00Z'
-    },
-    {
-      id: '2',
-      clientName: 'Carmen Rodríguez',
-      clientPhone: '(829) 987-6543',
-      clientEmail: 'carmen@email.com',
-      service: 'Corte y Peinado',
-      date: '2024-01-22',
-      time: '4:00 PM',
-      status: 'confirmed',
-      price: 1200,
-      createdAt: '2024-01-19T15:30:00Z'
-    },
-    {
-      id: '3',
-      clientName: 'Ana Pérez',
-      clientPhone: '(849) 555-0123',
-      clientEmail: 'ana@email.com',
-      service: 'Tratamiento Facial',
-      date: '2024-01-21',
-      time: '10:00 AM',
-      status: 'completed',
-      price: 1500,
-      createdAt: '2024-01-18T09:15:00Z'
-    },
-    {
-      id: '4',
-      clientName: 'Sofía Martínez',
-      clientPhone: '(809) 777-8888',
-      clientEmail: 'sofia@email.com',
-      service: 'Pedicure con Spa',
-      date: '2024-01-23',
-      time: '11:00 AM',
-      status: 'pending',
-      price: 1200,
-      notes: 'Primera vez en el salón',
-      createdAt: '2024-01-21T14:20:00Z'
+  const fetchBookings = useCallback(async () => {
+    if (!profile?.id) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await bookings.getByVendor(profile.id);
+      
+      if (error) {
+        console.error('Error fetching bookings:', error);
+        return;
+      }
+
+      if (data) {
+        const formattedBookings: Booking[] = data.map(booking => ({
+          id: booking.id,
+          clientName: booking.customer?.first_name && booking.customer?.last_name 
+            ? `${booking.customer.first_name} ${booking.customer.last_name}` 
+            : 'Cliente',
+          clientPhone: booking.customer?.phone || 'N/A',
+          clientEmail: booking.customer?.email || 'N/A',
+          service: booking.service?.name || 'Servicio',
+          date: new Date(booking.scheduled_date).toISOString().split('T')[0],
+          time: new Date(booking.scheduled_date).toLocaleTimeString('es-DO', { 
+            hour: 'numeric', 
+            minute: '2-digit',
+            hour12: true 
+          }),
+          status: booking.status as 'pending' | 'confirmed' | 'completed' | 'cancelled',
+          price: booking.total_amount || 0,
+          notes: booking.notes,
+          createdAt: booking.created_at
+        }));
+        
+        setAllBookings(formattedBookings);
+      }
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+    } finally {
+      setLoading(false);
     }
-  ]);
+  }, [profile?.id]);
 
-  const updateBookingStatus = (bookingId: string, newStatus: 'confirmed' | 'completed' | 'cancelled') => {
-    setBookings(bookings.map(booking => 
-      booking.id === bookingId ? { ...booking, status: newStatus } : booking
-    ));
+  useEffect(() => {
+    if (profile?.id) {
+      fetchBookings();
+    }
+  }, [profile?.id, fetchBookings]);
+
+  const updateBookingStatus = async (bookingId: string, newStatus: 'confirmed' | 'completed' | 'cancelled', cancellationReason?: string) => {
+    try {
+      const { error } = await bookings.updateStatus(bookingId, newStatus, cancellationReason);
+      
+      if (error) {
+        console.error('Error updating booking status:', error);
+        return;
+      }
+
+      // Update local state optimistically
+      setAllBookings(allBookings.map(booking => 
+        booking.id === bookingId ? { ...booking, status: newStatus } : booking
+      ));
+    } catch (error) {
+      console.error('Error updating booking status:', error);
+    }
   };
 
   const filteredBookings = activeTab === 'all' 
-    ? bookings 
-    : bookings.filter(booking => booking.status === activeTab);
+    ? allBookings 
+    : allBookings.filter(booking => booking.status === activeTab);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -108,11 +119,21 @@ export default function BookingsPage() {
   };
 
   const tabs = [
-    { key: 'pending', label: VENDOR_PHRASES.pending_bookings, count: bookings.filter(b => b.status === 'pending').length },
-    { key: 'confirmed', label: VENDOR_PHRASES.confirmed_bookings, count: bookings.filter(b => b.status === 'confirmed').length },
-    { key: 'completed', label: VENDOR_PHRASES.completed_bookings, count: bookings.filter(b => b.status === 'completed').length },
-    { key: 'all', label: 'Todas', count: bookings.length }
+    { key: 'pending', label: VENDOR_PHRASES.pending_bookings, count: allBookings.filter(b => b.status === 'pending').length },
+    { key: 'confirmed', label: VENDOR_PHRASES.confirmed_bookings, count: allBookings.filter(b => b.status === 'confirmed').length },
+    { key: 'completed', label: VENDOR_PHRASES.completed_bookings, count: allBookings.filter(b => b.status === 'completed').length },
+    { key: 'all', label: 'Todas', count: allBookings.length }
   ] as const;
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-gray-600">Cargando reservaciones...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
@@ -194,7 +215,7 @@ export default function BookingsPage() {
                             <strong>Hora:</strong> {booking.time}
                           </p>
                           <p className="text-sm text-gray-600">
-                            <strong>Precio:</strong> RD${booking.price}
+                            <strong>Precio:</strong> RD${booking.price.toLocaleString()}
                           </p>
                         </div>
 
@@ -299,7 +320,7 @@ export default function BookingsPage() {
         <Card>
           <CardContent className="pt-6 text-center">
             <div className="text-2xl font-bold text-green-600">
-              RD${bookings.filter(b => b.status === 'completed').reduce((sum, b) => sum + b.price, 0).toLocaleString()}
+              RD${allBookings.filter(b => b.status === 'completed').reduce((sum, b) => sum + b.price, 0).toLocaleString()}
             </div>
             <p className="text-sm text-gray-600">Ingresos completados</p>
           </CardContent>
@@ -308,7 +329,7 @@ export default function BookingsPage() {
         <Card>
           <CardContent className="pt-6 text-center">
             <div className="text-2xl font-bold text-blue-600">
-              RD${bookings.filter(b => b.status === 'confirmed').reduce((sum, b) => sum + b.price, 0).toLocaleString()}
+              RD${allBookings.filter(b => b.status === 'confirmed').reduce((sum, b) => sum + b.price, 0).toLocaleString()}
             </div>
             <p className="text-sm text-gray-600">Ingresos confirmados</p>
           </CardContent>
@@ -317,7 +338,7 @@ export default function BookingsPage() {
         <Card>
           <CardContent className="pt-6 text-center">
             <div className="text-2xl font-bold text-yellow-600">
-              RD${bookings.filter(b => b.status === 'pending').reduce((sum, b) => sum + b.price, 0).toLocaleString()}
+              RD${allBookings.filter(b => b.status === 'pending').reduce((sum, b) => sum + b.price, 0).toLocaleString()}
             </div>
             <p className="text-sm text-gray-600">Ingresos pendientes</p>
           </CardContent>
