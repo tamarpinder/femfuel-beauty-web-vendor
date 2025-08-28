@@ -215,14 +215,30 @@ export default function EarningsPage() {
   }, []);
 
   const fetchEarningsData = useCallback(async () => {
-    if (!profile?.id) return;
+    if (!profile?.id) {
+      setLoading(false);
+      return;
+    }
 
     try {
       setLoading(true);
-      const { data, error } = await bookings.getByVendor(profile.id);
+      
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Request timeout')), 10000)
+      );
+      
+      const { data, error } = await Promise.race([
+        bookings.getByVendor(profile.id),
+        timeoutPromise
+      ]);
 
       if (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching earnings data:', {
+          error,
+          vendorId: profile.id,
+          timestamp: new Date().toISOString()
+        });
         return;
       }
 

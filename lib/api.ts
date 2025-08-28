@@ -3,7 +3,34 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Check for missing environment variables
+if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
+  console.error('Missing Supabase environment variables. Please check your .env.local file.');
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});
+
+// Helper function for retry logic
+const withRetry = async <T>(operation: () => Promise<T>, maxRetries = 3): Promise<T> => {
+  let lastError;
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      if (i < maxRetries - 1) {
+        // Wait before retrying (exponential backoff)
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+      }
+    }
+  }
+  throw lastError;
+};
 
 export const auth = {
   signUp: async (email: string, password: string, metadata: {
@@ -79,12 +106,21 @@ export const profiles = {
 
 export const services = {
   getByVendor: async (vendorId: string) => {
-    const { data, error } = await supabase
-      .from('services')
-      .select('*')
-      .eq('vendor_id', vendorId)
-      .order('created_at', { ascending: false });
-    return { data, error };
+    return withRetry(async () => {
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .eq('vendor_id', vendorId)
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching services:', error);
+        throw error;
+      }
+      
+      return { data, error };
+    });
   },
 
   create: async (service: {
@@ -127,16 +163,24 @@ export const services = {
 
 export const bookings = {
   getByVendor: async (vendorId: string) => {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select(`
-        *,
-        service:services(*),
-        customer:profiles!customer_id(*)
-      `)
-      .eq('vendor_id', vendorId)
-      .order('scheduled_date', { ascending: false });
-    return { data, error };
+    return withRetry(async () => {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select(`
+          *,
+          services!inner(*),
+          profiles!inner(*)
+        `)
+        .eq('vendor_id', vendorId)
+        .order('scheduled_date', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching bookings:', error);
+        throw error;
+      }
+      
+      return { data, error };
+    });
   },
 
   updateStatus: async (bookingId: string, status: string, cancellationReason?: string) => {

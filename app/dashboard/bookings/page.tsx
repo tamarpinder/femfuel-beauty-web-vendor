@@ -29,26 +29,42 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchBookings = useCallback(async () => {
-    if (!profile?.id) return;
+    if (!profile?.id) {
+      setLoading(false);
+      return;
+    }
 
     try {
       setLoading(true);
-      const { data, error } = await bookings.getByVendor(profile.id);
+      
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Request timeout')), 10000)
+      );
+      
+      const { data, error } = await Promise.race([
+        bookings.getByVendor(profile.id),
+        timeoutPromise
+      ]);
       
       if (error) {
-        console.error('Error fetching bookings:', error);
+        console.error('Error fetching bookings:', {
+          error,
+          vendorId: profile.id,
+          timestamp: new Date().toISOString()
+        });
         return;
       }
 
       if (data) {
         const formattedBookings: Booking[] = data.map(booking => ({
           id: booking.id,
-          clientName: booking.customer?.first_name && booking.customer?.last_name 
-            ? `${booking.customer.first_name} ${booking.customer.last_name}` 
+          clientName: booking.profiles?.first_name && booking.profiles?.last_name 
+            ? `${booking.profiles.first_name} ${booking.profiles.last_name}` 
             : 'Cliente',
-          clientPhone: booking.customer?.phone || 'N/A',
-          clientEmail: booking.customer?.email || 'N/A',
-          service: booking.service?.name || 'Servicio',
+          clientPhone: booking.profiles?.phone || 'N/A',
+          clientEmail: booking.profiles?.email || 'N/A',
+          service: booking.services?.name || 'Servicio',
           date: new Date(booking.scheduled_date).toISOString().split('T')[0],
           time: new Date(booking.scheduled_date).toLocaleTimeString('es-DO', { 
             hour: 'numeric', 

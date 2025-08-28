@@ -1,61 +1,160 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 // Removed unused Card components - now using custom modern cards
 import { Button } from '@/components/ui/button';
 import { Star, Scissors, TrendingUp, Plus, Calendar, MessageCircle, BarChart, DollarSign, User, Clock } from 'lucide-react';
 import { VENDOR_PHRASES } from '@/lib/constants';
 import { useAuth } from '@/contexts/auth-context';
+import { bookings, services } from '@/lib/api';
 
 export default function DashboardPage() {
   const { profile } = useAuth();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    totalServices: 0,
+    pendingBookings: 0,
+    completedBookings: 0,
+    monthlyEarnings: 0,
+    totalClients: 0,
+    averageRating: 4.8
+  });
+  const [recentBookings, setRecentBookings] = useState<{
+    id: string;
+    clientName: string;
+    service: string;
+    date: string;
+    time: string;
+    status: string;
+    price: number;
+  }[]>([]);
 
   // Navigation handlers
   const handleNavigation = (path: string) => {
     router.push(path);
   };
 
-  // Mock data - replace with real data from Supabase
-  const stats = {
-    totalServices: 8,
-    pendingBookings: 5,
-    completedBookings: 24,
-    monthlyEarnings: 15750,
-    totalClients: 18,
-    averageRating: 4.8
-  };
-
-  const recentBookings = [
-    {
-      id: '1',
-      clientName: 'María González',
-      service: 'Manicure Completo',
-      date: '2024-01-20',
-      time: '2:00 PM',
-      status: 'pending',
-      price: 800
-    },
-    {
-      id: '2',
-      clientName: 'Carmen Rodríguez',
-      service: 'Corte y Peinado',
-      date: '2024-01-20',
-      time: '4:00 PM',
-      status: 'confirmed',
-      price: 1200
-    },
-    {
-      id: '3',
-      clientName: 'Ana Pérez',
-      service: 'Tratamiento Facial',
-      date: '2024-01-21',
-      time: '10:00 AM',
-      status: 'pending',
-      price: 1500
+  // Fetch real data from Supabase
+  const fetchDashboardData = useCallback(async () => {
+    if (!profile?.id) {
+      setLoading(false);
+      return;
     }
-  ];
+
+    try {
+      setLoading(true);
+      
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Request timeout')), 10000)
+      );
+      
+      // Fetch bookings and services in parallel with timeout
+      const [bookingsResponse, servicesResponse] = await Promise.race([
+        Promise.all([
+          bookings.getByVendor(profile.id),
+          services.getByVendor(profile.id)
+        ]),
+        timeoutPromise
+      ]);
+
+      if (bookingsResponse.error || servicesResponse.error) {
+        console.error('Error fetching dashboard data:', {
+          bookingsError: bookingsResponse.error,
+          servicesError: servicesResponse.error,
+          vendorId: profile.id
+        });
+        return;
+      }
+
+      const allBookings = bookingsResponse.data || [];
+      const allServices = servicesResponse.data || [];
+
+      // Calculate stats from real data
+      const pendingBookings = allBookings.filter(b => b.status === 'pending').length;
+      const completedBookings = allBookings.filter(b => b.status === 'completed').length;
+      const totalClients = new Set(allBookings.map(b => b.customer_id)).size;
+      
+      // Calculate monthly earnings (current month)
+      const currentMonth = new Date();
+      const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+      const monthlyEarnings = allBookings
+        .filter(b => b.status === 'completed' && new Date(b.created_at) >= monthStart)
+        .reduce((sum, b) => sum + (b.total_amount || 0), 0);
+
+      setStats({
+        totalServices: allServices.length,
+        pendingBookings,
+        completedBookings,
+        monthlyEarnings,
+        totalClients,
+        averageRating: 4.8 // Keep static for now, will be calculated from reviews later
+      });
+
+      // Get recent bookings (last 3)
+      const recent = allBookings
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        .slice(0, 3)
+        .map(booking => ({
+          id: booking.id,
+          clientName: booking.profiles?.first_name && booking.profiles?.last_name 
+            ? `${booking.profiles.first_name} ${booking.profiles.last_name}` 
+            : 'Cliente',
+          service: booking.services?.name || 'Servicio',
+          date: new Date(booking.scheduled_date).toISOString().split('T')[0],
+          time: new Date(booking.scheduled_date).toLocaleTimeString('es-DO', { 
+            hour: 'numeric', 
+            minute: '2-digit',
+            hour12: true 
+          }),
+          status: booking.status,
+          price: booking.total_amount || 0
+        }));
+
+      setRecentBookings(recent);
+      
+    } catch (error) {
+      console.error('Error fetching dashboard data:', {
+        error,
+        vendorId: profile.id,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Set default values to prevent UI breaks
+      setStats({
+        totalServices: 0,
+        pendingBookings: 0,
+        completedBookings: 0,
+        monthlyEarnings: 0,
+        totalClients: 0,
+        averageRating: 4.8
+      });
+      setRecentBookings([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [profile?.id]);
+
+  useEffect(() => {
+    if (profile?.id) {
+      fetchDashboardData();
+    }
+  }, [profile?.id, fetchDashboardData]);
+
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-femfuel-rose mx-auto mb-4"></div>
+            <div className="text-lg text-gray-600">Cargando dashboard...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-6 space-y-8 max-w-7xl mx-auto">
