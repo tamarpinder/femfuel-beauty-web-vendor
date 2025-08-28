@@ -15,6 +15,8 @@ interface VendorProfile {
   business_name?: string;
   service_categories?: string[];
   is_approved?: boolean;
+  is_active?: boolean;
+  is_verified?: boolean;
   avatar_url?: string;
   created_at: string;
 }

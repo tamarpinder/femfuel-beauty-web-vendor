@@ -30,7 +30,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   // Show approval pending message
-  if (profile && !profile.is_approved) {
+  if (profile && (!profile.is_active || !profile.is_verified)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md p-8 bg-white rounded-xl shadow-lg text-center">
