@@ -38,10 +38,10 @@ export function VendorHeader() {
   }
 
   const navItems = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/dashboard/services", label: "Mis Servicios" },
+    { href: "/", label: "Home" },
+    { href: "/dashboard/services", label: "Servicios" },
     { href: "/dashboard/bookings", label: "Reservas" },
-    { href: "/dashboard/earnings", label: "GANANCIAS", isEmphasized: true }
+    { href: "/dashboard/earnings", label: "Billetera" }
   ]
 
   return (
@@ -89,10 +89,7 @@ export function VendorHeader() {
                   href={item.href} 
                   className={`
                     relative px-2 py-1 text-sm font-medium transition-all duration-300
-                    ${item.isEmphasized 
-                      ? 'text-femfuel-dark font-bold hover:text-femfuel-rose' 
-                      : 'text-femfuel-medium hover:text-femfuel-dark'
-                    }
+                    text-femfuel-medium hover:text-femfuel-dark
                     hover:scale-105 group
                     ${pathname === item.href ? 'text-femfuel-rose' : ''}
                   `}
