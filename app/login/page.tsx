@@ -21,7 +21,7 @@ export default function LoginPage() {
 
   // Test credentials
   const testCredentials = {
-    email: 'test@femfuelbeauty.com',
+    email: 'testvendor@gmail.com',
     password: 'TestVendor2025!'
   };
 
@@ -216,7 +216,11 @@ export default function LoginPage() {
                     Credenciales de Prueba Disponibles
                   </h3>
                   <p className="text-sm text-blue-700 mb-3">
-                    Usa nuestras credenciales de prueba para explorar la plataforma con datos de ejemplo.
+                    Usa nuestras credenciales de prueba para explorar la plataforma con datos de ejemplo:
+                    <br />
+                    <strong>Email:</strong> testvendor@gmail.com
+                    <br />
+                    <strong>Contraseña:</strong> TestVendor2025!
                   </p>
                   <Button
                     type="button"
