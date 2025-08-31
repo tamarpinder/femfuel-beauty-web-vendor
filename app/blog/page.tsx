@@ -521,7 +521,6 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
-
       <VendorFooter />
     </div>
   )

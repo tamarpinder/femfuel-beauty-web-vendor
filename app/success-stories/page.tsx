@@ -427,7 +427,6 @@ export default function SuccessStoriesPage() {
           </div>
         </div>
       </section>
-
       <VendorFooter />
     </div>
   )

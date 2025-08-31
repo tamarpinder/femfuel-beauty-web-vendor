@@ -305,7 +305,6 @@ export default function AboutPage() {
           </Button>
         </div>
       </section>
-
       <VendorFooter />
     </div>
   )

@@ -326,7 +326,6 @@ export default function HowItWorksPage() {
           </div>
         </div>
       </section>
-
       <VendorFooter />
     </div>
   )
