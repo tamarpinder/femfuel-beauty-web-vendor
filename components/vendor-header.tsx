@@ -110,31 +110,13 @@ export function VendorHeader() {
                 {user ? (
                   <VendorUserMenu />
                 ) : (
-                  <>
-                    <button
-                      onClick={() => handleAuthClick("login")}
-                      className="glassmorphism-button"
-                    >
-                      <User className="h-4 w-4" />
-                      <span>Iniciar Sesión</span>
-                    </button>
-                    <button
-                      onClick={() => handleAuthClick("signup")}
-                      className="
-                        inline-flex items-center justify-center gap-2
-                        h-9 px-4 rounded-md text-sm font-medium
-                        bg-femfuel-rose text-white
-                        hover:bg-femfuel-rose/90 hover:scale-105 hover:shadow-lg
-                        hover:-translate-y-0.5
-                        transition-all duration-300 shadow-md
-                        cursor-pointer focus-visible:outline-none focus-visible:ring-2 
-                        focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-femfuel-rose
-                      "
-                    >
-                      <UserPlus className="h-4 w-4" />
-                      <span>Comenzar</span>
-                    </button>
-                  </>
+                  <button
+                    onClick={() => handleAuthClick("login")}
+                    className="glassmorphism-button"
+                  >
+                    <User className="h-4 w-4" />
+                    <span>Iniciar Sesión</span>
+                  </button>
                 )}
               </div>
             </nav>
