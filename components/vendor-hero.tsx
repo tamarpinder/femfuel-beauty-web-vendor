@@ -56,13 +56,6 @@ export function VendorHero({ onAuthClick }: VendorHeroProps) {
               <UserPlus className="h-4 w-4" />
               <span>Comenzar</span>
             </button>
-            <button 
-              onClick={() => onAuthClick?.("login")}
-              className="glassmorphism-button-lg"
-            >
-              <User className="h-4 w-4" />
-              <span>Iniciar Sesión</span>
-            </button>
           </div>
         </div>
       </div>
