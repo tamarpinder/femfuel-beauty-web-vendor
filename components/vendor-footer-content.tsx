@@ -5,7 +5,6 @@ export const vendorFooterSections = [
       { label: "Acerca de FemFuel", href: "/about" },
       { label: "Cómo Funciona", href: "/how-it-works" },
       { label: "Historias de Éxito", href: "/success-stories" },
-      { label: "Comunidad de Proveedores", href: "/community" },
       { label: "Blog y Recursos", href: "/blog" },
     ],
   },
