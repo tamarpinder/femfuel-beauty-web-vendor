@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -12,11 +10,9 @@ import {
   BookOpen,
   TrendingUp,
   Users,
-  Lightbulb,
   Download,
   Clock,
   ArrowRight,
-  Star,
   Play,
   FileText,
   Video,
@@ -24,7 +20,6 @@ import {
   Calendar,
   Eye,
   Heart,
-  Share2,
   Filter,
   Sparkles,
   Award,

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -9,13 +8,10 @@ import {
   Star,
   TrendingUp,
   Users,
-  DollarSign,
   Calendar,
-  Award,
   Heart,
   Sparkles,
   MapPin,
-  Clock,
   Filter,
   ChevronRight,
   BarChart3,
@@ -275,7 +271,7 @@ export default function SuccessStoriesPage() {
                     </div>
 
                     <blockquote className="text-lg text-femfuel-dark font-medium mb-6 leading-relaxed">
-                      "{story.quote}"
+                      &ldquo;{story.quote}&rdquo;
                     </blockquote>
 
                     <p className="text-femfuel-medium mb-6 leading-relaxed">{story.story}</p>

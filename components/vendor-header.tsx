@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { MapPin, User, ChevronDown, UserPlus } from "lucide-react"
+import { MapPin, User, ChevronDown } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -285,7 +284,7 @@ export default function HowItWorksPage() {
                 ))}
               </div>
               <blockquote className="text-xl md:text-2xl text-femfuel-dark font-medium mb-8 leading-relaxed">
-                "{testimonial.text}"
+                &ldquo;{testimonial.text}&rdquo;
               </blockquote>
               <div className="flex items-center justify-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-r from-femfuel-rose to-femfuel-gold p-1">

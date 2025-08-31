@@ -9,7 +9,6 @@ import {
   Award, 
   Sparkles,
   MapPin,
-  Calendar,
   Target,
   Zap,
   Star
