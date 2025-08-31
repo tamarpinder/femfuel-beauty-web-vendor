@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { VendorFooter } from "@/components/vendor-footer"
 import { 
   Search,
   BookOpen,
@@ -520,6 +521,8 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
+
+      <VendorFooter />
     </div>
   )
 }

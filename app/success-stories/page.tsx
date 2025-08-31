@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { VendorFooter } from "@/components/vendor-footer"
 import { 
   Star,
   TrendingUp,
@@ -426,6 +427,8 @@ export default function SuccessStoriesPage() {
           </div>
         </div>
       </section>
+
+      <VendorFooter />
     </div>
   )
 }
