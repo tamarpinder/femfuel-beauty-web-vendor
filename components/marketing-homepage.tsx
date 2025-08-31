@@ -12,7 +12,7 @@ import { VendorAuthModal } from '@/components/vendor-auth-modal'
 
 export function MarketingHomepage() {
   const [showAuthModal, setShowAuthModal] = useState(false)
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login")
+  const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
 
   const handleAuthClick = (mode: "login" | "signup") => {
     setAuthMode(mode)
