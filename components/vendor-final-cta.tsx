@@ -1,17 +1,10 @@
-"use client"
-
-import { useState } from "react"
 import { UserPlus } from "lucide-react"
-import { VendorAuthModal } from "@/components/vendor-auth-modal"
 
-export function VendorFinalCTA() {
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
+interface VendorFinalCTAProps {
+  onAuthClick?: (mode: "login" | "signup") => void
+}
 
-  const handleAuthClick = (mode: "login" | "signup") => {
-    setAuthMode(mode)
-    setShowAuthModal(true)
-  }
+export function VendorFinalCTA({ onAuthClick }: VendorFinalCTAProps) {
   return (
     <section className="py-16 bg-gradient-to-r from-femfuel-rose to-femfuel-gold relative overflow-hidden">
       {/* Decorative elements */}
@@ -28,7 +21,7 @@ export function VendorFinalCTA() {
         </p>
 
         <button
-          onClick={() => handleAuthClick("signup")}
+          onClick={() => onAuthClick?.("signup")}
           className="
             inline-flex items-center justify-center gap-2
             h-11 px-8 rounded-md text-sm font-medium
@@ -48,15 +41,6 @@ export function VendorFinalCTA() {
           Gratis por siempre • Sin comisiones ocultas • Soporte 24/7
         </p>
       </div>
-
-      <VendorAuthModal 
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={() => {
-          window.location.href = '/dashboard'
-        }}
-        initialMode={authMode}
-      />
     </section>
   )
 }
