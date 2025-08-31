@@ -1,11 +1,25 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import { Star, TrendingUp, User, UserPlus } from "lucide-react"
+import { VendorAuthModal } from "@/components/vendor-auth-modal"
 
 export function VendorHero() {
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login")
+
+  const handleAuthClick = (mode: "login" | "signup") => {
+    setAuthMode(mode)
+    setShowAuthModal(true)
+  }
   return (
     <section className="relative px-4 py-12 md:py-16 bg-gradient-to-b from-white to-femfuel-light">
       {/* Mobile Login Button - Top Right */}
-      <button className="md:hidden absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-filter backdrop-blur-12 border border-femfuel-rose/20 rounded-full flex items-center justify-center hover:bg-femfuel-rose hover:text-white transition-all duration-300 shadow-lg z-10">
+      <button 
+        onClick={() => handleAuthClick("login")}
+        className="md:hidden absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-filter backdrop-blur-12 border border-femfuel-rose/20 rounded-full flex items-center justify-center hover:bg-femfuel-rose hover:text-white transition-all duration-300 shadow-lg z-10"
+      >
         <User className="h-5 w-5 text-femfuel-rose hover:text-white transition-colors" />
       </button>
       <div className="max-w-4xl mx-auto text-center">
@@ -40,17 +54,32 @@ export function VendorHero() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="femfuel-button-lg">
+            <button 
+              onClick={() => handleAuthClick("signup")}
+              className="femfuel-button-lg"
+            >
               <UserPlus className="h-4 w-4" />
               <span>Comenzar</span>
             </button>
-            <button className="glassmorphism-button-lg">
+            <button 
+              onClick={() => handleAuthClick("login")}
+              className="glassmorphism-button-lg"
+            >
               <User className="h-4 w-4" />
               <span>Iniciar Sesión</span>
             </button>
           </div>
         </div>
       </div>
+
+      <VendorAuthModal 
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuthSuccess={() => {
+          window.location.href = '/dashboard'
+        }}
+        initialMode={authMode}
+      />
     </section>
   )
 }
