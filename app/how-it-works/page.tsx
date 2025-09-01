@@ -1,7 +1,11 @@
+'use client'
+
+import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { VendorFooter } from "@/components/vendor-footer"
+import { VendorAuthModal } from "@/components/vendor-auth-modal"
 import { 
   UserPlus, 
   Smartphone,
@@ -21,6 +25,8 @@ import {
 } from "lucide-react"
 
 export default function HowItWorksPage() {
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
   const steps = [
     {
       number: "01",
@@ -74,8 +80,8 @@ export default function HowItWorksPage() {
     {
       icon: Users,
       title: "Más Clientes",
-      description: "Acceso a nuestra base de 75,000+ usuarios activos buscando servicios de belleza",
-      stat: "75,000+"
+      description: "Acceso a nuestra base de 1,000+ usuarios activos buscando servicios de belleza",
+      stat: "1,000+"
     },
     {
       icon: Clock,
@@ -146,9 +152,15 @@ export default function HowItWorksPage() {
             Un sistema diseñado para maximizar tus ingresos y simplificar tu trabajo. 
             En solo 4 pasos estarás generando más reservas y creciendo tu negocio.
           </p>
-          <Button className="bg-femfuel-rose hover:bg-femfuel-rose/90 text-white px-8 py-3">
-            <Zap className="h-4 w-4 mr-2" />
-            Empezar Ahora Gratis
+          <Button 
+            onClick={() => {
+              setAuthMode("signup")
+              setShowAuthModal(true)
+            }}
+            className="bg-femfuel-rose hover:bg-femfuel-rose/90 text-white px-8 py-3"
+          >
+            <UserPlus className="h-4 w-4 mr-2" />
+            Comenzar
           </Button>
         </div>
       </section>
@@ -303,6 +315,11 @@ export default function HowItWorksPage() {
         </div>
       </section>
       <VendorFooter />
+      <VendorAuthModal 
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        mode={authMode}
+      />
     </div>
   )
 }
