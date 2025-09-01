@@ -14,7 +14,6 @@ export const vendorFooterSections = [
       { label: "Comenzar", href: "/get-started" },
       { label: "Precios y Comisiones", href: "/pricing" },
       { label: "Dashboard de Proveedor", href: "/dashboard" },
-      { label: "Herramientas de Marketing", href: "/marketing-tools" },
       { label: "Centro de Soporte", href: "/support" },
     ],
   },
