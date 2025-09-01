@@ -176,9 +176,9 @@ export default function PricingPage() {
           <Badge className="mb-6 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
             Comienza Gratis - Paga Solo Cuando Ganes
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold text-femfuel-dark mb-6">
-            Precios 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-femfuel-rose to-femfuel-gold"> Transparentes</span>
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
+            <span className="whitespace-nowrap">Precios</span>{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-femfuel-rose to-femfuel-gold whitespace-nowrap">Transparentes</span>
           </h1>
           <p className="text-xl text-femfuel-medium mb-8 max-w-3xl mx-auto leading-relaxed">
             Sin sorpresas, sin costos ocultos. Comienza gratis y crece con nosotros. 

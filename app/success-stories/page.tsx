@@ -187,9 +187,9 @@ export default function SuccessStoriesPage() {
           <Badge className="mb-6 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
             Transformaciones Reales
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold text-femfuel-dark mb-6">
-            Historias de
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-femfuel-rose to-femfuel-gold"> Éxito</span>
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
+            <span className="whitespace-nowrap">Historias de</span>{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-femfuel-rose to-femfuel-gold whitespace-nowrap">Éxito</span>
           </h1>
           <p className="text-xl text-femfuel-medium mb-8 max-w-3xl mx-auto leading-relaxed">
             Descubre cómo cientos de profesionales de belleza han transformado sus negocios 
