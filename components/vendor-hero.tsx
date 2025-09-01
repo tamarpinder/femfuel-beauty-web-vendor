@@ -33,7 +33,7 @@ export function VendorHero({ onAuthClick }: VendorHeroProps) {
             Tu negocio de belleza, <span className="text-femfuel-rose">potenciado</span>
           </h1>
           <p className="text-lg text-femfuel-medium mb-6 max-w-2xl mx-auto">
-            Conecta con miles de clientes, gestiona tu agenda y haz crecer tus ingresos con la plataforma líder de belleza en República Dominicana
+            Conecta con miles de clientes, gestiona tu agenda y haz crecer tus ingresos. Comienza gratis y paga solo cuando ganes.
           </p>
           
           <div className="flex items-center justify-center gap-4 mb-8">

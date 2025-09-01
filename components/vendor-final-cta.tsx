@@ -38,7 +38,7 @@ export function VendorFinalCTA({ onAuthClick }: VendorFinalCTAProps) {
         </button>
         
         <p className="text-white/70 text-sm mt-4">
-          Gratis por siempre • Sin comisiones ocultas • Soporte 24/7
+          Comienza gratis • Precios transparentes • Soporte 24/7
         </p>
       </div>
     </section>

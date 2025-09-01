@@ -18,7 +18,7 @@ export function VendorValueProposition() {
     {
       icon: CreditCard,
       title: "Pagos Garantizados",
-      description: "Recibe tus pagos de forma automática y segura, sin preocupaciones ni retrasos",
+      description: "Recibe pagos automáticos y seguros. Comienza gratis, paga solo cuando ganes",
       color: "bg-gradient-to-br from-green-500 to-emerald-400"
     },
   ]
