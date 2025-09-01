@@ -318,7 +318,7 @@ export default function HowItWorksPage() {
       <VendorAuthModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        mode={authMode}
+        initialMode={authMode}
       />
     </div>
   )
