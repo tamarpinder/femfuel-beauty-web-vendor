@@ -7,8 +7,6 @@ import {
   Heart, 
   Users, 
   TrendingUp, 
-  Award, 
-  Sparkles,
   MapPin,
   Target,
   Zap,
@@ -286,23 +284,6 @@ export default function AboutPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-12 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <Sparkles className="h-16 w-16 mx-auto mb-6 opacity-90" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            ¿Listo para ser parte de nuestra historia?
-          </h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Únete a los cientos de proveedores que ya han transformado su negocio con FemFuel Beauty.
-          </p>
-          <Button className="bg-white text-femfuel-rose hover:bg-white/90 px-8 py-3 font-medium">
-            <Award className="h-4 w-4 mr-2" />
-            Comenzar Mi Transformación
-          </Button>
         </div>
       </section>
       <VendorFooter />

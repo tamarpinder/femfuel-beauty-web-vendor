@@ -22,9 +22,7 @@ import {
   Eye,
   Heart,
   Filter,
-  Sparkles,
-  Award,
-  Zap
+  Sparkles
 } from "lucide-react"
 
 export default function BlogPage() {
@@ -495,30 +493,6 @@ export default function BlogPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-12 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <Award className="h-16 w-16 mx-auto mb-6 opacity-90" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            ¿Tienes una historia que contar?
-          </h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Si tienes consejos, experiencias o conocimientos que compartir con la comunidad, 
-            nos encantaría conocer tu historia.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-white text-femfuel-rose hover:bg-white/90 px-8 py-3 font-medium">
-              <Zap className="h-4 w-4 mr-2" />
-              Contribuir al Blog
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-femfuel-rose px-8 py-3 font-medium">
-              <Heart className="h-4 w-4 mr-2" />
-              Únete a la Comunidad
-            </Button>
-          </div>
         </div>
       </section>
       <VendorFooter />

@@ -303,29 +303,6 @@ export default function HowItWorksPage() {
           </Card>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-12 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <Zap className="h-16 w-16 mx-auto mb-6 opacity-90" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            ¿Listo para transformar tu negocio?
-          </h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Únete a cientos de profesionales que ya están creciendo con FemFuel Beauty. 
-            El registro es completamente gratis.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-white text-femfuel-rose hover:bg-white/90 px-8 py-3 font-medium">
-              <UserPlus className="h-4 w-4 mr-2" />
-              Registrarme Gratis
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-femfuel-rose px-8 py-3 font-medium">
-              Ver Demo en Vivo
-            </Button>
-          </div>
-        </div>
-      </section>
       <VendorFooter />
     </div>
   )

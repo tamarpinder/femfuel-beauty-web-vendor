@@ -15,10 +15,8 @@ import {
   MapPin,
   Filter,
   ChevronRight,
-  BarChart3,
   Scissors,
-  Palette,
-  Zap
+  Palette
 } from "lucide-react"
 
 export default function SuccessStoriesPage() {
@@ -400,30 +398,6 @@ export default function SuccessStoriesPage() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-12 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <Zap className="h-16 w-16 mx-auto mb-6 opacity-90" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Tu historia de éxito comienza aquí
-          </h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Únete a cientos de profesionales que ya están transformando sus vidas con FemFuel Beauty. 
-            ¡Tu éxito está a solo un clic de distancia!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-white text-femfuel-rose hover:bg-white/90 px-8 py-3 font-medium">
-              <Sparkles className="h-4 w-4 mr-2" />
-              Empezar Mi Transformación
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-femfuel-rose px-8 py-3 font-medium">
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Ver Más Casos de Éxito
-            </Button>
           </div>
         </div>
       </section>
