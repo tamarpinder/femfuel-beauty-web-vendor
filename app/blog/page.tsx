@@ -176,7 +176,7 @@ export default function BlogPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-femfuel-rose/5 to-femfuel-gold/5"></div>
         <div className="relative max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
@@ -228,7 +228,7 @@ export default function BlogPage() {
       </section>
 
       {/* Featured Article */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
@@ -322,7 +322,7 @@ export default function BlogPage() {
       </section>
 
       {/* Articles Grid */}
-      <section className="py-20 bg-femfuel-light">
+      <section className="py-16 bg-femfuel-light">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-femfuel-dark mb-4">
@@ -420,7 +420,7 @@ export default function BlogPage() {
       </section>
 
       {/* Resources Section */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
@@ -466,7 +466,7 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 bg-femfuel-light">
+      <section className="py-16 bg-femfuel-light">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Card className="border-none shadow-xl bg-white overflow-hidden">
             <CardContent className="p-8 md:p-12">
@@ -499,7 +499,7 @@ export default function BlogPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
+      <section className="py-12 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
           <Award className="h-16 w-16 mx-auto mb-6 opacity-90" />
           <h2 className="text-3xl md:text-4xl font-bold mb-6">

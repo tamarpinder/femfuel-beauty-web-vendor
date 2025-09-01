@@ -133,7 +133,7 @@ export default function HowItWorksPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-femfuel-rose/5 to-femfuel-gold/5"></div>
         <div className="relative max-w-6xl mx-auto px-4 text-center">
           <Badge className="mb-6 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
@@ -155,7 +155,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Steps Section */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="space-y-20">
             {steps.map((step, index) => (
@@ -209,7 +209,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-femfuel-light">
+      <section className="py-16 bg-femfuel-light">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
@@ -240,7 +240,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
@@ -275,7 +275,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Testimonial Section */}
-      <section className="py-20 bg-femfuel-light">
+      <section className="py-16 bg-femfuel-light">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Card className="border-none shadow-xl bg-white">
             <CardContent className="p-8 md:p-12">
@@ -305,7 +305,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
+      <section className="py-12 bg-gradient-to-r from-femfuel-rose to-femfuel-gold">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
           <Zap className="h-16 w-16 mx-auto mb-6 opacity-90" />
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
