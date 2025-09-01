@@ -156,13 +156,13 @@ export default function AboutPage() {
             </div>
             <div className="relative">
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-femfuel-rose to-femfuel-gold p-1">
-                <div className="w-full h-full rounded-xl bg-white flex items-center justify-center">
+                <div className="w-full h-full rounded-xl bg-white flex items-center justify-center p-12">
                   <Image 
-                    src="/about/mission.jpg" 
-                    alt="Nuestra Misión" 
-                    width={400}
-                    height={400}
-                    className="rounded-lg object-cover"
+                    src="/femfuel-logo.png" 
+                    alt="FemFuel Beauty Logo" 
+                    width={200}
+                    height={200}
+                    className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               </div>
