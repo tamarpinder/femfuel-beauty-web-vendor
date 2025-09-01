@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { ChevronDown, Facebook, Instagram, Twitter, Music } from "lucide-react"
+import { VendorAuthModal } from "@/components/vendor-auth-modal"
 
 interface FooterSection {
   title: string
@@ -19,6 +20,8 @@ interface ProfessionalFooterProps {
 export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
   const [language, setLanguage] = useState("es")
   const [currency, setCurrency] = useState("RD")
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
 
   const socialLinks = [
     { icon: Facebook, href: "https://facebook.com/femfuelbeauty", label: "Facebook" },
@@ -64,12 +67,24 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
               <ul className="space-y-2">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <a
-                      href={link.href}
-                      className="text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:scale-[1.02] hover:-translate-y-0.5 hover:px-3 hover:py-1 hover:rounded-lg hover:shadow-sm transition-all duration-300 text-sm block"
-                    >
-                      {link.label}
-                    </a>
+                    {link.label === "Comenzar" ? (
+                      <button
+                        onClick={() => {
+                          setAuthMode("signup")
+                          setShowAuthModal(true)
+                        }}
+                        className="text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:scale-[1.02] hover:-translate-y-0.5 hover:px-3 hover:py-1 hover:rounded-lg hover:shadow-sm transition-all duration-300 text-sm block w-full text-left"
+                      >
+                        {link.label}
+                      </button>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:scale-[1.02] hover:-translate-y-0.5 hover:px-3 hover:py-1 hover:rounded-lg hover:shadow-sm transition-all duration-300 text-sm block"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -139,6 +154,11 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
           </div>
         </div>
       </div>
+      <VendorAuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        initialMode={authMode}
+      />
     </footer>
   )
 }
