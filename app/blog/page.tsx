@@ -181,9 +181,8 @@ export default function BlogPage() {
             <Badge className="mb-6 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
               Centro de Conocimiento
             </Badge>
-            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
-              <span className="whitespace-nowrap">Blog y</span>{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-femfuel-rose to-femfuel-gold whitespace-nowrap">Recursos</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
+              Blog y Recursos
             </h1>
             <p className="text-xl text-femfuel-medium mb-8 max-w-3xl mx-auto leading-relaxed">
               Todo lo que necesitas para hacer crecer tu negocio de belleza. Tutoriales, consejos de expertos, 

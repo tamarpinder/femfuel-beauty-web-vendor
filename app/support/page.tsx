@@ -196,9 +196,8 @@ export default function SupportPage() {
           <Badge className="mb-6 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
             Soporte 24/7 - Estamos Aquí Para Ti
           </Badge>
-          <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
-            <span className="whitespace-nowrap">Centro de</span>{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-femfuel-rose to-femfuel-gold whitespace-nowrap">Soporte</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
+            Centro de Soporte
           </h1>
           <p className="text-xl text-femfuel-medium mb-8 max-w-3xl mx-auto leading-relaxed">
             ¿Necesitas ayuda? Encuentra respuestas rápidas, tutoriales paso a paso 
