@@ -12,7 +12,6 @@ import {
   Users,
   Calendar,
   Heart,
-  Sparkles,
   MapPin,
   Filter,
   ChevronRight,
@@ -25,7 +24,7 @@ import {
 
 export default function SuccessStoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedStory, setSelectedStory] = useState<any>(null)
+  const [selectedStory, setSelectedStory] = useState<typeof successStories[0] | null>(null)
   
   const categories = [
     { id: "all", label: "Todas las Historias", count: 12 },
@@ -532,7 +531,7 @@ export default function SuccessStoriesPage() {
                 <Card className="border-femfuel-rose/20 bg-femfuel-light">
                   <CardContent className="p-6">
                     <blockquote className="text-lg text-femfuel-dark font-medium italic">
-                      "{selectedStory.quote}"
+                      &ldquo;{selectedStory.quote}&rdquo;
                     </blockquote>
                   </CardContent>
                 </Card>
