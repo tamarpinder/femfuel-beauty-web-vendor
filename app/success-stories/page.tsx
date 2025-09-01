@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { VendorFooter } from "@/components/vendor-footer"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { 
   Star,
   TrendingUp,
@@ -16,11 +17,15 @@ import {
   Filter,
   ChevronRight,
   Scissors,
-  Palette
+  Palette,
+  X,
+  Clock,
+  Award
 } from "lucide-react"
 
 export default function SuccessStoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const [selectedStory, setSelectedStory] = useState<any>(null)
   
   const categories = [
     { id: "all", label: "Todas las Historias", count: 12 },
@@ -32,8 +37,8 @@ export default function SuccessStoriesPage() {
 
   const featuredStats = [
     { icon: TrendingUp, value: "250%", label: "Aumento promedio en ingresos" },
-    { icon: Users, value: "75,000+", label: "Clientes nuevos conectados" },
-    { icon: Calendar, value: "50,000+", label: "Citas completadas exitosamente" },
+    { icon: Users, value: "1,000+", label: "Clientes nuevos conectados" },
+    { icon: Calendar, value: "1,000+", label: "Citas completadas exitosamente" },
     { icon: Star, value: "4.9", label: "Calificación promedio de proveedores" }
   ]
 
@@ -232,11 +237,47 @@ export default function SuccessStoriesPage() {
                 <div className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-0`}>
                   {/* Image Section */}
                   <div className="lg:w-1/2 relative">
-                    <div className="aspect-video lg:aspect-square bg-gradient-to-br from-femfuel-rose/10 to-femfuel-gold/10 relative overflow-hidden">
-                      <div className="absolute inset-4 bg-white rounded-lg flex items-center justify-center">
-                        <div className="text-center">
-                          <Sparkles className="h-16 w-16 text-femfuel-rose mx-auto mb-4 opacity-20" />
-                          <p className="text-femfuel-medium text-sm">Imagen de transformación</p>
+                    <div className="aspect-video lg:aspect-square bg-gradient-to-br from-femfuel-rose to-femfuel-gold p-1 relative overflow-hidden">
+                      <div className="absolute inset-1 bg-white rounded-lg flex flex-col items-center justify-center p-8">
+                        {/* Business Branding */}
+                        <div className="text-center space-y-4">
+                          {/* Business Icon */}
+                          <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-femfuel-rose/20 to-femfuel-gold/20 flex items-center justify-center">
+                            {story.category === 'salon' && <Scissors className="h-12 w-12 text-femfuel-rose" />}
+                            {story.category === 'freelance' && <Palette className="h-12 w-12 text-femfuel-gold" />}
+                            {story.category === 'spa' && <Heart className="h-12 w-12 text-purple-500" />}
+                          </div>
+                          
+                          {/* Business Name */}
+                          <div>
+                            <h3 className="text-2xl font-bold text-femfuel-dark mb-2">
+                              {story.name.split(' - ')[0]}
+                            </h3>
+                            <p className="text-femfuel-rose font-medium text-lg">{story.businessType}</p>
+                          </div>
+                          
+                          {/* Achievement Badges */}
+                          <div className="flex justify-center gap-4">
+                            <div className="text-center">
+                              <div className="text-3xl font-bold text-femfuel-rose">{story.metrics.monthlyIncrease}</div>
+                              <div className="text-xs text-femfuel-medium">Crecimiento</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="flex items-center justify-center">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star key={i} className={`h-4 w-4 ${i < Math.floor(story.metrics.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                                ))}
+                              </div>
+                              <div className="text-xs text-femfuel-medium mt-1">{story.metrics.rating} Rating</div>
+                            </div>
+                          </div>
+                          
+                          {/* Transformation Arrow */}
+                          <div className="flex items-center justify-center gap-2 mt-4">
+                            <Badge className="bg-femfuel-rose/10 text-femfuel-rose">Antes</Badge>
+                            <ChevronRight className="h-4 w-4 text-femfuel-medium" />
+                            <Badge className="bg-femfuel-gold text-white">Después</Badge>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -336,14 +377,43 @@ export default function SuccessStoriesPage() {
             {filteredStories.filter(story => !story.featured).map((story) => (
               <Card key={story.id} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden">
                 {/* Image */}
-                <div className="aspect-video bg-gradient-to-br from-femfuel-rose/10 to-femfuel-gold/10 relative overflow-hidden">
-                  <div className="absolute inset-4 bg-white rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      {story.category === 'salon' && <Scissors className="h-12 w-12 text-femfuel-rose mx-auto mb-2 opacity-20" />}
-                      {story.category === 'freelance' && <Palette className="h-12 w-12 text-femfuel-rose mx-auto mb-2 opacity-20" />}
-                      {story.category === 'spa' && <Heart className="h-12 w-12 text-femfuel-rose mx-auto mb-2 opacity-20" />}
-                      {story.category === 'barberia' && <Scissors className="h-12 w-12 text-femfuel-rose mx-auto mb-2 opacity-20" />}
-                      <p className="text-femfuel-medium text-xs">Historia de {story.businessType}</p>
+                <div className={`aspect-video relative overflow-hidden bg-gradient-to-br ${
+                  story.category === 'salon' ? 'from-femfuel-rose to-pink-400' :
+                  story.category === 'freelance' ? 'from-femfuel-gold to-yellow-400' :
+                  story.category === 'spa' ? 'from-purple-500 to-purple-400' :
+                  'from-blue-500 to-blue-400'
+                } p-0.5`}>
+                  <div className="absolute inset-0.5 bg-white rounded-sm flex flex-col items-center justify-center p-4">
+                    <div className="text-center space-y-3">
+                      {/* Business Icon */}
+                      <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center ${
+                        story.category === 'salon' ? 'bg-femfuel-rose/10' :
+                        story.category === 'freelance' ? 'bg-femfuel-gold/10' :
+                        story.category === 'spa' ? 'bg-purple-500/10' :
+                        'bg-blue-500/10'
+                      }`}>
+                        {story.category === 'salon' && <Scissors className="h-8 w-8 text-femfuel-rose" />}
+                        {story.category === 'freelance' && <Palette className="h-8 w-8 text-femfuel-gold" />}
+                        {story.category === 'spa' && <Heart className="h-8 w-8 text-purple-500" />}
+                        {story.category === 'barberia' && <Scissors className="h-8 w-8 text-blue-500" />}
+                      </div>
+                      
+                      {/* Business Name */}
+                      <div>
+                        <p className="font-bold text-femfuel-dark text-sm">{story.name.split(' - ')[0]}</p>
+                        <p className={`text-xs font-medium ${
+                          story.category === 'salon' ? 'text-femfuel-rose' :
+                          story.category === 'freelance' ? 'text-femfuel-gold' :
+                          story.category === 'spa' ? 'text-purple-500' :
+                          'text-blue-500'
+                        }`}>{story.businessType}</p>
+                      </div>
+                      
+                      {/* Key Metric */}
+                      <div className="flex items-center justify-center gap-2">
+                        <TrendingUp className="h-4 w-4 text-green-500" />
+                        <span className="text-lg font-bold text-femfuel-dark">{story.metrics.monthlyIncrease}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -390,7 +460,11 @@ export default function SuccessStoriesPage() {
                     )}
                   </div>
 
-                  <Button variant="outline" className="w-full border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white group-hover:bg-femfuel-rose group-hover:text-white transition-all">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white transition-all duration-300"
+                    onClick={() => setSelectedStory(story)}
+                  >
                     Ver Historia Completa
                     <ChevronRight className="h-4 w-4 ml-2" />
                   </Button>
@@ -400,6 +474,150 @@ export default function SuccessStoriesPage() {
           </div>
         </div>
       </section>
+      
+      {/* Story Detail Modal */}
+      <Dialog open={!!selectedStory} onOpenChange={() => setSelectedStory(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          {selectedStory && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-femfuel-dark">{selectedStory.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedStory(null)}
+                    className="hover:bg-femfuel-rose/10"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </DialogTitle>
+                <DialogDescription className="flex items-center gap-2 text-femfuel-medium">
+                  <MapPin className="h-4 w-4" />
+                  {selectedStory.location} • {selectedStory.businessType}
+                </DialogDescription>
+              </DialogHeader>
+              
+              <div className="space-y-6 mt-6">
+                {/* Visual Header */}
+                <div className={`relative h-48 rounded-lg bg-gradient-to-br ${
+                  selectedStory.category === 'salon' ? 'from-femfuel-rose to-pink-400' :
+                  selectedStory.category === 'freelance' ? 'from-femfuel-gold to-yellow-400' :
+                  selectedStory.category === 'spa' ? 'from-purple-500 to-purple-400' :
+                  'from-blue-500 to-blue-400'
+                } p-1`}>
+                  <div className="absolute inset-1 bg-white rounded-md flex items-center justify-center">
+                    <div className="text-center space-y-2">
+                      <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${
+                        selectedStory.category === 'salon' ? 'bg-femfuel-rose/10' :
+                        selectedStory.category === 'freelance' ? 'bg-femfuel-gold/10' :
+                        selectedStory.category === 'spa' ? 'bg-purple-500/10' :
+                        'bg-blue-500/10'
+                      }`}>
+                        {selectedStory.category === 'salon' && <Scissors className="h-10 w-10 text-femfuel-rose" />}
+                        {selectedStory.category === 'freelance' && <Palette className="h-10 w-10 text-femfuel-gold" />}
+                        {selectedStory.category === 'spa' && <Heart className="h-10 w-10 text-purple-500" />}
+                        {selectedStory.category === 'barberia' && <Scissors className="h-10 w-10 text-blue-500" />}
+                      </div>
+                      <h3 className="text-xl font-bold text-femfuel-dark">{selectedStory.name.split(' - ')[0]}</h3>
+                      <div className="flex items-center justify-center gap-1">
+                        <Clock className="h-4 w-4 text-femfuel-medium" />
+                        <span className="text-sm text-femfuel-medium">Miembro desde {selectedStory.joinedDate}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Main Quote */}
+                <Card className="border-femfuel-rose/20 bg-femfuel-light">
+                  <CardContent className="p-6">
+                    <blockquote className="text-lg text-femfuel-dark font-medium italic">
+                      "{selectedStory.quote}"
+                    </blockquote>
+                  </CardContent>
+                </Card>
+                
+                {/* Full Story */}
+                <div>
+                  <h3 className="text-lg font-bold text-femfuel-dark mb-3">La Historia Completa</h3>
+                  <p className="text-femfuel-medium leading-relaxed">{selectedStory.story}</p>
+                </div>
+                
+                {/* Metrics Grid */}
+                <div>
+                  <h3 className="text-lg font-bold text-femfuel-dark mb-3">Resultados Alcanzados</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Card className="border-none shadow-md">
+                      <CardContent className="p-4 text-center">
+                        <TrendingUp className="h-8 w-8 text-femfuel-rose mx-auto mb-2" />
+                        <div className="text-2xl font-bold text-femfuel-dark">{selectedStory.metrics.monthlyIncrease}</div>
+                        <div className="text-xs text-femfuel-medium">Aumento Mensual</div>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-none shadow-md">
+                      <CardContent className="p-4 text-center">
+                        <Users className="h-8 w-8 text-femfuel-gold mx-auto mb-2" />
+                        <div className="text-2xl font-bold text-femfuel-dark">{selectedStory.metrics.newClients}</div>
+                        <div className="text-xs text-femfuel-medium">Nuevos Clientes</div>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-none shadow-md">
+                      <CardContent className="p-4 text-center">
+                        <Award className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+                        <div className="text-2xl font-bold text-femfuel-dark">{selectedStory.metrics.revenue}</div>
+                        <div className="text-xs text-femfuel-medium">Ingresos/Mes</div>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-none shadow-md">
+                      <CardContent className="p-4 text-center">
+                        <Star className="h-8 w-8 text-yellow-400 mx-auto mb-2" />
+                        <div className="text-2xl font-bold text-femfuel-dark">{selectedStory.metrics.rating}</div>
+                        <div className="text-xs text-femfuel-medium">Calificación</div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+                
+                {/* Services Offered */}
+                <div>
+                  <h3 className="text-lg font-bold text-femfuel-dark mb-3">Servicios Ofrecidos</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedStory.services.map((service: string, index: number) => (
+                      <Badge 
+                        key={index} 
+                        className="bg-femfuel-rose text-white hover:bg-femfuel-rose/90"
+                      >
+                        {service}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 pt-4 border-t">
+                  {selectedStory.tags.map((tag: string, index: number) => (
+                    <Badge key={index} variant="secondary" className="bg-femfuel-gold/10 text-femfuel-gold">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                
+                {/* CTA */}
+                <div className="flex gap-4 pt-6">
+                  <Button className="flex-1 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white">
+                    Únete a FemFuel
+                    <ChevronRight className="h-4 w-4 ml-2" />
+                  </Button>
+                  <Button variant="outline" className="flex-1 border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white">
+                    Ver Más Historias
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      
       <VendorFooter />
     </div>
   )
