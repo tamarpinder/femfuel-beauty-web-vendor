@@ -11,7 +11,6 @@ import {
   MessageCircle,
   Phone,
   Mail,
-  Search,
   Clock,
   Users,
   CreditCard,
@@ -29,8 +28,18 @@ import {
   Headphones
 } from "lucide-react"
 
+interface Article {
+  title: string
+  content: string
+  readTime: string
+  views: string
+  category?: string
+}
+
 export default function SupportPage() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)
+  const [currentView, setCurrentView] = useState<'main' | 'category' | 'article'>('main')
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -57,16 +66,16 @@ export default function SupportPage() {
       action: "Enviar email",
       link: "mailto:soporte@femfuelbeauty.com",
       color: "bg-blue-500",
-      available: "Respuesta en 2-4 horas"
+      available: "Respuesta en 1 día"
     },
     {
-      icon: Phone,
-      title: "Teléfono",
-      description: "+1 (809) 555-1234",
-      action: "Llamar ahora",
-      link: "tel:+18095551234",
+      icon: MessageCircle,
+      title: "Live Chat",
+      description: "Chatea con nuestro equipo",
+      action: "Iniciar chat",
+      link: "#",
       color: "bg-femfuel-rose",
-      available: "Lun-Vie 8AM-6PM"
+      available: "Lun-Vie 8AM - 8PM"
     }
   ]
 
@@ -154,6 +163,60 @@ export default function SupportPage() {
     }
   ]
 
+  // Category articles data
+  const categoryArticles: Record<string, Article[]> = {
+    "getting-started": [
+      { title: "¿Cómo configuro mi perfil por primera vez?", content: "Guía paso a paso para configurar tu perfil...", readTime: "3 min", views: "2.1k" },
+      { title: "Verificación de cuenta y documentos", content: "Proceso de verificación de tu cuenta...", readTime: "5 min", views: "1.8k" },
+      { title: "Primeros pasos en la plataforma", content: "Introducción a todas las funcionalidades...", readTime: "4 min", views: "1.5k" }
+    ],
+    "bookings": [
+      { title: "¿Cómo gestiono mi calendario y horarios?", content: "Administración completa de tu agenda...", readTime: "4 min", views: "1.5k" },
+      { title: "¿Qué hacer si un cliente cancela?", content: "Políticas de cancelación y reembolsos...", readTime: "2 min", views: "1.3k" },
+      { title: "Configurar horarios de disponibilidad", content: "Establece tus horarios de trabajo...", readTime: "3 min", views: "1.1k" }
+    ],
+    "payments": [
+      { title: "¿Cuándo y cómo recibo mis pagos?", content: "Sistema de pagos y comisiones...", readTime: "5 min", views: "1.8k" },
+      { title: "Comisiones y tarifas explicadas", content: "Estructura de comisiones de la plataforma...", readTime: "4 min", views: "1.4k" },
+      { title: "Reportes financieros mensuales", content: "Cómo interpretar tus reportes...", readTime: "6 min", views: "1.2k" }
+    ],
+    "technical": [
+      { title: "App no funciona correctamente", content: "Solución a problemas comunes...", readTime: "3 min", views: "900" },
+      { title: "Problemas con notificaciones", content: "Configurar notificaciones push...", readTime: "2 min", views: "800" },
+      { title: "Error al subir fotos", content: "Resolución de problemas con imágenes...", readTime: "4 min", views: "700" }
+    ],
+    "security": [
+      { title: "¿Cómo subo fotos a mi portfolio?", content: "Guía para gestionar tu portfolio...", readTime: "3 min", views: "1.2k" },
+      { title: "Cambiar contraseña de forma segura", content: "Actualización de credenciales...", readTime: "2 min", views: "800" },
+      { title: "Configuración de privacidad", content: "Control de tu información personal...", readTime: "4 min", views: "600" }
+    ],
+    "growth": [
+      { title: "Estrategias para conseguir más clientes", content: "Marketing y promoción efectiva...", readTime: "8 min", views: "2.5k" },
+      { title: "Cómo responder a reseñas negativas", content: "Gestión de reputación online...", readTime: "5 min", views: "1.1k" },
+      { title: "Optimizar tu perfil para más visibilidad", content: "SEO para proveedores...", readTime: "6 min", views: "1.8k" }
+    ]
+  }
+
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategory(categoryId)
+    setCurrentView('category')
+  }
+
+  const handleArticleClick = (article: Article) => {
+    setSelectedArticle(article)
+    setCurrentView('article')
+  }
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null)
+    setCurrentView('main')
+  }
+
+  const handleBackToCategory = () => {
+    setSelectedArticle(null)
+    setCurrentView('category')
+  }
+
   const videoTutorials = [
     {
       title: "Configuración inicial de tu cuenta",
@@ -203,23 +266,6 @@ export default function SupportPage() {
             ¿Necesitas ayuda? Encuentra respuestas rápidas, tutoriales paso a paso 
             y contacta directamente con nuestro equipo de soporte.
           </p>
-          
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto relative">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-femfuel-medium" />
-              <Input
-                type="text"
-                placeholder="¿En qué podemos ayudarte? Ej: 'cómo configurar mi perfil'"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-femfuel-rose rounded-xl"
-              />
-              <Button className="absolute right-2 top-2 bg-femfuel-rose hover:bg-femfuel-rose/90">
-                Buscar
-              </Button>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -273,7 +319,11 @@ export default function SupportPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category, index) => (
-              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
+              <Card 
+                key={index} 
+                className="border-none shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                onClick={() => handleCategoryClick(category.id)}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className={`w-12 h-12 ${category.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
@@ -281,7 +331,7 @@ export default function SupportPage() {
                     </div>
                     <ChevronRight className="h-5 w-5 text-femfuel-medium group-hover:translate-x-1 transition-transform" />
                   </div>
-                  <h3 className="text-lg font-bold text-femfuel-dark mb-2">{category.title}</h3>
+                  <h3 className="text-lg font-bold text-femfuel-dark mb-2 group-hover:text-femfuel-rose transition-colors">{category.title}</h3>
                   <p className="text-femfuel-medium mb-3">{category.description}</p>
                   <div className="flex items-center gap-2">
                     <FileText className="h-4 w-4 text-femfuel-medium" />
@@ -314,7 +364,11 @@ export default function SupportPage() {
 
           <div className="space-y-4">
             {popularArticles.map((article, index) => (
-              <Card key={index} className="border-none shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer">
+              <Card 
+                key={index} 
+                className="border-none shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer"
+                onClick={() => handleArticleClick({ ...article, content: `Contenido completo del artículo: ${article.title}...` })}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -528,6 +582,129 @@ export default function SupportPage() {
           </div>
         </div>
       </section>
+
+      {/* Category View */}
+      {currentView === 'category' && selectedCategory && (
+        <section className="py-16 bg-femfuel-light">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex items-center gap-2 mb-8 text-sm text-femfuel-medium">
+              <button onClick={handleBackToCategories} className="hover:text-femfuel-rose transition-colors">
+                Soporte
+              </button>
+              <ChevronRight className="h-4 w-4" />
+              <span className="text-femfuel-dark font-medium">
+                {categories.find(c => c.id === selectedCategory)?.title}
+              </span>
+            </div>
+            
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-femfuel-dark mb-4">
+                {categories.find(c => c.id === selectedCategory)?.title}
+              </h2>
+              <p className="text-lg text-femfuel-medium">
+                {categories.find(c => c.id === selectedCategory)?.description}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {categoryArticles[selectedCategory]?.map((article, index) => (
+                <Card 
+                  key={index} 
+                  className="border-none shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  onClick={() => handleArticleClick(article)}
+                >
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-femfuel-dark mb-3 group-hover:text-femfuel-rose transition-colors">
+                      {article.title}
+                    </h3>
+                    <div className="flex items-center gap-4 text-sm text-femfuel-medium mb-4">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {article.readTime}
+                      </div>
+                      <span>•</span>
+                      <span>{article.views} vistas</span>
+                    </div>
+                    <p className="text-femfuel-medium line-clamp-2">{article.content}</p>
+                    <div className="flex justify-end mt-4">
+                      <ChevronRight className="h-5 w-5 text-femfuel-medium group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Article View */}
+      {currentView === 'article' && selectedArticle && (
+        <section className="py-16 bg-white">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="flex items-center gap-2 mb-8 text-sm text-femfuel-medium">
+              <button onClick={handleBackToCategories} className="hover:text-femfuel-rose transition-colors">
+                Soporte
+              </button>
+              <ChevronRight className="h-4 w-4" />
+              {selectedCategory && (
+                <>
+                  <button onClick={handleBackToCategory} className="hover:text-femfuel-rose transition-colors">
+                    {categories.find(c => c.id === selectedCategory)?.title}
+                  </button>
+                  <ChevronRight className="h-4 w-4" />
+                </>
+              )}
+              <span className="text-femfuel-dark font-medium">Artículo</span>
+            </div>
+            
+            <article className="max-w-none">
+              <h1 className="text-3xl font-bold text-femfuel-dark mb-6">
+                {selectedArticle.title}
+              </h1>
+              
+              <div className="flex items-center gap-4 text-sm text-femfuel-medium mb-8">
+                <div className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  {selectedArticle.readTime} lectura
+                </div>
+                <span>•</span>
+                <span>{selectedArticle.views} vistas</span>
+                <span>•</span>
+                <Badge variant="secondary" className="bg-femfuel-rose/10 text-femfuel-rose">
+                  {selectedArticle.category}
+                </Badge>
+              </div>
+
+              <div className="text-femfuel-medium leading-relaxed">
+                <p className="text-lg mb-6">{selectedArticle.content}</p>
+                <p className="mb-4">
+                  Este es contenido de ejemplo para el artículo. En una implementación real, 
+                  aquí tendríamos el contenido completo del artículo con texto, imágenes, 
+                  y elementos interactivos para ayudar a los proveedores.
+                </p>
+                <p className="mb-6">
+                  Los artículos pueden incluir guías paso a paso, capturas de pantalla, 
+                  videos embebidos, y enlaces a recursos adicionales para resolver consultas específicas.
+                </p>
+              </div>
+
+              <div className="border-t pt-6 mt-8">
+                <h3 className="text-lg font-semibold text-femfuel-dark mb-4">
+                  ¿Te fue útil este artículo?
+                </h3>
+                <div className="flex gap-3">
+                  <Button variant="outline" className="border-green-500 text-green-600 hover:bg-green-50">
+                    👍 Sí, fue útil
+                  </Button>
+                  <Button variant="outline" className="border-red-500 text-red-600 hover:bg-red-50">
+                    👎 No me ayudó
+                  </Button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      )}
 
       <VendorFooter />
     </div>

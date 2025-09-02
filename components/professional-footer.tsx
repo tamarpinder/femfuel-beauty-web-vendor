@@ -18,8 +18,6 @@ interface ProfessionalFooterProps {
 }
 
 export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
-  const [language, setLanguage] = useState("es")
-  const [currency, setCurrency] = useState("RD")
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
 
@@ -121,7 +119,7 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
               <div className="relative">
                 <button className="flex items-center gap-2 text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:px-3 hover:py-2 hover:rounded-lg transition-all duration-300 text-sm">
                   <span className="text-base">🌐</span>
-                  {language === "es" ? "Español (DR)" : "English (US)"}
+                  Español (DR)
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </div>
@@ -130,7 +128,7 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
               <div className="relative">
                 <button className="flex items-center gap-2 text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:px-3 hover:py-2 hover:rounded-lg transition-all duration-300 text-sm">
                   <span className="text-base">💰</span>
-                  {currency === "RD" ? "RD$" : "USD$"}
+                  RD$
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </div>

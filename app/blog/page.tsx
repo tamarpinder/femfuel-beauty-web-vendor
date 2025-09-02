@@ -11,7 +11,6 @@ import {
   BookOpen,
   TrendingUp,
   Users,
-  Download,
   Clock,
   ArrowRight,
   Play,
@@ -130,35 +129,6 @@ export default function BlogPage() {
     }
   ]
 
-  const resources = [
-    {
-      id: 1,
-      title: "Kit de Precios Profesional",
-      description: "Plantilla completa para calcular precios competitivos y rentables",
-      type: "template",
-      downloadCount: "5.2k",
-      icon: FileText,
-      category: "Plantillas"
-    },
-    {
-      id: 2,
-      title: "Guía de Tendencias 2025",
-      description: "Reporte completo con todas las tendencias que dominarán el próximo año",
-      type: "guide",
-      downloadCount: "8.9k",
-      icon: TrendingUp,
-      category: "Guías"
-    },
-    {
-      id: 3,
-      title: "Checklist de Satisfacción del Cliente",
-      description: "Lista de verificación para garantizar experiencias excepcionales",
-      type: "checklist",
-      downloadCount: "3.7k",
-      icon: Users,
-      category: "Herramientas"
-    }
-  ]
 
   const filteredArticles = selectedCategory === "all" 
     ? articles 
