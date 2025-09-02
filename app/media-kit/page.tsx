@@ -66,12 +66,12 @@ export default function MediaKitPage() {
   ]
 
   const companyInfo = {
-    founded: "2023",
+    founded: "2025",
     headquarters: "Santo Domingo, República Dominicana",
-    employees: "50-100",
-    users: "75,000+",
-    vendors: "500+",
-    cities: "15+"
+    employees: "5",
+    users: "1,000+",
+    vendors: "10+",
+    cities: "32"
   }
 
   const keyMessages = [
@@ -90,10 +90,10 @@ export default function MediaKitPage() {
   ]
 
   const achievements = [
-    { icon: Users, number: "75,000+", label: "Usuarios Registrados" },
-    { icon: TrendingUp, number: "500+", label: "Proveedores Activos" },
+    { icon: Users, number: "1,000+", label: "Usuarios Registrados" },
+    { icon: TrendingUp, number: "10+", label: "Proveedores Activos" },
     { icon: Award, number: "4.9/5", label: "Calificación Promedio" },
-    { icon: Target, number: "15+", label: "Ciudades Cubiertas" }
+    { icon: Target, number: "32", label: "Provincias Cubiertas" }
   ]
 
   const handleDownload = (itemName: string) => {
