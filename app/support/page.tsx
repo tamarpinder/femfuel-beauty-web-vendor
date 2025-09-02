@@ -305,8 +305,11 @@ export default function SupportPage() {
         </div>
       </section>
 
-      {/* Help Categories */}
-      <section className="py-16 bg-femfuel-light">
+      {/* Main View Sections */}
+      {currentView === 'main' && (
+        <>
+          {/* Help Categories */}
+          <section className="py-16 bg-femfuel-light">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-femfuel-dark mb-4">
@@ -582,6 +585,8 @@ export default function SupportPage() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
       {/* Category View */}
       {currentView === 'category' && selectedCategory && (
