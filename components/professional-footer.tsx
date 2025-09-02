@@ -29,9 +29,9 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
   ]
 
   const legalLinks = [
-    { label: "Terms", href: "/terms" },
+    { label: "Terms", href: "/terms-of-service" },
     { label: "Sitemap", href: "/sitemap" },
-    { label: "Privacy", href: "/privacy" },
+    { label: "Privacy", href: "/privacy-policy" },
   ]
 
   return (
