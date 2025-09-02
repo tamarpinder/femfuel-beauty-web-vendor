@@ -355,19 +355,17 @@ export default function SuccessStoriesPage() {
             {/* Filter Tabs */}
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {categories.map((category) => (
-                <Button
+                <button
                   key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "ghost"}
-                  className={`transition-all duration-300 ${
-                    selectedCategory === category.id 
-                      ? "bg-femfuel-rose hover:bg-femfuel-rose/90 text-white border border-femfuel-rose" 
-                      : "bg-white/50 backdrop-blur-sm border border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose hover:bg-accent-override"
-                  }`}
+                  className={selectedCategory === category.id 
+                    ? "glassmorphism-button-perfect !bg-femfuel-rose !text-white !border-femfuel-rose" 
+                    : "glassmorphism-button-perfect"
+                  }
                   onClick={() => setSelectedCategory(category.id)}
                 >
                   <Filter className="h-4 w-4 mr-2" />
                   {category.label} ({category.count})
-                </Button>
+                </button>
               ))}
             </div>
           </div>
@@ -459,14 +457,13 @@ export default function SuccessStoriesPage() {
                     )}
                   </div>
 
-                  <Button 
-                    variant="ghost" 
-                    className="w-full bg-white/50 backdrop-blur-sm border border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
+                  <button 
+                    className="glassmorphism-button-perfect w-full"
                     onClick={() => setSelectedStory(story)}
                   >
                     Ver Historia Completa
                     <ChevronRight className="h-4 w-4 ml-2" />
-                  </Button>
+                  </button>
                 </CardContent>
               </Card>
             ))}
@@ -603,17 +600,16 @@ export default function SuccessStoriesPage() {
                 
                 {/* CTA */}
                 <div className="flex gap-4 pt-6">
-                  <Button className="flex-1 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white transition-all duration-300">
+                  <button className="femfuel-button-lg flex-1">
                     Ver en FemFuel
                     <ChevronRight className="h-4 w-4 ml-2" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    className="flex-1 bg-white/50 backdrop-blur-sm border border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
+                  </button>
+                  <button 
+                    className="glassmorphism-button-perfect flex-1"
                     onClick={() => setSelectedStory(null)}
                   >
                     Ver Más Historias
-                  </Button>
+                  </button>
                 </div>
               </div>
             </>
