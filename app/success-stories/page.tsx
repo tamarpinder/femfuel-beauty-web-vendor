@@ -55,7 +55,7 @@ export default function SuccessStoriesPage() {
       story: "En solo 8 meses con FemFuel, transformé mi pequeño salón en el hogar en un negocio próspero con 3 empleadas y lista de espera de clientes.",
       metrics: {
         monthlyIncrease: "320%",
-        newClients: "450+",
+        newClients: "50+",
         revenue: "$15,000",
         rating: 4.9
       },
@@ -77,7 +77,7 @@ export default function SuccessStoriesPage() {
       story: "Como madre soltera, necesitaba flexibilidad. FemFuel me permitió trabajar desde casa y triplicar mis ingresos mientras cuido a mi hija.",
       metrics: {
         monthlyIncrease: "180%",
-        newClients: "200+",
+        newClients: "60+",
         revenue: "$8,500",
         rating: 5.0
       },
@@ -358,10 +358,10 @@ export default function SuccessStoriesPage() {
                 <Button
                   key={category.id}
                   variant={selectedCategory === category.id ? "default" : "outline"}
-                  className={`${
+                  className={`transition-all duration-300 ${
                     selectedCategory === category.id 
-                      ? "bg-femfuel-rose hover:bg-femfuel-rose/90 text-white" 
-                      : "border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white"
+                      ? "bg-femfuel-rose hover:bg-femfuel-rose/90 text-white border-femfuel-rose" 
+                      : "bg-white/50 backdrop-blur-sm border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose"
                   }`}
                   onClick={() => setSelectedCategory(category.id)}
                 >
@@ -461,7 +461,7 @@ export default function SuccessStoriesPage() {
 
                   <Button 
                     variant="outline" 
-                    className="w-full border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white transition-all duration-300"
+                    className="w-full bg-white/50 backdrop-blur-sm border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
                     onClick={() => setSelectedStory(story)}
                   >
                     Ver Historia Completa
@@ -603,11 +603,15 @@ export default function SuccessStoriesPage() {
                 
                 {/* CTA */}
                 <div className="flex gap-4 pt-6">
-                  <Button className="flex-1 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white">
-                    Únete a FemFuel
+                  <Button className="flex-1 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white transition-all duration-300">
+                    Ver en FemFuel
                     <ChevronRight className="h-4 w-4 ml-2" />
                   </Button>
-                  <Button variant="outline" className="flex-1 border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 bg-white/50 backdrop-blur-sm border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
+                    onClick={() => setSelectedStory(null)}
+                  >
                     Ver Más Historias
                   </Button>
                 </div>
