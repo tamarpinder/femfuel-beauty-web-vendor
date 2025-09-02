@@ -416,51 +416,6 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Resources Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <Badge className="mb-4 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
-              Recursos Gratuitos
-            </Badge>
-            <h2 className="text-2xl md:text-3xl font-bold text-femfuel-dark mb-4">
-              Descarga recursos exclusivos
-            </h2>
-            <p className="text-lg text-femfuel-medium max-w-2xl mx-auto">
-              Plantillas, guías y herramientas diseñadas por expertos para acelerar el crecimiento de tu negocio.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {resources.map((resource) => (
-              <Card key={resource.id} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 group text-center">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-r from-femfuel-rose to-femfuel-gold rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                    <resource.icon className="h-8 w-8 text-white" />
-                  </div>
-                  
-                  <Badge className="mb-4 bg-femfuel-rose/10 text-femfuel-rose">
-                    {resource.category}
-                  </Badge>
-                  
-                  <h3 className="text-xl font-bold text-femfuel-dark mb-3">{resource.title}</h3>
-                  <p className="text-femfuel-medium mb-6">{resource.description}</p>
-                  
-                  <div className="flex items-center justify-center gap-2 text-sm text-femfuel-medium mb-6">
-                    <Download className="h-4 w-4" />
-                    <span>{resource.downloadCount} descargas</span>
-                  </div>
-
-                  <Button className="bg-femfuel-gold hover:bg-femfuel-gold/90 text-white w-full">
-                    <Download className="h-4 w-4 mr-2" />
-                    Descargar Gratis
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Newsletter Section */}
       <section className="py-16 bg-femfuel-light">
@@ -472,14 +427,13 @@ export default function BlogPage() {
                 Mantente al día con lo último
               </h2>
               <p className="text-lg text-femfuel-medium mb-8 max-w-2xl mx-auto">
-                Recibe los mejores consejos, tutoriales exclusivos y tendencias directamente en tu email. 
-                Únete a +5,000 profesionales que ya están suscritos.
+                Recibe los mejores consejos, tutoriales exclusivos y tendencias directamente en tu email.
               </p>
               
               <div className="max-w-md mx-auto">
                 <div className="flex gap-2">
                   <Input 
-                    placeholder="Tu email profesional"
+                    placeholder="Tu email"
                     className="flex-1 h-12 border-2 border-femfuel-rose/20 focus:border-femfuel-rose"
                   />
                   <Button className="bg-femfuel-rose hover:bg-femfuel-rose/90 text-white px-6">
