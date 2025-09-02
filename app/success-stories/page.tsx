@@ -357,11 +357,11 @@ export default function SuccessStoriesPage() {
               {categories.map((category) => (
                 <Button
                   key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "outline"}
+                  variant={selectedCategory === category.id ? "default" : "ghost"}
                   className={`transition-all duration-300 ${
                     selectedCategory === category.id 
-                      ? "bg-femfuel-rose hover:bg-femfuel-rose/90 text-white border-femfuel-rose" 
-                      : "bg-white/50 backdrop-blur-sm border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose"
+                      ? "bg-femfuel-rose hover:bg-femfuel-rose/90 text-white border border-femfuel-rose" 
+                      : "bg-white/50 backdrop-blur-sm border border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose hover:bg-accent-override"
                   }`}
                   onClick={() => setSelectedCategory(category.id)}
                 >
@@ -460,8 +460,8 @@ export default function SuccessStoriesPage() {
                   </div>
 
                   <Button 
-                    variant="outline" 
-                    className="w-full bg-white/50 backdrop-blur-sm border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
+                    variant="ghost" 
+                    className="w-full bg-white/50 backdrop-blur-sm border border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
                     onClick={() => setSelectedStory(story)}
                   >
                     Ver Historia Completa
@@ -608,8 +608,8 @@ export default function SuccessStoriesPage() {
                     <ChevronRight className="h-4 w-4 ml-2" />
                   </Button>
                   <Button 
-                    variant="outline" 
-                    className="flex-1 bg-white/50 backdrop-blur-sm border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
+                    variant="ghost" 
+                    className="flex-1 bg-white/50 backdrop-blur-sm border border-femfuel-rose/30 text-femfuel-rose hover:bg-femfuel-rose hover:text-white hover:border-femfuel-rose transition-all duration-300"
                     onClick={() => setSelectedStory(null)}
                   >
                     Ver Más Historias
