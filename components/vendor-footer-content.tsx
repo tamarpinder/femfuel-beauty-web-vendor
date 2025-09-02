@@ -18,16 +18,6 @@ export const vendorFooterSections = [
     ],
   },
   {
-    title: "Recursos",
-    links: [
-      { label: "Centro de Ayuda", href: "/help" },
-      { label: "Entrenamientos y Tutoriales", href: "/training" },
-      { label: "Documentación API", href: "/api-docs" },
-      { label: "Mejores Prácticas", href: "/best-practices" },
-      { label: "Webinars y Eventos", href: "/events" },
-    ],
-  },
-  {
     title: "Negocios",
     links: [
       { label: "Programa de Socios", href: "/partners" },
