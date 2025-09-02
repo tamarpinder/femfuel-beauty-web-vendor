@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { VendorFooter } from "@/components/vendor-footer"
 import { 
   Download,
@@ -249,14 +248,13 @@ export default function MediaKitPage() {
                           </div>
                         </div>
                         
-                        <Button 
-                          variant="outline" 
-                          className="w-full border-femfuel-rose text-femfuel-rose hover:bg-femfuel-rose hover:text-white"
+                        <button 
+                          className="glassmorphism-button w-full"
                           onClick={() => handleDownload(item.name)}
                         >
                           <Download className="h-4 w-4 mr-2" />
                           Descargar
-                        </Button>
+                        </button>
                       </CardContent>
                     </Card>
                   ))}
