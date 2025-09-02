@@ -358,7 +358,7 @@ export default function SuccessStoriesPage() {
                 <button
                   key={category.id}
                   className={selectedCategory === category.id 
-                    ? "glassmorphism-button-perfect !bg-femfuel-rose !text-white !border-femfuel-rose" 
+                    ? "glassmorphism-button-active" 
                     : "glassmorphism-button-perfect"
                   }
                   onClick={() => setSelectedCategory(category.id)}
