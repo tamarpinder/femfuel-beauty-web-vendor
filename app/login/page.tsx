@@ -19,15 +19,15 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  // Test credentials
-  const testCredentials = {
-    email: 'vendor.test@femfuelbeauty.com',
-    password: 'TestVendor2025!'
+  // Demo vendor credentials
+  const demoCredentials = {
+    email: 'owner@glamourhouse.com',
+    password: 'VendorLogin2025!'
   };
 
-  const handleTestCredentials = () => {
-    setEmail(testCredentials.email);
-    setPassword(testCredentials.password);
+  const handleDemoCredentials = () => {
+    setEmail(demoCredentials.email);
+    setPassword(demoCredentials.password);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -207,29 +207,29 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Test Credentials Notice */}
+            {/* Demo Vendor Credentials Notice */}
             <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-start gap-3">
                 <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                 <div className="flex-1">
                   <h3 className="text-sm font-medium text-blue-900 mb-1">
-                    Credenciales de Prueba Disponibles
+                    Cuenta de Demostración
                   </h3>
                   <p className="text-sm text-blue-700 mb-3">
-                    Usa nuestras credenciales de prueba para explorar la plataforma con datos de ejemplo:
+                    Inicia sesión con Glamour House, un estudio de maquillaje profesional real:
                     <br />
-                    <strong>Email:</strong> vendor.test@femfuelbeauty.com
+                    <strong>Email:</strong> {demoCredentials.email}
                     <br />
-                    <strong>Contraseña:</strong> TestVendor2025!
+                    <strong>Contraseña:</strong> {demoCredentials.password}
                   </p>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={handleTestCredentials}
+                    onClick={handleDemoCredentials}
                     className="border-blue-300 text-blue-700 hover:bg-blue-100 hover:border-blue-400"
                   >
-                    Usar Credenciales de Prueba
+                    Usar Credenciales de Glamour House
                   </Button>
                 </div>
               </div>
