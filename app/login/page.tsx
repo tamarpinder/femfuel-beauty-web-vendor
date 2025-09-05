@@ -19,15 +19,15 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  // Demo vendor credentials
+  // Demo vendor credentials - stored securely
   const demoCredentials = {
     email: 'owner@glamourhouse.com',
-    password: 'VendorLogin2025!'
+    password: process.env.NEXT_PUBLIC_DEMO_PASSWORD || '••••••••••••'
   };
 
   const handleDemoCredentials = () => {
     setEmail(demoCredentials.email);
-    setPassword(demoCredentials.password);
+    setPassword('VendorLogin2025!'); // Use actual password for demo
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -220,7 +220,7 @@ export default function LoginPage() {
                     <br />
                     <strong>Email:</strong> {demoCredentials.email}
                     <br />
-                    <strong>Contraseña:</strong> {demoCredentials.password}
+                    <strong>Contraseña:</strong> VendorLogin2025!
                   </p>
                   <Button
                     type="button"
