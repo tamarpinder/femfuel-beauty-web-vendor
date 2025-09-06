@@ -21,7 +21,7 @@ const getCurrentVendor = () => {
 };
 
 export const auth = {
-  signUp: async (email: string, password: string, metadata: any) => {
+  signUp: async (email: string, _password: string, _metadata: Record<string, unknown>) => {
     await simulateDelay();
     return { data: { user: { email } }, error: null };
   },
@@ -45,7 +45,7 @@ export const auth = {
     return session ? JSON.parse(session) : null;
   },
   
-  onAuthStateChange: (callback: Function) => {
+  onAuthStateChange: (_callback: (event: string, session: unknown) => void) => {
     // Mock auth state listener
     return {
       data: { subscription: { unsubscribe: () => {} } }
@@ -54,7 +54,7 @@ export const auth = {
 };
 
 export const bookings = {
-  getByVendor: async (vendorId: string) => {
+  getByVendor: async (_vendorId: string) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
@@ -92,7 +92,7 @@ export const bookings = {
     return { data: transformedBookings, error: null };
   },
   
-  create: async (bookingData: any) => {
+  create: async (bookingData: Record<string, unknown>) => {
     await simulateDelay();
     const newBooking = {
       id: `booking-${Date.now()}`,
@@ -103,7 +103,7 @@ export const bookings = {
     return { data: newBooking, error: null };
   },
   
-  update: async (id: string, updates: any) => {
+  update: async (id: string, updates: Record<string, unknown>) => {
     await simulateDelay();
     const booking = mockData.bookings.find(b => b.id === id);
     if (!booking) return { data: null, error: 'Booking not found' };
@@ -117,15 +117,15 @@ export const bookings = {
     if (result.error) return result;
     
     const upcoming = result.data
-      .filter((b: any) => new Date(b.scheduled_date) >= new Date())
-      .sort((a: any, b: any) => new Date(a.scheduled_date).getTime() - new Date(b.scheduled_date).getTime());
+      .filter((b: { scheduled_date: string }) => new Date(b.scheduled_date) >= new Date())
+      .sort((a: { scheduled_date: string }, b: { scheduled_date: string }) => new Date(a.scheduled_date).getTime() - new Date(b.scheduled_date).getTime());
     
     return { data: upcoming, error: null };
   }
 };
 
 export const services = {
-  getByVendor: async (vendorId: string) => {
+  getByVendor: async (_vendorId: string) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
@@ -152,7 +152,7 @@ export const services = {
     return { data: transformedServices, error: null };
   },
   
-  create: async (serviceData: any) => {
+  create: async (serviceData: Record<string, unknown>) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -167,7 +167,7 @@ export const services = {
     return { data: newService, error: null };
   },
   
-  update: async (id: string, updates: any) => {
+  update: async (id: string, updates: Record<string, unknown>) => {
     await simulateDelay();
     const service = mockData.services.find(s => s.id === id);
     if (!service) return { data: null, error: 'Service not found' };
@@ -183,7 +183,7 @@ export const services = {
 };
 
 export const profiles = {
-  getVendor: async (userId: string) => {
+  getVendor: async (_userId: string) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -209,7 +209,7 @@ export const profiles = {
     };
   },
   
-  update: async (userId: string, updates: any) => {
+  update: async (_userId: string, updates: Record<string, unknown>) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -220,7 +220,7 @@ export const profiles = {
 };
 
 export const reviews = {
-  getByVendor: async (vendorId: string) => {
+  getByVendor: async (_vendorId: string) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
@@ -262,14 +262,14 @@ export const reviews = {
 };
 
 export const earnings = {
-  getMonthly: async (vendorId: string) => {
+  getMonthly: async (_vendorId: string) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
     
     // Generate mock monthly earnings data
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
-    const monthlyData = months.map((month, index) => ({
+    const monthlyData = months.map((month, _index) => ({
       month,
       bookings: Math.floor(Math.random() * 50) + 20,
       earnings: Math.floor(Math.random() * 100000) + 50000,
@@ -279,7 +279,7 @@ export const earnings = {
     return { data: monthlyData, error: null };
   },
   
-  getStats: async (vendorId: string) => {
+  getStats: async (_vendorId: string) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -300,10 +300,10 @@ export const earnings = {
 // Export mock supabase client for compatibility
 export const supabase = {
   auth,
-  from: (table: string) => ({
+  from: (_table: string) => ({
     select: () => ({ data: [], error: null }),
-    insert: (data: any) => ({ data, error: null }),
-    update: (data: any) => ({ eq: () => ({ data, error: null }) }),
+    insert: (data: Record<string, unknown>) => ({ data, error: null }),
+    update: (data: Record<string, unknown>) => ({ eq: () => ({ data, error: null }) }),
     delete: () => ({ eq: () => ({ data: null, error: null }) })
   })
 };
