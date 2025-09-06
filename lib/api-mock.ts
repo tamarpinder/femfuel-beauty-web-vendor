@@ -21,9 +21,9 @@ const getCurrentVendor = () => {
 };
 
 export const auth = {
-  signUp: async (email: string) => {
+  signUp: async (credentials: { email: string; password: string }) => {
     await simulateDelay();
-    return { data: { user: { email } }, error: null };
+    return { data: { user: { id: `user-${Date.now()}`, email: credentials.email } }, error: null };
   },
   
   signIn: async (email: string, password: string) => {
@@ -113,8 +113,22 @@ export const bookings = {
     const updated = { ...booking, ...updates };
     return { data: updated, error: null };
   },
+
+  updateStatus: async (id: string, status: string, cancellationReason?: string) => {
+    await simulateDelay();
+    const booking = mockData.bookings.find(b => b.id === id);
+    if (!booking) return { data: null, error: 'Booking not found' };
+    
+    const updates: Record<string, unknown> = { status };
+    if (cancellationReason) {
+      updates.cancellation_reason = cancellationReason;
+    }
+    
+    const updated = { ...booking, ...updates };
+    return { data: updated, error: null };
+  },
   
-  getUpcoming: async (vendorId: string) => {
+  getUpcoming: async () => {
     const result = await bookings.getByVendor();
     if (result.error) return result;
     
@@ -148,7 +162,7 @@ export const services = {
       is_popular: service.isPopular,
       is_active: service.isActive,
       created_at: service.createdAt,
-      images: service.images
+      images: service.images ? service.images.map((img: string | { url?: string; src?: string }) => typeof img === 'string' ? img : img.url || img.src || '') : []
     }));
     
     return { data: transformedServices, error: null };
@@ -161,10 +175,17 @@ export const services = {
     
     const newService = {
       id: `service-${Date.now()}`,
-      vendorId: vendor.id,
-      ...serviceData,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      vendor_id: vendor.id,
+      name: (serviceData.name as string) || '',
+      description: (serviceData.description as string) || '',
+      category: (serviceData.category as string) || '',
+      subcategory: serviceData.subcategory || null,
+      price: (serviceData.price as number) || 0,
+      duration: (serviceData.duration as number) || 30,
+      is_popular: (serviceData.is_popular as boolean) || false,
+      is_active: (serviceData.is_active as boolean) ?? true,
+      created_at: new Date().toISOString(),
+      images: (serviceData.images as string[]) || []
     };
     return { data: newService, error: null };
   },
@@ -174,8 +195,21 @@ export const services = {
     const service = mockData.services.find(s => s.id === id);
     if (!service) return { data: null, error: 'Service not found' };
     
-    const updated = { ...service, ...updates };
-    return { data: updated, error: null };
+    const updatedService = {
+      id: service.id,
+      vendor_id: service.vendorId,
+      name: (updates.name as string) || service.name,
+      description: (updates.description as string) || service.description,
+      category: (updates.category as string) || service.category,
+      subcategory: (updates.subcategory as string) || service.subcategory,
+      price: (updates.price as number) || service.price,
+      duration: (updates.duration as number) || service.duration,
+      is_popular: (updates.is_popular as boolean) ?? service.isPopular,
+      is_active: (updates.is_active as boolean) ?? service.isActive,
+      created_at: service.createdAt,
+      images: service.images ? service.images.map((img: string | { url?: string; src?: string }) => typeof img === 'string' ? img : img.url || img.src || '') : []
+    };
+    return { data: updatedService, error: null };
   },
   
   delete: async (id: string) => {
@@ -302,10 +336,13 @@ export const earnings = {
 // Export mock supabase client for compatibility
 export const supabase = {
   auth,
-  from: () => ({
-    select: () => ({ data: [], error: null }),
-    insert: (data: Record<string, unknown>) => ({ data, error: null }),
-    update: (data: Record<string, unknown>) => ({ eq: () => ({ data, error: null }) }),
-    delete: () => ({ eq: () => ({ data: null, error: null }) })
-  })
+  from: (table: string) => {
+    // Mock implementation ignores table name for simplicity
+    return {
+      select: () => ({ data: [], error: null }),
+      insert: (data: Record<string, unknown> | Record<string, unknown>[]) => ({ data, error: null }),
+      update: (data: Record<string, unknown>) => ({ eq: () => ({ data, error: null }) }),
+      delete: () => ({ eq: () => ({ data: null, error: null }) })
+    };
+  }
 };
