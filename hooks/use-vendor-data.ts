@@ -179,9 +179,9 @@ export const useVendorData = (): UseVendorDataReturn => {
       setError(null);
 
       const [servicesData, bookingsData, reviewsData] = await Promise.all([
-        services.getByVendor(profile.id),
-        bookings.getByVendor(profile.id),
-        reviews.getByVendor(profile.id)
+        services.getByVendor(),
+        bookings.getByVendor(),
+        reviews.getByVendor()
       ]);
 
       if (servicesData.error) {

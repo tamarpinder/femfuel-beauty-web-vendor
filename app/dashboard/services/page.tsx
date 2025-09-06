@@ -32,7 +32,7 @@ export default function ServicesPage() {
 
     try {
       setLoading(true);
-      const { data, error } = await services.getByVendor(profile.id);
+      const { data, error } = await services.getByVendor();
       
       if (error) {
         console.error('Error fetching services:', error);

@@ -43,7 +43,7 @@ export default function BookingsPage() {
       );
       
       const { data, error } = await Promise.race([
-        bookings.getByVendor(profile.id),
+        bookings.getByVendor(),
         timeoutPromise
       ]);
       

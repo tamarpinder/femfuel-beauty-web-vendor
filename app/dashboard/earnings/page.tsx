@@ -229,7 +229,7 @@ export default function EarningsPage() {
       );
       
       const { data, error } = await Promise.race([
-        bookings.getByVendor(profile.id),
+        bookings.getByVendor(),
         timeoutPromise
       ]);
 

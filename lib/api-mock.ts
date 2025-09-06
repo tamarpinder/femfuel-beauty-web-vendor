@@ -21,7 +21,7 @@ const getCurrentVendor = () => {
 };
 
 export const auth = {
-  signUp: async (email: string, _password: string, _metadata: Record<string, unknown>) => {
+  signUp: async (email: string) => {
     await simulateDelay();
     return { data: { user: { email } }, error: null };
   },
@@ -45,7 +45,7 @@ export const auth = {
     return session ? JSON.parse(session) : null;
   },
   
-  onAuthStateChange: (_callback: (event: string, session: unknown) => void) => {
+  onAuthStateChange: () => {
     // Mock auth state listener
     return {
       data: { subscription: { unsubscribe: () => {} } }
@@ -54,7 +54,7 @@ export const auth = {
 };
 
 export const bookings = {
-  getByVendor: async (_vendorId: string) => {
+  getByVendor: async () => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
@@ -79,7 +79,9 @@ export const bookings = {
         notes: booking.notes,
         profiles: customer ? {
           first_name: customer.user.name.split(' ')[0],
-          last_name: customer.user.name.split(' ')[1] || ''
+          last_name: customer.user.name.split(' ')[1] || '',
+          phone: customer.user.phone || 'N/A',
+          email: customer.user.email || 'N/A'
         } : null,
         services: service ? {
           name: service.name,
@@ -113,7 +115,7 @@ export const bookings = {
   },
   
   getUpcoming: async (vendorId: string) => {
-    const result = await bookings.getByVendor(vendorId);
+    const result = await bookings.getByVendor();
     if (result.error) return result;
     
     const upcoming = result.data
@@ -125,7 +127,7 @@ export const bookings = {
 };
 
 export const services = {
-  getByVendor: async (_vendorId: string) => {
+  getByVendor: async () => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
@@ -183,7 +185,7 @@ export const services = {
 };
 
 export const profiles = {
-  getVendor: async (_userId: string) => {
+  getVendor: async () => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -209,7 +211,7 @@ export const profiles = {
     };
   },
   
-  update: async (_userId: string, updates: Record<string, unknown>) => {
+  update: async (updates: Record<string, unknown>) => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -220,7 +222,7 @@ export const profiles = {
 };
 
 export const reviews = {
-  getByVendor: async (_vendorId: string) => {
+  getByVendor: async () => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
@@ -262,14 +264,14 @@ export const reviews = {
 };
 
 export const earnings = {
-  getMonthly: async (_vendorId: string) => {
+  getMonthly: async () => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: [], error: 'No vendor found' };
     
     // Generate mock monthly earnings data
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
-    const monthlyData = months.map((month, _index) => ({
+    const monthlyData = months.map((month) => ({
       month,
       bookings: Math.floor(Math.random() * 50) + 20,
       earnings: Math.floor(Math.random() * 100000) + 50000,
@@ -279,7 +281,7 @@ export const earnings = {
     return { data: monthlyData, error: null };
   },
   
-  getStats: async (_vendorId: string) => {
+  getStats: async () => {
     await simulateDelay();
     const vendor = getCurrentVendor();
     if (!vendor) return { data: null, error: 'No vendor found' };
@@ -300,7 +302,7 @@ export const earnings = {
 // Export mock supabase client for compatibility
 export const supabase = {
   auth,
-  from: (_table: string) => ({
+  from: () => ({
     select: () => ({ data: [], error: null }),
     insert: (data: Record<string, unknown>) => ({ data, error: null }),
     update: (data: Record<string, unknown>) => ({ eq: () => ({ data, error: null }) }),

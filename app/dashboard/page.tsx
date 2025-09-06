@@ -54,8 +54,8 @@ export default function DashboardPage() {
       // Fetch bookings and services in parallel with timeout
       const [bookingsResponse, servicesResponse] = await Promise.race([
         Promise.all([
-          bookings.getByVendor(profile.id),
-          services.getByVendor(profile.id)
+          bookings.getByVendor(),
+          services.getByVendor()
         ]),
         timeoutPromise
       ]);
