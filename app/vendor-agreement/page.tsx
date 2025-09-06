@@ -10,7 +10,6 @@ import {
   Clock,
   Download,
   Mail,
-  AlertTriangle,
   CheckCircle,
   Calendar,
   TrendingUp,

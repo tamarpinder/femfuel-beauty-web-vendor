@@ -8,7 +8,6 @@ import {
   Camera,
   Palette,
   FileText,
-  Image,
   Video,
   Newspaper,
   Award,
@@ -213,7 +212,9 @@ export default function MediaKitPage() {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Image className="h-12 w-12 text-femfuel-rose mx-auto mb-4" />
+            <div className="h-12 w-12 text-femfuel-rose mx-auto mb-4 bg-femfuel-rose/10 rounded-full flex items-center justify-center">
+              <span className="text-2xl">🎨</span>
+            </div>
             <h2 className="text-4xl font-bold text-femfuel-dark mb-4">
               Recursos de Marca
             </h2>

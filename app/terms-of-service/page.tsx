@@ -164,7 +164,7 @@ export default function TermsOfServicePage() {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="space-y-12">
-            {sections.map((section, index) => (
+            {sections.map((section) => (
               <Card key={section.id} className="border-none shadow-lg">
                 <CardContent className="p-8">
                   <h2 className="text-2xl font-bold text-femfuel-dark mb-6 flex items-center gap-3">
