@@ -22,12 +22,12 @@ export default function LoginPage() {
   // Demo vendor credentials - stored securely
   const demoCredentials = {
     email: 'owner@glamourhouse.com',
-    password: process.env.NEXT_PUBLIC_DEMO_PASSWORD || '••••••••••••'
+    password: 'VendorLogin2025!' // Demo password for testing
   };
 
   const handleDemoCredentials = () => {
     setEmail(demoCredentials.email);
-    setPassword('VendorLogin2025!'); // Use actual password for demo
+    setPassword(demoCredentials.password);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
