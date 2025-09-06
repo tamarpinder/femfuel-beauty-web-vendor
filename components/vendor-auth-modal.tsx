@@ -41,17 +41,35 @@ export function VendorAuthModal({ isOpen, onClose, onAuthSuccess, initialMode = 
     city: "Santo Domingo",
   })
 
+  // Demo vendor credentials
+  const demoCredentials = {
+    email: "vendor1@femfuel.com",
+    password: "VendorLogin2025!",
+    businessName: "Glamour Studio RD"
+  }
+
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleFillTestCredentials = () => {
+    setFormData(prev => ({
+      ...prev,
+      email: demoCredentials.email,
+      password: demoCredentials.password,
+      businessName: mode === "signup" ? demoCredentials.businessName : prev.businessName
+    }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Mock authentication - in real app this would call your auth API
+    // LIVE INTEGRATION DISABLED - Mock authentication for demo
+    // TODO: Replace with real authentication API
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
+      // const response = await fetch('/api/auth/vendor-login', { method: 'POST', body: JSON.stringify(formData) });
 
       const mockUser = {
         id: "1",
@@ -76,8 +94,11 @@ export function VendorAuthModal({ isOpen, onClose, onAuthSuccess, initialMode = 
   const handleSocialLogin = async (provider: "google" | "facebook") => {
     setIsLoading(true)
 
+    // LIVE INTEGRATION DISABLED - Social login disabled for demo
+    // TODO: Implement social login integration
     try {
       await new Promise((resolve) => setTimeout(resolve, 800))
+      // const response = await signInWith${provider.charAt(0).toUpperCase() + provider.slice(1)}('vendor-role');
 
       const mockUser = {
         id: "1",
@@ -182,6 +203,35 @@ export function VendorAuthModal({ isOpen, onClose, onAuthSuccess, initialMode = 
               <span className="bg-white px-2 text-femfuel-medium">O continúa con email</span>
             </div>
           </div>
+
+          {/* Test Credentials Notice - Only in Login Mode */}
+          {mode === "login" && (
+            <div className="space-y-3">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <Building2 className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-blue-900 mb-1">Cuenta Demo de Proveedor</h4>
+                    <p className="text-sm text-blue-700 mb-2">Para pruebas, usa la cuenta de {demoCredentials.businessName}:</p>
+                    <div className="text-sm font-mono bg-white rounded px-2 py-1 border">
+                      <div>📧 {demoCredentials.email}</div>
+                      <div>🔒 {demoCredentials.password}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <button
+                type="button"
+                onClick={handleFillTestCredentials}
+                className="w-full h-12 border border-blue-200 rounded-md hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 flex items-center justify-center gap-2 text-blue-700 font-medium"
+                disabled={isLoading}
+              >
+                <Building2 className="h-4 w-4" />
+                <span>Usar Credenciales de Proveedor</span>
+              </button>
+            </div>
+          )}
 
           {/* Email/Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
