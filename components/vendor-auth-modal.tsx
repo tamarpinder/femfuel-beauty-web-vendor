@@ -71,6 +71,13 @@ export function VendorAuthModal({ isOpen, onClose, onAuthSuccess, initialMode = 
       await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
       // const response = await fetch('/api/auth/vendor-login', { method: 'POST', body: JSON.stringify(formData) });
 
+      // Create mock session
+      localStorage.setItem('mockVendorSession', JSON.stringify({
+        email: formData.email,
+        isAuthenticated: true,
+        loginTime: new Date().toISOString()
+      }));
+
       const mockUser = {
         id: "1",
         name: mode === "signup" ? formData.name : "Proveedor Demo",
@@ -99,6 +106,13 @@ export function VendorAuthModal({ isOpen, onClose, onAuthSuccess, initialMode = 
     try {
       await new Promise((resolve) => setTimeout(resolve, 800))
       // const response = await signInWith${provider.charAt(0).toUpperCase() + provider.slice(1)}('vendor-role');
+
+      // Create mock session
+      localStorage.setItem('mockVendorSession', JSON.stringify({
+        email: 'owner@glamourhouse.com',
+        isAuthenticated: true,
+        loginTime: new Date().toISOString()
+      }));
 
       const mockUser = {
         id: "1",

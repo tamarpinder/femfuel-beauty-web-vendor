@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, Info } from 'lucide-react';
-import { auth } from '@/lib/api';
+// Removed: import { auth } from '@/lib/api'; // Not used in demo mode
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -36,32 +36,25 @@ export default function LoginPage() {
     setError('');
 
     try {
-      // Real Supabase authentication
-      const { data, error: authError } = await auth.signIn(email, password);
+      // Demo mode authentication
+      await new Promise((resolve) => setTimeout(resolve, 800));
       
-      if (authError) {
-        throw new Error(authError.message);
+      // For demo, accept demo credentials
+      if (email === 'owner@glamourhouse.com' && password === 'VendorLogin2025!') {
+        // Create mock session
+        localStorage.setItem('mockVendorSession', JSON.stringify({
+          email: email,
+          isAuthenticated: true,
+          loginTime: new Date().toISOString()
+        }));
+        
+        router.push('/dashboard');
+      } else {
+        setError('Credenciales incorrectas. Usa las credenciales de demostración.');
       }
-
-      if (!data.user) {
-        throw new Error('Error de autenticación');
-      }
-
-      // Check if user is a vendor by getting their profile
-      // This will be handled by the AuthContext, so we can redirect
-      router.push('/dashboard');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        // Translate common auth errors to Spanish
-        if (error.message.includes('Invalid login credentials')) {
-          setError('Credenciales incorrectas. Verifica tu email y contraseña.');
-        } else if (error.message.includes('Email not confirmed')) {
-          setError('Email no confirmado. Revisa tu bandeja de entrada.');
-        } else if (error.message.includes('Too many requests')) {
-          setError('Demasiados intentos. Espera unos minutos antes de intentar de nuevo.');
-        } else {
-          setError(error.message);
-        }
+        setError(error.message);
       } else {
         setError('Error al iniciar sesión. Inténtalo de nuevo.');
       }
@@ -74,6 +67,14 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
+      
+      // Create mock session for demo
+      localStorage.setItem('mockVendorSession', JSON.stringify({
+        email: 'owner@glamourhouse.com',
+        isAuthenticated: true,
+        loginTime: new Date().toISOString()
+      }));
+      
       router.push('/dashboard');
     } catch {
       // Handle social login error silently

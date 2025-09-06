@@ -2,8 +2,8 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { mockData } from '@/data/shared/mock-data';
 
 interface VendorProfile {
   id: string;
@@ -36,33 +36,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<VendorProfile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  // Using imported supabase client from lib/api
   const router = useRouter();
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session: currentSession } } = await supabase.auth.getSession();
-      setSession(currentSession);
-      setUser(currentSession?.user || null);
+      // Check for mock session in localStorage (demo mode)
+      const mockSession = localStorage.getItem('mockVendorSession');
+      
+      if (mockSession) {
+        const sessionData = JSON.parse(mockSession);
+        
+        // Map demo email to actual vendor data (first vendor = Glamour Studio RD)
+        let vendorEmail = sessionData.email;
+        if (sessionData.email === 'owner@glamourhouse.com') {
+          vendorEmail = 'vendor1@femfuel.com'; // Map to first vendor in mock data
+        }
+        
+        // Find vendor in mock data
+        const vendor = mockData.vendorProfiles.find(v => v.user.email === vendorEmail);
+        
+        if (vendor) {
+          const mockUser = {
+            id: vendor.user.id,
+            email: vendor.user.email,
+            // Add other User properties as needed
+          } as User;
 
-      if (currentSession?.user) {
-        // Get vendor profile
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', currentSession.user.id)
-          .single();
+          const vendorProfile = {
+            id: vendor.id,
+            full_name: vendor.businessName,
+            email: vendor.user.email,
+            role: 'vendor',
+            phone: vendor.user.phone,
+            address: `${vendor.location.address}, ${vendor.location.district}, ${vendor.location.city}`,
+            business_name: vendor.businessName,
+            service_categories: vendor.categories,
+            is_approved: true,
+            is_active: vendor.isActive,
+            is_verified: vendor.isVerified,
+            avatar_url: vendor.user.avatar,
+            created_at: vendor.joinedDate,
+          };
 
-        if (profileData && profileData.role === 'vendor') {
-          setProfile(profileData);
-        } else if (profileError) {
-          // If profile doesn't exist, sign out
-          await supabase.auth.signOut();
-          router.push('/login');
-        } else {
-          // Not a vendor, sign out
-          await supabase.auth.signOut();
-          router.push('/login');
+          setUser(mockUser);
+          setProfile(vendorProfile);
+          setSession({ user: mockUser } as Session);
         }
       }
 
@@ -70,38 +88,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     getSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, currentSession) => {
-        setSession(currentSession);
-        setUser(currentSession?.user || null);
-
-        if (currentSession?.user) {
-          // Get vendor profile
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', currentSession.user.id)
-            .single();
-
-          if (profileData && profileData.role === 'vendor') {
-            setProfile(profileData);
-          } else {
-            setProfile(null);
-          }
-        } else {
-          setProfile(null);
-        }
-
-        setLoading(false);
-      }
-    );
-
-    return () => subscription.unsubscribe();
   }, [router]);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem('mockVendorSession');
     setUser(null);
     setProfile(null);
     setSession(null);
