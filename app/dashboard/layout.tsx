@@ -11,6 +11,13 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading, profile } = useAuth();
   const router = useRouter();
 
+  // Always call useEffect at the top level
+  React.useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [loading, user, router]);
+
   // Show loading state
   if (loading) {
     return (
@@ -23,9 +30,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
-    router.push('/login');
     return null;
   }
 

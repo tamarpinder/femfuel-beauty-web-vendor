@@ -140,7 +140,7 @@ export const vendorProfiles: VendorProfile[] = vendorUsers.map((user, i) => ({
   businessHours: standardHours,
   rating: Math.round((4.0 + Math.random() * 1.0) * 10) / 10,
   reviewCount: Math.floor(Math.random() * 200) + 50,
-  isVerified: Math.random() > 0.2,
+  isVerified: i === 0 ? true : Math.random() > 0.2, // First vendor always verified
   isActive: true,
   joinedDate: user.createdAt,
   portfolio: Array.from({ length: 6 }, (_, j) => ({

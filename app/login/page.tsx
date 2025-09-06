@@ -42,13 +42,16 @@ export default function LoginPage() {
       // For demo, accept demo credentials
       if (email === 'owner@glamourhouse.com' && password === 'VendorLogin2025!') {
         // Create mock session
-        localStorage.setItem('mockVendorSession', JSON.stringify({
+        const sessionData = {
           email: email,
           isAuthenticated: true,
           loginTime: new Date().toISOString()
-        }));
+        };
         
-        router.push('/dashboard');
+        localStorage.setItem('mockVendorSession', JSON.stringify(sessionData));
+        
+        // Force reload to trigger auth context
+        window.location.href = '/dashboard';
       } else {
         setError('Credenciales incorrectas. Usa las credenciales de demostración.');
       }
