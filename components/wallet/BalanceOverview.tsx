@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { DollarSign, Clock, TrendingUp, CreditCard, Building2, Users } from 'lucide-react';
+import { DollarSign, Clock, TrendingUp, CreditCard } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface BalanceOverviewProps {
@@ -9,8 +9,6 @@ interface BalanceOverviewProps {
   pendingBalance: number;
   totalEarnings: number;
   totalPaidOut: number;
-  salonShare?: number;
-  stylistShare?: number;
 }
 
 export default function BalanceOverview({
@@ -18,12 +16,10 @@ export default function BalanceOverview({
   pendingBalance,
   totalEarnings,
   totalPaidOut,
-  salonShare,
-  stylistShare,
 }: BalanceOverviewProps) {
   const t = useTranslations('wallet');
 
-  const baseCards = [
+  const cards = [
     {
       title: t('availableBalance'),
       value: availableBalance,
@@ -50,25 +46,8 @@ export default function BalanceOverview({
     },
   ];
 
-  const ownerExtras = salonShare !== undefined ? [
-    {
-      title: t('totalSalon'),
-      value: salonShare,
-      icon: Building2,
-      color: 'var(--color-primary)',
-    },
-    {
-      title: t('totalStylists'),
-      value: stylistShare ?? 0,
-      icon: Users,
-      color: 'var(--color-accent)',
-    },
-  ] : [];
-
-  const cards = [...baseCards, ...ownerExtras];
-
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((card) => (
         <Card key={card.title} className="rounded-[20px] bg-[var(--color-bg-card)]">
           <CardHeader className="pb-2">

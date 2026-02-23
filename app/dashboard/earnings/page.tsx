@@ -71,10 +71,6 @@ export default function WalletPage() {
     .reduce((sum, p) => sum + p.amount, 0);
   const availableBalance = completedTotal - paidOutTotal;
 
-  // Commission totals
-  const totalSalonShare = employees.reduce((sum, e) => sum + (e.salon_share ?? 0), 0);
-  const totalStylistShare = employees.reduce((sum, e) => sum + (e.stylist_share ?? 0), 0);
-
   const buildChartData = (): { data: ChartDataPoint[]; services: number; clients: number; total: number } => {
     const now = new Date();
     let filtered: BookingData[];
@@ -162,8 +158,6 @@ export default function WalletPage() {
         pendingBalance={confirmedTotal}
         totalEarnings={completedTotal}
         totalPaidOut={paidOutTotal}
-        salonShare={totalSalonShare}
-        stylistShare={totalStylistShare}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

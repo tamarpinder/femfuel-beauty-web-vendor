@@ -9,9 +9,6 @@ interface EmployeeEarning {
   professional_name: string;
   total_earnings: number;
   completed_services: number;
-  commission_rate: number;
-  stylist_share: number;
-  salon_share: number;
 }
 
 interface EarningsByStylistProps {
@@ -57,18 +54,9 @@ export default function EarningsByStylist({ employees }: EarningsByStylistProps)
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <span className="font-semibold text-[var(--color-text-primary)]">
-                        RD${employee.total_earnings.toLocaleString()}
-                      </span>
-                      {!isOwner && (
-                        <div className="text-[10px] text-[var(--color-text-muted)] space-x-2">
-                          <span>{t('stylistLabel')}: RD${employee.stylist_share.toLocaleString()} ({employee.commission_rate}%)</span>
-                          <span>·</span>
-                          <span>{t('salonLabel')}: RD${employee.salon_share.toLocaleString()}</span>
-                        </div>
-                      )}
-                    </div>
+                    <span className="font-semibold text-[var(--color-text-primary)]">
+                      RD${employee.total_earnings.toLocaleString()}
+                    </span>
                   </div>
                   <div className="w-full bg-[var(--color-border-primary)] rounded-full h-2">
                     <div
