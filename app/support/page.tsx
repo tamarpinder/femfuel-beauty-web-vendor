@@ -699,10 +699,10 @@ export default function SupportPage() {
                 </h3>
                 <div className="flex gap-3">
                   <Button variant="outline" className="border-green-500 text-green-600 hover:bg-green-50">
-                    👍 Sí, fue útil
+                    Si, fue util
                   </Button>
                   <Button variant="outline" className="border-red-500 text-red-600 hover:bg-red-50">
-                    👎 No me ayudó
+                    No me ayudo
                   </Button>
                 </div>
               </div>

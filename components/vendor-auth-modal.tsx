@@ -228,8 +228,8 @@ export function VendorAuthModal({ isOpen, onClose, onAuthSuccess, initialMode = 
                     <h4 className="font-medium text-blue-900 mb-1">Cuenta Demo de Proveedor</h4>
                     <p className="text-sm text-blue-700 mb-2">Para pruebas, usa la cuenta de {demoCredentials.businessName}:</p>
                     <div className="text-sm font-mono bg-white rounded px-2 py-1 border">
-                      <div>📧 {demoCredentials.email}</div>
-                      <div>🔒 {demoCredentials.password}</div>
+                      <div>Email: {demoCredentials.email}</div>
+                      <div>Clave: {demoCredentials.password}</div>
                     </div>
                   </div>
                 </div>

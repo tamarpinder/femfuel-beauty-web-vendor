@@ -3,42 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { BarChart3, Scissors, Calendar, DollarSign, MessageCircle, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { VENDOR_PHRASES } from '@/lib/constants';
-
-const navigation = [
-  {
-    name: VENDOR_PHRASES.dashboard,
-    href: '/dashboard',
-    icon: BarChart3,
-  },
-  {
-    name: VENDOR_PHRASES.services,
-    href: '/dashboard/services',
-    icon: Scissors,
-  },
-  {
-    name: VENDOR_PHRASES.bookings,
-    href: '/dashboard/bookings',
-    icon: Calendar,
-  },
-  {
-    name: VENDOR_PHRASES.earnings,
-    href: '/dashboard/earnings',
-    icon: DollarSign,
-  },
-  {
-    name: 'Chat',
-    href: '/dashboard/chat',
-    icon: MessageCircle,
-  },
-  {
-    name: VENDOR_PHRASES.profile,
-    href: '/dashboard/profile',
-    icon: User,
-  },
-];
 
 interface DashboardSidebarProps {
   className?: string;
@@ -46,18 +13,27 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const t = useTranslations('nav');
+
+  const navigation = [
+    { name: t('dashboard'), href: '/dashboard', icon: BarChart3 },
+    { name: t('services'), href: '/dashboard/services', icon: Scissors },
+    { name: t('bookings'), href: '/dashboard/bookings', icon: Calendar },
+    { name: t('earnings'), href: '/dashboard/earnings', icon: DollarSign },
+    { name: t('chat'), href: '/dashboard/chat', icon: MessageCircle },
+    { name: t('profile'), href: '/dashboard/profile', icon: User },
+  ];
 
   return (
     <div className={cn('flex flex-col h-full bg-white border-r border-gray-200', className)}>
-      {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-1">
         {navigation.map((item) => {
-          const isActive = pathname === item.href || 
+          const isActive = pathname === item.href ||
                           (item.href !== '/dashboard' && pathname.startsWith(item.href));
-          
+
           return (
             <Link
-              key={item.name}
+              key={item.href}
               href={item.href}
               className={cn(
                 'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors',

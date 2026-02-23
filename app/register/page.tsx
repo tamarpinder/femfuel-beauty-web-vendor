@@ -8,7 +8,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/lib/api';
-import { SERVICE_CATEGORIES } from '@/lib/constants';
+import { SERVICE_CATEGORY_COLORS } from '@/lib/constants';
+
+// Spanish category names for registration page (Spanish-only marketing page)
+const CATEGORY_NAMES: Record<string, string> = {
+  nail_care: 'Cuidado de Uñas', makeup: 'Maquillaje', skin_treatment: 'Tratamientos de Piel',
+  spa_relaxation: 'Spa y Relajación', hair_removal: 'Depilación', teeth_whitening: 'Blanqueamiento Dental',
+  micropigmentation: 'Micropigmentación', hair_styling: 'Peinados y Cortes', hair_coloring: 'Tintes de Cabello',
+  eyelash_extensions: 'Extensiones de Pestañas', botox_fillers: 'Botox y Rellenos',
+  skin_consultation: 'Consultas de Piel', eyebrow_tinting: 'Tinte de Cejas',
+};
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -243,7 +252,7 @@ export default function RegisterPage() {
                   Categorías de Servicios * (Selecciona las que ofreces)
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {Object.entries(SERVICE_CATEGORIES).map(([key, category]) => (
+                  {Object.keys(SERVICE_CATEGORY_COLORS).map((key) => (
                     <label key={key} className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-gray-50 cursor-pointer">
                       <input
                         type="checkbox"
@@ -251,10 +260,7 @@ export default function RegisterPage() {
                         onChange={() => handleCategoryToggle(key)}
                         className="rounded text-femfuel-pink focus:ring-femfuel-pink"
                       />
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg">{category.icon}</span>
-                        <span className="text-sm font-medium">{category.name}</span>
-                      </div>
+                      <span className="text-sm font-medium">{CATEGORY_NAMES[key]}</span>
                     </label>
                   ))}
                 </div>

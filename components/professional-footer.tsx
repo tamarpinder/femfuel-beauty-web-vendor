@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ChevronDown, Facebook, Instagram, Twitter, Music } from "lucide-react"
+import { ChevronDown, Facebook, Instagram, Twitter, Music, Globe, DollarSign } from "lucide-react"
 import { VendorAuthModal } from "@/components/vendor-auth-modal"
 
 interface FooterSection {
@@ -118,7 +118,7 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
               {/* Language Toggle */}
               <div className="relative">
                 <button className="flex items-center gap-2 text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:px-3 hover:py-2 hover:rounded-lg transition-all duration-300 text-sm">
-                  <span className="text-base">🌐</span>
+                  <Globe className="w-4 h-4" />
                   Español (DR)
                   <ChevronDown className="w-4 h-4" />
                 </button>
@@ -127,7 +127,7 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
               {/* Currency Toggle */}
               <div className="relative">
                 <button className="flex items-center gap-2 text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:px-3 hover:py-2 hover:rounded-lg transition-all duration-300 text-sm">
-                  <span className="text-base">💰</span>
+                  <DollarSign className="w-4 h-4" />
                   RD$
                   <ChevronDown className="w-4 h-4" />
                 </button>

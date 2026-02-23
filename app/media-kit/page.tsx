@@ -213,7 +213,7 @@ export default function MediaKitPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <div className="h-12 w-12 text-femfuel-rose mx-auto mb-4 bg-femfuel-rose/10 rounded-full flex items-center justify-center">
-              <span className="text-2xl">🎨</span>
+              <Palette className="w-6 h-6 text-femfuel-rose" />
             </div>
             <h2 className="text-4xl font-bold text-femfuel-dark mb-4">
               Recursos de Marca

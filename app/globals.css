@@ -1,137 +1,224 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Configure dark mode to use .dark class selector */
 @custom-variant dark (&:is(.dark *));
 
+/* ===== FEMFUEL BEAUTY THEME ===== */
+@theme {
+  /* FemFuel Brand Colors */
+  --color-primary: #b91c5c;
+  --color-primary-foreground: #ffffff;
+  --color-primary-light: #db2777;
+  --color-brand-primary: #b91c5c;
+  --color-brand-primary-light: #db2777;
+  --color-brand-surface: rgba(185, 28, 92, 0.1);
+  --color-brand-border: rgba(185, 28, 92, 0.2);
+  --color-brand-glow: rgba(185, 28, 92, 0.3);
+  --color-accent: #d4af37;
+
+  /* Custom animations */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-fade-out: fade-out 0.3s ease-out;
+  --animate-slide-in-up: slide-in-up 0.3s ease-out;
+  --animate-slide-in-down: slide-in-down 0.3s ease-out;
+  --animate-scale-in: scale-in 0.2s ease-out;
+  --animate-progress: progress 1.5s ease-in-out infinite;
+
+  @keyframes progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes slide-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slide-in-down {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+}
+
+/* ===== LIGHT MODE (Default) ===== */
 :root {
-  /* FemFuel Beauty custom color scheme */
+  --sidebar-width: 104px;
+  --color-primary: #b91c5c;
+  --color-primary-light: #db2777;
+
+  /* Background Colors */
+  --color-bg-primary: #f8fafc;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f1f5f9;
+  --color-bg-card: #ffffff;
+  --color-bg-hover: rgba(0, 0, 0, 0.03);
+  --color-bg-input: #ffffff;
+
+  /* Border Colors */
+  --color-border-primary: transparent;
+  --color-border-secondary: transparent;
+  --color-border-tertiary: #cbd5e1;
+  --color-border-input: #e2e8f0;
+  --color-border-table: #e2e8f0;
+  --color-border-shell: var(--color-border-input);
+
+  /* Text Colors */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-placeholder: #94a3b8;
+
+  /* State Colors */
+  --color-error: #ef4444;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-info: #3B82F6;
+
+  /* Shadow */
+  --color-shadow-primary: rgba(0, 0, 0, 0.1);
+
+  /* Sidebar */
+  --color-sidebar-bg: #ffffff;
+  --color-sidebar-active-bg: var(--color-brand-surface);
+  --color-sidebar-active-border: var(--color-brand-border);
+
+  /* Brand */
+  --color-brand-primary: #b91c5c;
+  --color-brand-primary-light: #db2777;
+  --color-brand-surface: rgba(185, 28, 92, 0.1);
+  --color-brand-border: rgba(185, 28, 92, 0.2);
+  --color-brand-glow: rgba(185, 28, 92, 0.3);
+  --color-accent: #d4af37;
+  --color-button-text: #ffffff;
+
+  /* FemFuel specific tokens */
   --femfuel-rose: #b91c5c;
   --femfuel-gold: #d4af37;
-  --femfuel-purple-bg: #f3e8ff;
-  --femfuel-dark-gray: #111827;
-  --femfuel-medium-gray: #4b5563;
-  --femfuel-light-gray: #f9fafb;
+  --femfuel-purple: #f3e8ff;
+  --femfuel-dark: #111827;
+  --femfuel-medium: #4b5563;
+  --femfuel-light: #f9fafb;
 
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Vendor warm accent */
+  --color-vendor-warm: rgba(212, 175, 55, 0.08);
 }
 
+/* ===== DARK MODE ===== */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --color-bg-primary: #030303;
+  --color-bg-secondary: #0a0a0a;
+  --color-bg-tertiary: #141414;
+  --color-bg-card: #0a0a0a;
+  --color-bg-hover: rgba(255, 255, 255, 0.06);
+  --color-bg-input: rgba(20, 20, 20, 0.9);
+
+  --color-border-primary: #1e1e1e;
+  --color-border-secondary: #2a2a2a;
+  --color-border-tertiary: #3a3a3a;
+  --color-border-input: #2a2a2a;
+  --color-border-table: #2a2a2a;
+  --color-border-shell: var(--color-border-primary);
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-muted: rgba(255, 255, 255, 0.65);
+  --color-text-placeholder: #6b6b6b;
+
+  --color-sidebar-bg: var(--color-bg-secondary);
+  --color-sidebar-active-bg: var(--color-brand-surface);
+  --color-sidebar-active-border: var(--color-brand-border);
 }
 
-@theme inline {
-  --font-sans: var(--font-inter);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+/* ===== BASE STYLES ===== */
+html {
+  height: 100%;
+  color-scheme: dark light;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+body {
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  background: var(--color-bg-tertiary);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow-x: hidden;
+  color: var(--color-text-primary);
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #a2abb1; border-radius: 20px; }
+::-webkit-scrollbar-thumb:hover { background: #8c959b; }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+.sidebar-scrollbar {
+  -ms-overflow-style: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #6b6f73 transparent;
+}
+.sidebar-scrollbar::-webkit-scrollbar { width: 6px; }
+.sidebar-scrollbar::-webkit-scrollbar-thumb { background: #6b6f73; border-radius: 20px; }
+
+/* Disable chart transitions */
+svg, svg *, .recharts-wrapper, .recharts-wrapper * {
+  transition: none !important;
+}
+
+/* Instant theme switching */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition-duration: 0s !important;
+}
+
+/* Performance mode */
+html.performance-mode * {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
-/* FemFuel Beauty custom utility classes */
+.animate-in {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+/* ===== MARKETING PAGE UTILITY CLASSES ===== */
 .femfuel-rose {
   color: var(--femfuel-rose);
 }
@@ -149,19 +236,19 @@
 }
 
 .bg-femfuel-purple {
-  background-color: var(--femfuel-purple-bg);
+  background-color: var(--femfuel-purple);
 }
 
 .text-femfuel-dark {
-  color: var(--femfuel-dark-gray);
+  color: var(--femfuel-dark);
 }
 
 .text-femfuel-medium {
-  color: var(--femfuel-medium-gray);
+  color: var(--femfuel-medium);
 }
 
 .bg-femfuel-light {
-  background-color: var(--femfuel-light-gray);
+  background-color: var(--femfuel-light);
 }
 
 /* Custom Glassmorphism Button */

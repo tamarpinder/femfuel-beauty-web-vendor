@@ -1,86 +1,49 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { DashboardSidebar } from '@/components/dashboard-sidebar';
-import { DashboardMobileNavigation } from '@/components/dashboard-mobile-nav';
-import { useAuth } from '@/contexts/auth-context';
-import { useRouter } from 'next/navigation';
-import { Clock } from 'lucide-react';
-
-function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
-  const { user, loading, profile } = useAuth();
-  const router = useRouter();
-
-  // Always call useEffect at the top level
-  React.useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [loading, user, router]);
-
-  // Show loading state
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-femfuel-pink mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
-  // Show approval pending message
-  if (profile && (!profile.is_active || !profile.is_verified)) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="max-w-md p-8 bg-white rounded-xl shadow-lg text-center">
-          <Clock className="h-16 w-16 text-femfuel-rose mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-femfuel-dark mb-4">
-            Cuenta Pendiente de Aprobación
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Tu cuenta de proveedor está siendo revisada por nuestro equipo. 
-            Te notificaremos por email cuando sea aprobada.
-          </p>
-          <p className="text-sm text-gray-500">
-            Tiempo estimado: 24-48 horas
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen flex bg-gray-50">
-      {/* Sidebar - Desktop only */}
-      <div className="hidden md:flex md:w-64 md:flex-col">
-        <DashboardSidebar />
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 overflow-auto pb-20 md:pb-0">
-          {children}
-        </main>
-      </div>
-
-      {/* Mobile Navigation */}
-      <DashboardMobileNavigation />
-    </div>
-  );
-}
+import { useState } from "react";
+import Sidebar from "@/components/layouts/Sidebar/Sidebar";
+import Header from "@/components/layouts/Header/Header";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleMobileMenuToggle = () => setMobileMenuOpen((prev) => !prev);
+  const handleMobileMenuClose = () => setMobileMenuOpen(false);
+
   return (
-    <DashboardLayoutContent>{children}</DashboardLayoutContent>
+    <ProtectedRoute>
+      <div className="min-h-screen bg-[var(--color-bg-tertiary)]">
+        <Sidebar
+          isMobileMenuOpen={mobileMenuOpen}
+          onMobileMenuClose={handleMobileMenuClose}
+        />
+
+        {/* Mobile overlay */}
+        {mobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black/40 z-20 lg:hidden"
+            onClick={handleMobileMenuClose}
+          />
+        )}
+
+        <Header onMobileMenuToggle={handleMobileMenuToggle} />
+
+        <main className="main-content transition-all duration-300 pt-[60px]">
+          <style jsx>{`
+            @media (min-width: 1024px) {
+              .main-content {
+                padding-inline-start: var(--sidebar-width, 104px);
+              }
+            }
+          `}</style>
+          <div className="p-4 md:p-6">{children}</div>
+        </main>
+      </div>
+    </ProtectedRoute>
   );
 }

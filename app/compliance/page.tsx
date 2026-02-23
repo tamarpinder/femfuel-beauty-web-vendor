@@ -305,9 +305,9 @@ export default function CompliancePage() {
                   <div>
                     <h3 className="text-lg font-bold text-femfuel-dark mb-4">Contacto:</h3>
                     <div className="space-y-2 text-femfuel-medium">
-                      <div>📧 cumplimiento@femfuel.com</div>
-                      <div>📞 +1 (829) 123-4567 ext. 101</div>
-                      <div>⏰ Lunes - Viernes: 9AM - 6PM</div>
+                      <div>Email: cumplimiento@femfuel.com</div>
+                      <div>Tel: +1 (829) 123-4567 ext. 101</div>
+                      <div>Horario: Lunes - Viernes: 9AM - 6PM</div>
                     </div>
                   </div>
                 </div>
