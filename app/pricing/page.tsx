@@ -486,7 +486,7 @@ export default function PricingPage() {
           </p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-femfuel-rose to-pink-600 hover:from-femfuel-rose/90 hover:to-pink-600/90 text-white font-semibold rounded-full shadow-lg hover:shadow-xl active:scale-95 transition-all duration-300 px-8 py-3"
+            className="inline-flex items-center gap-2 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white font-semibold rounded-full shadow-lg hover:shadow-xl active:scale-95 transition-all duration-300 px-8 py-3"
           >
             <Users className="h-5 w-5" />
             Comenzar Gratis

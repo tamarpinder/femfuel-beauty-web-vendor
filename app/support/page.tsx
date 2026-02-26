@@ -577,10 +577,10 @@ export default function SupportPage() {
             <Button 
               variant="outline" 
               className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
-              onClick={() => window.open('tel:+18095551234', '_blank')}
+              onClick={() => window.open('https://wa.me/18095551234', '_blank')}
             >
-              <Phone className="h-4 w-4 mr-2" />
-              Llamar Ahora
+              <MessageCircle className="h-4 w-4 mr-2" />
+              Live Chat
             </Button>
           </div>
         </div>
