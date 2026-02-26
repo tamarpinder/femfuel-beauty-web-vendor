@@ -14,9 +14,58 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://femfuel-beauty-web-vendor.vercel.app"),
   title: "FemFuel Beauty - Portal de Proveedores",
   description:
-    "Portal para proveedores de servicios de belleza en República Dominicana",
+    "Gestiona tu negocio de belleza desde una plataforma profesional. Reservas, agenda, pagos y más. Solo 8% de comisión.",
+  keywords: [
+    "belleza",
+    "proveedor",
+    "salón",
+    "spa",
+    "maquillaje",
+    "uñas",
+    "República Dominicana",
+    "Santo Domingo",
+    "portal proveedores",
+  ],
+  authors: [{ name: "FemFuel Beauty" }],
+  creator: "FemFuel Beauty",
+  publisher: "FemFuel Beauty",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_DO",
+    title: "FemFuel Beauty - Portal de Proveedores",
+    description:
+      "Gestiona tu negocio de belleza desde una plataforma profesional en República Dominicana",
+    siteName: "FemFuel Beauty",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "FemFuel Beauty - Portal de Proveedores",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FemFuel Beauty - Portal de Proveedores",
+    description:
+      "Gestiona tu negocio de belleza desde una plataforma profesional en República Dominicana",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({
