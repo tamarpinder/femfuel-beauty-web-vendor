@@ -1,9 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { ChevronDown, Facebook, Instagram, Twitter, Music, Globe, DollarSign } from "lucide-react"
-import { VendorAuthModal } from "@/components/vendor-auth-modal"
 
 interface FooterSection {
   title: string
@@ -18,9 +17,6 @@ interface ProfessionalFooterProps {
 }
 
 export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
-
   const socialLinks = [
     { icon: Facebook, href: "https://facebook.com/femfuelbeauty", label: "Facebook" },
     { icon: Twitter, href: "https://twitter.com/femfuelbeauty", label: "X (Twitter)" },
@@ -30,19 +26,18 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
 
   const legalLinks = [
     { label: "Terms", href: "/terms-of-service" },
-    { label: "Sitemap", href: "/sitemap" },
     { label: "Privacy", href: "/privacy-policy" },
   ]
 
   return (
-    <footer className="hidden md:block bg-gradient-to-b from-gray-50 to-rose-50/10">
+    <footer className="bg-gradient-to-b from-gray-50 to-rose-50/10">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Logo and Brand */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <Image 
-              src="/femfuel-logo.png" 
+            <Image
+              src="/femfuel-logo.png"
               alt="FemFuel Beauty"
               width={40}
               height={40}
@@ -56,7 +51,7 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
         </div>
 
         {/* Footer Sections */}
-        <div className="grid grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-12">
           {sections.map((section, index) => (
             <div key={index}>
               <h3 className="text-gray-800 font-semibold text-sm uppercase tracking-wide mb-4">
@@ -65,24 +60,12 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
               <ul className="space-y-2">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    {link.label === "Comenzar" ? (
-                      <button
-                        onClick={() => {
-                          setAuthMode("signup")
-                          setShowAuthModal(true)
-                        }}
-                        className="text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:scale-[1.02] hover:-translate-y-0.5 hover:px-3 hover:py-1 hover:rounded-lg hover:shadow-sm transition-all duration-300 text-sm block w-full text-left"
-                      >
-                        {link.label}
-                      </button>
-                    ) : (
-                      <a
-                        href={link.href}
-                        className="text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:scale-[1.02] hover:-translate-y-0.5 hover:px-3 hover:py-1 hover:rounded-lg hover:shadow-sm transition-all duration-300 text-sm block"
-                      >
-                        {link.label}
-                      </a>
-                    )}
+                    <Link
+                      href={link.label === "Comenzar" ? "/register" : link.href}
+                      className="text-gray-600 hover:text-femfuel-rose hover:bg-rose-50 hover:scale-[1.02] hover:-translate-y-0.5 hover:px-3 hover:py-1 hover:rounded-lg hover:shadow-sm transition-all duration-300 text-sm block"
+                    >
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -94,11 +77,11 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
       {/* Bottom Bar */}
       <div className="border-t border-gray-200 bg-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Left Side - Copyright and Legal */}
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               <span className="text-gray-500 text-sm">
-                © 2025 FemFuel Beauty RD
+                © 2026 FemFuel Beauty RD
               </span>
               <div className="flex items-center gap-4">
                 {legalLinks.map((link, index) => (
@@ -152,11 +135,6 @@ export function ProfessionalFooter({ sections }: ProfessionalFooterProps) {
           </div>
         </div>
       </div>
-      <VendorAuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-        initialMode={authMode}
-      />
     </footer>
   )
 }

@@ -89,18 +89,15 @@ export default function LoginPage() {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-32 -translate-x-32" />
 
           <div className="relative z-10 text-white text-center lg:text-left max-w-md">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors mb-8"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Volver al inicio
+            </Link>
+
             <div className="mb-8">
-              <div className="relative inline-block mb-6">
-                <div className="absolute -inset-3 bg-white/10 rounded-full blur-xl" />
-                <Image
-                  src="/femfuel-logo.png"
-                  alt="FemFuel Beauty"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 mx-auto lg:mx-0 relative"
-                  priority
-                />
-              </div>
               <h1 className="text-3xl lg:text-4xl font-bold mb-4">
                 Portal de Proveedores
               </h1>
@@ -127,14 +124,6 @@ export default function LoginPage() {
         {/* Right Side - Login Form */}
         <div className="lg:w-1/2 flex items-center justify-center p-8 lg:p-12 bg-[var(--color-bg-secondary)]">
           <div className="w-full max-w-md">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors mb-8"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Volver al inicio
-            </Link>
-
             <div className="mb-8 text-center">
               <div className="mb-6">
                 <Image

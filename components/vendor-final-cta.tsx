@@ -1,17 +1,14 @@
+import Link from "next/link"
 import { UserPlus } from "lucide-react"
 
-interface VendorFinalCTAProps {
-  onAuthClick?: (mode: "login" | "signup") => void
-}
-
-export function VendorFinalCTA({ onAuthClick }: VendorFinalCTAProps) {
+export function VendorFinalCTA() {
   return (
     <section className="py-16 bg-gradient-to-r from-femfuel-rose to-femfuel-gold relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 bg-gradient-to-r from-femfuel-rose/90 to-femfuel-gold/90"></div>
       <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-      
+
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
           <span className="text-femfuel-rose">transformar</span> tu negocio?
@@ -20,8 +17,8 @@ export function VendorFinalCTA({ onAuthClick }: VendorFinalCTAProps) {
           Únete a FemFuel Beauty hoy y comienza a generar más ingresos con la plataforma de belleza más exitosa de República Dominicana
         </p>
 
-        <button
-          onClick={() => onAuthClick?.("signup")}
+        <Link
+          href="/register"
           className="
             inline-flex items-center justify-center gap-2
             h-11 px-8 rounded-md text-sm font-medium
@@ -29,16 +26,16 @@ export function VendorFinalCTA({ onAuthClick }: VendorFinalCTAProps) {
             hover:bg-femfuel-rose/90 hover:scale-105 hover:shadow-lg
             hover:-translate-y-0.5
             transition-all duration-300 shadow-md
-            cursor-pointer focus-visible:outline-none focus-visible:ring-2 
+            cursor-pointer focus-visible:outline-none focus-visible:ring-2
             focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-femfuel-rose
           "
         >
           <UserPlus className="h-4 w-4" />
           <span>Comenzar</span>
-        </button>
-        
+        </Link>
+
         <p className="text-white/70 text-sm mt-4">
-          Comienza gratis • Precios transparentes • Soporte 24/7
+          Comienza gratis • 8% comisión • Sin costos fijos
         </p>
       </div>
     </section>

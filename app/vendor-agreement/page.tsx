@@ -1,8 +1,9 @@
 'use client'
 
+import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { VendorFooter } from "@/components/vendor-footer"
-import { 
+import {
   Handshake,
   DollarSign,
   FileText,
@@ -21,21 +22,9 @@ export default function VendorAgreementPage() {
 
   const commissionStructure = [
     {
-      phase: "Fase Actual (0-6 meses)",
-      commission: "0%",
-      description: "Período de lanzamiento sin comisiones",
-      color: "from-green-500 to-emerald-400"
-    },
-    {
-      phase: "Fase de Crecimiento (7-12 meses)", 
+      phase: "Comisión Estándar",
       commission: "8%",
-      description: "Comisión introductoria reducida",
-      color: "from-blue-500 to-cyan-400"
-    },
-    {
-      phase: "Fase Completa (12+ meses)",
-      commission: "15%",
-      description: "Estructura de comisión estándar",
+      description: "Comisión fija por cada reserva completada a través de la plataforma. Una de las más bajas del mercado.",
       color: "from-femfuel-rose to-pink-400"
     }
   ]
@@ -127,11 +116,11 @@ export default function VendorAgreementPage() {
               Estructura de Comisiones
             </h2>
             <p className="text-lg text-femfuel-medium max-w-2xl mx-auto">
-              Sistema de comisiones progresivo diseñado para apoyar el crecimiento de los proveedores
+              Comisión transparente y competitiva. La comisión puede cambiar con aviso previo de 30 días.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="max-w-md mx-auto">
             {commissionStructure.map((phase, index) => (
               <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-8 text-center">
@@ -255,8 +244,8 @@ export default function VendorAgreementPage() {
                 <div>
                   <h3 className="text-xl font-bold text-femfuel-dark mb-3">Apoyo para Proveedores</h3>
                   <p className="text-femfuel-medium mb-4 leading-relaxed">
-                    FemFuel Beauty está comprometido con el éxito de nuestros proveedores. Ofrecemos capacitación continua, 
-                    soporte técnico 24/7, y herramientas de marketing para ayudarle a hacer crecer su negocio.
+                    FemFuel Beauty está comprometido con el éxito de nuestros proveedores. Ofrecemos capacitación continua,
+                    soporte técnico, y herramientas de marketing para ayudarle a hacer crecer su negocio.
                   </p>
                   <p className="text-femfuel-medium leading-relaxed">
                     Para consultas específicas sobre este acuerdo o apoyo como proveedor, 
@@ -281,14 +270,14 @@ export default function VendorAgreementPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="glassmorphism-button-lg">
+            <Link href="/register" className="glassmorphism-button-lg">
               <Users className="h-4 w-4" />
               Comenzar Registro
-            </button>
-            <button className="femfuel-button-lg">
+            </Link>
+            <Link href="/support" className="femfuel-button-lg">
               <Mail className="h-4 w-4" />
               Contactar Soporte
-            </button>
+            </Link>
           </div>
         </div>
       </section>

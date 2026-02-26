@@ -1,300 +1,267 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/lib/api';
-import { SERVICE_CATEGORY_COLORS } from '@/lib/constants';
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { ArrowRight, Loader2 } from 'lucide-react'
+import { supabase } from '@/lib/api'
+import { VendorStorageManager } from '@/lib/api/VendorStorageManager'
+import { VendorDocumentManager } from '@/lib/api/VendorDocumentManager'
+import { RegisterStepper } from '@/components/register/RegisterStepper'
+import { RegisterBrandingPanel } from '@/components/register/RegisterBrandingPanel'
+import { RegisterStepPersonal, type PersonalFormData } from '@/components/register/RegisterStepPersonal'
+import { RegisterStepBusiness, type BusinessFormData } from '@/components/register/RegisterStepBusiness'
+import { RegisterStepDocuments, type DocumentFiles } from '@/components/register/RegisterStepDocuments'
 
-// Spanish category names for registration page (Spanish-only marketing page)
-const CATEGORY_NAMES: Record<string, string> = {
-  nail_care: 'Cuidado de Uñas', makeup: 'Maquillaje', skin_treatment: 'Tratamientos de Piel',
-  spa_relaxation: 'Spa y Relajación', hair_removal: 'Depilación', teeth_whitening: 'Blanqueamiento Dental',
-  micropigmentation: 'Micropigmentación', hair_styling: 'Peinados y Cortes', hair_coloring: 'Tintes de Cabello',
-  eyelash_extensions: 'Extensiones de Pestañas', botox_fillers: 'Botox y Rellenos',
-  skin_consultation: 'Consultas de Piel', eyebrow_tinting: 'Tinte de Cejas',
-};
+const STEPS = ['Tu Informacion', 'Tu Negocio', 'Documentos']
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState({
+  const router = useRouter()
+  const [currentStep, setCurrentStep] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const [personal, setPersonal] = useState<PersonalFormData>({
+    firstName: '',
+    lastName: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
-    fullName: '',
+  })
+
+  const [business, setBusiness] = useState<BusinessFormData>({
+    vendorType: 'salon',
     businessName: '',
-    phone: '',
+    city: 'Santo Domingo',
+    sector: '',
     address: '',
-    categories: [] as string[]
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const router = useRouter();
-  // Using imported supabase client
+    categories: [],
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+  const [documents, setDocuments] = useState<DocumentFiles>({
+    identity: null,
+    license: null,
+    certification: null,
+  })
 
-    // Validation
-    if (formData.password !== formData.confirmPassword) {
-      setError('Las contraseñas no coinciden');
-      setIsLoading(false);
-      return;
+  const [termsAccepted, setTermsAccepted] = useState(false)
+
+  const validateStep1 = (): boolean => {
+    if (!personal.firstName || !personal.lastName || !personal.email || !personal.phone || !personal.password) {
+      setError('Completa todos los campos requeridos')
+      return false
     }
-
-    if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
-      setIsLoading(false);
-      return;
+    if (personal.password.length < 6) {
+      setError('La contrasena debe tener al menos 6 caracteres')
+      return false
     }
-
-    if (formData.categories.length === 0) {
-      setError('Selecciona al menos una categoría de servicio');
-      setIsLoading(false);
-      return;
+    if (personal.password !== personal.confirmPassword) {
+      setError('Las contrasenas no coinciden')
+      return false
     }
+    return true
+  }
 
+  const validateStep2 = (): boolean => {
+    if (business.vendorType === 'salon' && !business.businessName) {
+      setError('El nombre del negocio es requerido para salones')
+      return false
+    }
+    if (!business.city) {
+      setError('Selecciona una ciudad')
+      return false
+    }
+    if (business.vendorType === 'salon' && !business.address) {
+      setError('La direccion es requerida para salones')
+      return false
+    }
+    if (business.categories.length === 0) {
+      setError('Selecciona al menos una categoria de servicio')
+      return false
+    }
+    return true
+  }
+
+  const validateStep3 = (): boolean => {
+    if (!documents.identity) {
+      setError('La cedula o pasaporte es requerida')
+      return false
+    }
+    if (!termsAccepted) {
+      setError('Debes aceptar los terminos de servicio')
+      return false
+    }
+    return true
+  }
+
+  const handleNext = () => {
+    setError('')
+    if (currentStep === 1 && !validateStep1()) return
+    if (currentStep === 2 && !validateStep2()) return
+    setCurrentStep((s) => Math.min(s + 1, 3))
+  }
+
+  const handleBack = () => {
+    setError('')
+    setCurrentStep((s) => Math.max(s - 1, 1))
+  }
+
+  const handleDocumentChange = (key: keyof DocumentFiles, file: File | null) => {
+    setDocuments((prev) => ({ ...prev, [key]: file }))
+  }
+
+  const handleSubmit = async () => {
+    setError('')
+    if (!validateStep3()) return
+
+    setIsLoading(true)
     try {
-      // Sign up user
-      const { data, error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-      });
+      // 1. Sign up with Supabase auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: personal.email,
+        password: personal.password,
+      })
+      if (authError) throw authError
+      if (!authData.user) throw new Error('No se pudo crear el usuario')
 
-      if (error) throw error;
+      const userId = authData.user.id
+      const fullName = `${personal.firstName} ${personal.lastName}`
+      const effectiveBusinessName = business.businessName || fullName
 
-      if (data.user) {
-        // Create vendor profile
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert([
-            {
-              id: data.user.id,
-              full_name: formData.fullName,
-              email: formData.email,
-              role: 'vendor',
-              phone: formData.phone,
-              address: formData.address,
-              business_name: formData.businessName,
-              service_categories: formData.categories,
-              is_approved: false, // Requires admin approval
-              created_at: new Date().toISOString(),
-            },
-          ]);
+      // 2. Create vendor profile
+      const { error: profileError } = await supabase.from('profiles').insert({
+        id: userId,
+        full_name: fullName,
+        email: personal.email,
+        role: 'vendor',
+        phone: personal.phone,
+        address: business.address || null,
+        business_name: effectiveBusinessName,
+        service_categories: business.categories,
+        city: business.city,
+        vendor_type: business.vendorType,
+        is_approved: false,
+        created_at: new Date().toISOString(),
+      })
+      if (profileError) throw profileError
 
-        if (profileError) throw profileError;
+      // 3. Upload documents
+      const slug = effectiveBusinessName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+      const docEntries = Object.entries(documents).filter(([, file]) => file !== null) as [keyof DocumentFiles, File][]
 
-        // Redirect to a pending approval page or dashboard
-        router.push('/dashboard?welcome=true');
+      for (const [docType, file] of docEntries) {
+        const fileUrl = await VendorStorageManager.upload(slug, 'documents', file)
+        if (fileUrl) {
+          await VendorDocumentManager.upload(userId, docType, file.name, fileUrl)
+        }
       }
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : 'Error al crear la cuenta');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-  const handleCategoryToggle = (categoryKey: string) => {
-    setFormData(prev => ({
-      ...prev,
-      categories: prev.categories.includes(categoryKey)
-        ? prev.categories.filter(c => c !== categoryKey)
-        : [...prev.categories, categoryKey]
-    }));
-  };
+      // 4. Redirect to dashboard
+      router.push('/dashboard?welcome=true')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error al crear la cuenta')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-femfuel-pink/5 to-femfuel-gold/5 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-3 mb-4">
-            <Image 
-              src="/femfuel-logo.png" 
-              alt="FemFuel Beauty" 
-              width={48}
-              height={48}
-              className="h-12 w-12"
-            />
-            <div>
-              <h1 className="text-2xl font-display font-bold text-femfuel-black">
-                FemFuel Beauty
-              </h1>
-              <p className="text-sm text-gray-600">Portal de Proveedores</p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[var(--color-bg-primary)] relative">
+      <div className="relative flex flex-col lg:flex-row min-h-screen">
+        {/* Left Side - Branding (hidden on mobile, compact header instead) */}
+        <RegisterBrandingPanel currentStep={currentStep} />
+
+        {/* Mobile branding header */}
+        <div className="lg:hidden bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-accent)] p-4 text-white text-center">
+          <h1 className="text-lg font-bold">Registro de Proveedor</h1>
+          <p className="text-sm opacity-80">Paso {currentStep} de 3</p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl text-center">Crear Cuenta de Proveedor</CardTitle>
-            <CardDescription className="text-center">
-              Únete a FemFuel Beauty y haz crecer tu negocio
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                  {error}
-                </div>
-              )}
-
-              {/* Personal Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Nombre Completo *
-                  </label>
-                  <Input
-                    id="fullName"
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                    placeholder="María García"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Nombre del Negocio *
-                  </label>
-                  <Input
-                    id="businessName"
-                    value={formData.businessName}
-                    onChange={(e) => setFormData({...formData, businessName: e.target.value})}
-                    placeholder="Salón de Belleza María"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Contact Information */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Correo Electrónico *
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  placeholder="maria@email.com"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Teléfono *
-                  </label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    placeholder="(809) 123-4567"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                    Dirección *
-                  </label>
-                  <Input
-                    id="address"
-                    value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
-                    placeholder="Santo Domingo, DN"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                    Contraseña *
-                  </label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                    Confirmar Contraseña *
-                  </label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Service Categories */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Categorías de Servicios * (Selecciona las que ofreces)
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {Object.keys(SERVICE_CATEGORY_COLORS).map((key) => (
-                    <label key={key} className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-gray-50 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.categories.includes(key)}
-                        onChange={() => handleCategoryToggle(key)}
-                        className="rounded text-femfuel-pink focus:ring-femfuel-pink"
-                      />
-                      <span className="text-sm font-medium">{CATEGORY_NAMES[key]}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={isLoading}
-              >
-                {isLoading ? 'Creando cuenta...' : 'Crear Cuenta de Proveedor'}
-              </Button>
-            </form>
-
-            <div className="mt-6 text-center text-sm">
-              <p className="text-gray-600">
-                ¿Ya tienes cuenta?{' '}
-                <Link href="/login" className="text-femfuel-pink hover:underline">
-                  Inicia sesión aquí
-                </Link>
+        {/* Right Side - Form */}
+        <div className="lg:w-1/2 flex-1 flex items-start lg:items-center justify-center p-6 lg:p-12 bg-[var(--color-bg-secondary)] overflow-y-auto">
+          <div className="w-full max-w-lg">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-1">
+                Crear Cuenta de Proveedor
+              </h2>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                Completa el formulario para enviar tu solicitud
               </p>
             </div>
 
-            <div className="mt-4 text-center">
-              <Link 
-                href="/" 
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                ← Volver al inicio
+            <RegisterStepper currentStep={currentStep} steps={STEPS} />
+
+            {/* Step content */}
+            {currentStep === 1 && (
+              <RegisterStepPersonal data={personal} onChange={setPersonal} error={error} />
+            )}
+            {currentStep === 2 && (
+              <RegisterStepBusiness data={business} onChange={setBusiness} error={error} />
+            )}
+            {currentStep === 3 && (
+              <RegisterStepDocuments
+                vendorType={business.vendorType}
+                documents={documents}
+                onDocumentChange={handleDocumentChange}
+                termsAccepted={termsAccepted}
+                onTermsChange={setTermsAccepted}
+                error={error}
+              />
+            )}
+
+            {/* Navigation buttons */}
+            <div className="flex items-center justify-between mt-8 gap-4">
+              {currentStep > 1 ? (
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="h-12 px-6 rounded-xl border border-[var(--color-border-input)] text-[var(--color-text-primary)] font-medium hover:bg-[var(--color-bg-hover)] transition-colors"
+                >
+                  Atras
+                </button>
+              ) : (
+                <div />
+              )}
+
+              {currentStep < 3 ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="h-12 px-8 rounded-full bg-femfuel-rose hover:bg-femfuel-rose/90 text-white font-semibold shadow-lg active:scale-95 transition-all duration-300 flex items-center gap-2"
+                >
+                  Siguiente
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isLoading}
+                  className="h-12 px-8 rounded-full bg-femfuel-rose hover:bg-femfuel-rose/90 text-white font-semibold shadow-lg active:scale-95 transition-all duration-300 flex items-center gap-2 disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    'Enviar Solicitud'
+                  )}
+                </button>
+              )}
+            </div>
+
+            {/* Login link */}
+            <div className="mt-6 text-center text-sm">
+              <span className="text-[var(--color-text-muted)]">Ya tienes cuenta?</span>
+              <Link href="/login" className="ml-1 text-[var(--color-primary)] hover:underline font-medium">
+                Inicia sesion
               </Link>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
-  );
+  )
 }

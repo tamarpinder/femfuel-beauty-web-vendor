@@ -1,13 +1,10 @@
 'use client'
 
-import { useState } from "react"
+import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { VendorFooter } from "@/components/vendor-footer"
-import { VendorAuthModal } from "@/components/vendor-auth-modal"
-import { 
-  UserPlus, 
+import {
+  UserPlus,
   Smartphone,
   Calendar,
   CreditCard,
@@ -25,8 +22,6 @@ import {
 } from "lucide-react"
 
 export default function HowItWorksPage() {
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [authMode, setAuthMode] = useState<"login" | "signup">("signup")
   const steps = [
     {
       number: "01",
@@ -142,9 +137,9 @@ export default function HowItWorksPage() {
       <section className="relative py-16 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-femfuel-rose/5 to-femfuel-gold/5"></div>
         <div className="relative max-w-6xl mx-auto px-4 text-center">
-          <Badge className="mb-6 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
-            Proceso Simple y Efectivo
-          </Badge>
+          <div className="inline-flex items-center bg-femfuel-rose/15 border border-femfuel-rose/30 px-4 py-2 rounded-full mb-6">
+            <span className="text-femfuel-rose font-bold text-sm">Proceso Simple y Efectivo</span>
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
             Así funciona FemFuel Beauty
           </h1>
@@ -152,16 +147,13 @@ export default function HowItWorksPage() {
             Un sistema diseñado para maximizar tus ingresos y simplificar tu trabajo. 
             En solo 4 pasos estarás generando más reservas y creciendo tu negocio.
           </p>
-          <Button 
-            onClick={() => {
-              setAuthMode("signup")
-              setShowAuthModal(true)
-            }}
-            className="bg-femfuel-rose hover:bg-femfuel-rose/90 text-white px-8 py-3"
+          <Link
+            href="/register"
+            className="inline-flex items-center gap-2 bg-femfuel-rose hover:bg-femfuel-rose/90 text-white px-8 py-3 rounded-md text-sm font-medium transition-colors"
           >
-            <UserPlus className="h-4 w-4 mr-2" />
+            <UserPlus className="h-4 w-4" />
             Comenzar
-          </Button>
+          </Link>
         </div>
       </section>
 
@@ -223,9 +215,9 @@ export default function HowItWorksPage() {
       <section className="py-16 bg-femfuel-light">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
-              Beneficios Comprobados
-            </Badge>
+            <div className="inline-flex items-center bg-femfuel-rose/15 border border-femfuel-rose/30 px-4 py-2 rounded-full mb-4">
+              <span className="text-femfuel-rose font-bold text-sm">Beneficios Comprobados</span>
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-femfuel-dark mb-6">
               Resultados que puedes esperar
             </h2>
@@ -254,9 +246,9 @@ export default function HowItWorksPage() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
-              Herramientas Avanzadas
-            </Badge>
+            <div className="inline-flex items-center bg-femfuel-rose/15 border border-femfuel-rose/30 px-4 py-2 rounded-full mb-4">
+              <span className="text-femfuel-rose font-bold text-sm">Herramientas Avanzadas</span>
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-femfuel-dark mb-6">
               Todo lo que necesitas para crecer
             </h2>
@@ -315,11 +307,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
       <VendorFooter />
-      <VendorAuthModal 
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        initialMode={authMode}
-      />
     </div>
   )
 }
