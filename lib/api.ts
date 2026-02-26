@@ -149,6 +149,14 @@ export const wallet = {
     return { data, error: null }
   },
 
+  requestExpressPayout: async (amount: number, bankAccountId?: string) => {
+    const vendorId = getVendorId()
+    if (!vendorId) return { data: null, error: 'No vendor found' }
+    const data = await VendorWalletManager.requestExpressPayout(vendorId, amount, bankAccountId)
+    if (!data) return { data: null, error: 'Failed to request express payout' }
+    return { data, error: null }
+  },
+
   getEarningsByEmployee: async () => {
     const vendorId = getVendorId()
     if (!vendorId) return { data: [], error: 'No vendor found' }

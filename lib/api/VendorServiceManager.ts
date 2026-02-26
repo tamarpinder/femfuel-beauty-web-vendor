@@ -19,7 +19,13 @@ const SERVICE_SELECT = `
   price, duration, is_active, is_popular, image_url, created_at
 `
 
+type SubscriptionTier = 'free' | 'pro' | 'elite'
+
 export class VendorServiceManager {
+  static getServiceLimit(tier: SubscriptionTier): number {
+    return tier === 'free' ? 5 : Infinity
+  }
+
   static async getByVendor(vendorId: string): Promise<ServiceRow[]> {
     const { data, error } = await supabase
       .from('services')
@@ -36,6 +42,29 @@ export class VendorServiceManager {
   }
 
   static async create(serviceData: Partial<ServiceRow>): Promise<ServiceRow | null> {
+    if (serviceData.vendor_id) {
+      const [countRes, profileRes] = await Promise.all([
+        supabase
+          .from('services')
+          .select('id', { count: 'exact', head: true })
+          .eq('vendor_id', serviceData.vendor_id),
+        supabase
+          .from('profiles')
+          .select('subscription_tier')
+          .eq('id', serviceData.vendor_id)
+          .single(),
+      ])
+
+      const tier = (profileRes.data?.subscription_tier as SubscriptionTier) ?? 'free'
+      const limit = this.getServiceLimit(tier)
+      const currentCount = countRes.count ?? 0
+
+      if (currentCount >= limit) {
+        console.error('VendorServiceManager.create: service limit reached for tier', tier)
+        return null
+      }
+    }
+
     const { data, error } = await supabase
       .from('services')
       .insert(serviceData)

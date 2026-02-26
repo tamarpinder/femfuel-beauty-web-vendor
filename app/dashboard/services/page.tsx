@@ -4,11 +4,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Edit3, Trash2, ToggleLeft, ToggleRight, Scissors } from 'lucide-react';
+import { Plus, Edit3, Trash2, ToggleLeft, ToggleRight, Scissors, Crown } from 'lucide-react';
 import { SERVICE_CATEGORY_COLORS } from '@/lib/constants';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/auth-context';
-import { services } from '@/lib/api';
+import { services, supabase } from '@/lib/api';
+import { VendorServiceManager } from '@/lib/api/VendorServiceManager';
 
 interface Service {
   id: string;
@@ -30,20 +31,26 @@ export default function ServicesPage() {
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [allServices, setAllServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [subscriptionTier, setSubscriptionTier] = useState<'free' | 'pro' | 'elite'>('free');
 
   const fetchServices = useCallback(async () => {
     if (!profile?.id) return;
     try {
       setLoading(true);
-      const { data, error } = await services.getByVendor();
-      if (error) { console.error('Error fetching services:', error); return; }
-      if (data) {
-        setAllServices(data.map(service => ({
+      const [servicesResult, profileResult] = await Promise.all([
+        services.getByVendor(),
+        supabase.from('profiles').select('subscription_tier').eq('id', profile.id).single(),
+      ]);
+      if (servicesResult.error) { console.error('Error fetching services:', servicesResult.error); return; }
+      if (servicesResult.data) {
+        setAllServices(servicesResult.data.map(service => ({
           id: service.id, name: service.name, category: service.category,
           price: service.price, duration: service.duration,
           description: service.description || '', is_active: service.is_active, images: [],
         })));
       }
+      const tier = (profileResult.data?.subscription_tier as 'free' | 'pro' | 'elite') ?? 'free';
+      setSubscriptionTier(tier);
     } catch (error) { console.error('Error fetching services:', error);
     } finally { setLoading(false); }
   }, [profile?.id]);
@@ -143,12 +150,26 @@ export default function ServicesPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">{t('title')}</h1>
-          <p className="text-[var(--color-text-muted)]">{t('subtitle')}</p>
+          <p className="text-[var(--color-text-muted)]">
+            {t('subtitle')}
+            {subscriptionTier === 'free' && (
+              <span className="ml-2 text-sm font-medium text-amber-600">
+                ({allServices.length}/{VendorServiceManager.getServiceLimit(subscriptionTier)} servicios)
+              </span>
+            )}
+          </p>
         </div>
-        <Button onClick={() => setShowAddForm(true)} className="flex items-center space-x-2">
-          <Plus className="h-4 w-4" />
-          <span>{t('addService')}</span>
-        </Button>
+        {subscriptionTier === 'free' && allServices.length >= VendorServiceManager.getServiceLimit(subscriptionTier) ? (
+          <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm">
+            <Crown className="h-4 w-4" />
+            <span>Actualiza a Pro para agregar más servicios</span>
+          </div>
+        ) : (
+          <Button onClick={() => setShowAddForm(true)} className="flex items-center space-x-2">
+            <Plus className="h-4 w-4" />
+            <span>{t('addService')}</span>
+          </Button>
+        )}
       </div>
 
       {showAddForm && (

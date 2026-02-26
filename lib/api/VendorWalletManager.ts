@@ -92,6 +92,57 @@ export class VendorWalletManager {
     return data
   }
 
+  static async requestExpressPayout(
+    vendorId: string,
+    amount: number,
+    bankAccountId?: string
+  ): Promise<Payout | null> {
+    const { commissionRate, bankSnapshot } = await this.fetchPayoutContext(
+      vendorId,
+      bankAccountId
+    )
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('subscription_tier')
+      .eq('id', vendorId)
+      .single()
+
+    const tier = (profile?.subscription_tier as string) ?? 'free'
+    const expressFee = tier === 'free' ? 500 : 0
+
+    const grossAmount = amount / (1 - commissionRate / 100)
+    const commissionAmount = grossAmount - amount
+    const netAmount = amount - expressFee
+
+    const { data, error } = await supabase
+      .from('vendor_payouts')
+      .insert({
+        vendor_id: vendorId,
+        amount: Math.round(netAmount * 100) / 100,
+        gross_amount: Math.round(grossAmount * 100) / 100,
+        commission_amount: Math.round(commissionAmount * 100) / 100,
+        express_fee: expressFee,
+        status: 'pending',
+        payout_type: 'express',
+        bank_name: bankSnapshot?.bank_name ?? null,
+        bank_account_last4: bankSnapshot?.account_number_last4 ?? null,
+        bank_account_id: bankAccountId || null,
+        initiated_by: 'vendor',
+        requested_at: new Date().toISOString(),
+        eligible_at: new Date().toISOString(),
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error requesting express payout:', error)
+      return null
+    }
+
+    return data
+  }
+
   private static async fetchPayoutContext(
     vendorId: string,
     bankAccountId?: string
