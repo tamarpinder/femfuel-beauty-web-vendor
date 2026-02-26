@@ -7,8 +7,9 @@ export function ConditionalHeader() {
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard");
   const isLogin = pathname === "/login";
+  const isRegister = pathname === "/register";
 
-  if (isDashboard || isLogin) return null;
+  if (isDashboard || isLogin || isRegister) return null;
 
   return <VendorHeader />;
 }

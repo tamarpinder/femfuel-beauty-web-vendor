@@ -188,9 +188,9 @@ export default function SuccessStoriesPage() {
       <section className="relative py-16 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-femfuel-rose/5 to-femfuel-gold/5"></div>
         <div className="relative max-w-6xl mx-auto px-4 text-center">
-          <Badge className="mb-6 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
-            Transformaciones Reales
-          </Badge>
+          <div className="inline-flex items-center bg-femfuel-rose/15 border border-femfuel-rose/30 px-4 py-2 rounded-full mb-6">
+            <span className="text-femfuel-rose font-bold text-sm">Transformaciones Reales</span>
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
             Historias de Éxito
           </h1>
@@ -218,9 +218,9 @@ export default function SuccessStoriesPage() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-femfuel-gold text-white hover:bg-femfuel-gold/90">
-              Historias Destacadas
-            </Badge>
+            <div className="inline-flex items-center bg-femfuel-rose/15 border border-femfuel-rose/30 px-4 py-2 rounded-full mb-4">
+              <span className="text-femfuel-rose font-bold text-sm">Historias Destacadas</span>
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-femfuel-dark mb-6">
               Transformaciones extraordinarias
             </h2>

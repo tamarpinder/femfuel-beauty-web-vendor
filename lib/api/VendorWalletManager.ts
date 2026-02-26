@@ -4,12 +4,21 @@ export interface Payout {
   id: string
   vendor_id: string
   amount: number
+  gross_amount: number | null
+  commission_amount: number | null
+  express_fee: number | null
   status: 'pending' | 'processing' | 'completed' | 'failed'
+  payout_type: string | null
   bank_name: string | null
   bank_account_last4: string | null
+  bank_account_id: string | null
   requested_at: string
   processed_at: string | null
+  eligible_at: string | null
+  period_start: string | null
+  period_end: string | null
   notes: string | null
+  rejection_reason: string | null
   created_at: string
 }
 
@@ -47,17 +56,30 @@ export class VendorWalletManager {
   static async requestPayout(
     vendorId: string,
     amount: number,
-    bankName?: string,
-    bankLast4?: string
+    bankAccountId?: string
   ): Promise<Payout | null> {
+    const { commissionRate, bankSnapshot } = await this.fetchPayoutContext(
+      vendorId,
+      bankAccountId
+    )
+
+    const grossAmount = amount / (1 - commissionRate / 100)
+    const commissionAmount = grossAmount - amount
+
     const { data, error } = await supabase
       .from('vendor_payouts')
       .insert({
         vendor_id: vendorId,
         amount,
+        gross_amount: Math.round(grossAmount * 100) / 100,
+        commission_amount: Math.round(commissionAmount * 100) / 100,
         status: 'pending',
-        bank_name: bankName || null,
-        bank_account_last4: bankLast4 || null,
+        payout_type: 'standard',
+        bank_name: bankSnapshot?.bank_name ?? null,
+        bank_account_last4: bankSnapshot?.account_number_last4 ?? null,
+        bank_account_id: bankAccountId || null,
+        initiated_by: 'vendor',
+        requested_at: new Date().toISOString(),
       })
       .select()
       .single()
@@ -68,6 +90,35 @@ export class VendorWalletManager {
     }
 
     return data
+  }
+
+  private static async fetchPayoutContext(
+    vendorId: string,
+    bankAccountId?: string
+  ): Promise<{
+    commissionRate: number
+    bankSnapshot: { bank_name: string; account_number_last4: string } | null
+  }> {
+    const { data: settings } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'commissionRate')
+      .single()
+
+    const commissionRate = settings?.value ?? 8
+
+    let bankSnapshot = null
+    if (bankAccountId) {
+      const { data: bank } = await supabase
+        .from('bank_accounts')
+        .select('bank_name, account_number_last4')
+        .eq('id', bankAccountId)
+        .eq('profile_id', vendorId)
+        .single()
+      bankSnapshot = bank
+    }
+
+    return { commissionRate, bankSnapshot }
   }
 
   private static async buildEmployeeMap(

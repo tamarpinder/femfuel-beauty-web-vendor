@@ -1,21 +1,21 @@
-import { UserCheck, Users, DollarSign } from "lucide-react"
+import { UserCheck, Users, Percent } from "lucide-react"
 
 export function VendorSocialProof() {
   const stats = [
     {
-      number: "500+",
-      label: "Proveedores Exitosos",
+      number: "50+",
+      label: "Proveedores Registrados",
       icon: UserCheck
     },
     {
       number: "75,000+",
-      label: "Clientes Conectados",
+      label: "Usuarios Potenciales",
       icon: Users
     },
     {
-      number: "RD$50M+",
-      label: "Generados en Ingresos",
-      icon: DollarSign
+      number: "8%",
+      label: "Comisión Transparente",
+      icon: Percent
     },
   ]
 
@@ -24,9 +24,9 @@ export function VendorSocialProof() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-femfuel-dark mb-4">
-            Únete a la comunidad de belleza <span className="text-femfuel-rose">más exitosa</span>
+            Únete a la primera plataforma de belleza <span className="text-femfuel-rose">digital en RD</span>
           </h2>
-          <p className="text-lg text-femfuel-medium">Profesionales de toda República Dominicana confían en FemFuel</p>
+          <p className="text-lg text-femfuel-medium">Estamos construyendo el futuro de la belleza dominicana — sé parte desde el inicio</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">

@@ -6,7 +6,7 @@ export function VendorValueProposition() {
     {
       icon: Users,
       title: "Más Clientes, Más Ingresos",
-      description: "Conecta con +75,000 usuarios activos que buscan servicios de belleza diariamente",
+      description: "Conecta con miles de usuarios que buscan servicios de belleza en tu zona",
       color: "bg-gradient-to-br from-femfuel-rose to-pink-400"
     },
     {
@@ -17,8 +17,8 @@ export function VendorValueProposition() {
     },
     {
       icon: CreditCard,
-      title: "Pagos Garantizados",
-      description: "Recibe pagos automáticos y seguros. Comienza gratis, paga solo cuando ganes",
+      title: "Comisión Transparente",
+      description: "Comienza gratis y paga solo el 8% de comisión cuando ganes. Sin costos fijos, sin sorpresas",
       color: "bg-gradient-to-br from-green-500 to-emerald-400"
     },
   ]

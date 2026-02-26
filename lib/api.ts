@@ -141,10 +141,10 @@ export const wallet = {
     return { data, error: null }
   },
 
-  requestPayout: async (amount: number, bankName?: string, bankLast4?: string) => {
+  requestPayout: async (amount: number, bankAccountId?: string) => {
     const vendorId = getVendorId()
     if (!vendorId) return { data: null, error: 'No vendor found' }
-    const data = await VendorWalletManager.requestPayout(vendorId, amount, bankName, bankLast4)
+    const data = await VendorWalletManager.requestPayout(vendorId, amount, bankAccountId)
     if (!data) return { data: null, error: 'Failed to request payout' }
     return { data, error: null }
   },

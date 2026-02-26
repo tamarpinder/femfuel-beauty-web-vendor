@@ -353,28 +353,30 @@ export default function PricingPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 items-stretch">
             <Card className="border-none shadow-lg">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8 text-red-500" />
+              <CardContent className="p-6 text-center flex flex-col">
+                <div className="h-24 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                    <Zap className="h-8 w-8 text-red-500" />
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold text-femfuel-dark mb-4">Alquiler de Silla</h3>
                 <ul className="space-y-2 text-left text-femfuel-medium">
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
                     Costo fijo RD$15,000-25,000/mes
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
                     Pagas sin importar ingresos
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
                     Horarios limitados del salón
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
                     Sin marketing digital
                   </li>
                 </ul>
@@ -382,26 +384,28 @@ export default function PricingPage() {
             </Card>
 
             <Card className="border-none shadow-lg">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8 text-yellow-600" />
+              <CardContent className="p-6 text-center flex flex-col">
+                <div className="h-24 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+                    <Users className="h-8 w-8 text-yellow-600" />
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold text-femfuel-dark mb-4">Trabajo Independiente</h3>
                 <ul className="space-y-2 text-left text-femfuel-medium">
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></span>
                     Difícil conseguir clientes
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></span>
                     Sin sistema de reservas
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></span>
                     Sin respaldo profesional
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></span>
                     Marketing costoso
                   </li>
                 </ul>
@@ -409,26 +413,28 @@ export default function PricingPage() {
             </Card>
 
             <Card className="border-none shadow-xl border-2 border-femfuel-rose">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-femfuel-rose/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Image src="/femfuel-logo.png" alt="FemFuel Beauty" width={48} height={48} />
+              <CardContent className="p-6 text-center flex flex-col">
+                <div className="h-24 flex items-center justify-center">
+                  <div className="w-20 h-20 bg-femfuel-rose/10 rounded-full flex items-center justify-center">
+                    <Image src="/femfuel-logo.png" alt="FemFuel Beauty" width={62} height={62} className="w-[62px] h-[62px]" />
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold text-femfuel-dark mb-4">FemFuel Beauty</h3>
                 <ul className="space-y-2 text-left text-femfuel-medium">
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                     Pagas solo cuando ganas (8%)
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                     Acceso a miles de clientes potenciales
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                     Horarios 100% flexibles
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                     Marketing y herramientas incluidas
                   </li>
                 </ul>

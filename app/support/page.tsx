@@ -256,9 +256,9 @@ export default function SupportPage() {
       <section className="relative py-16 bg-gradient-to-br from-femfuel-light via-white to-femfuel-purple overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-femfuel-rose/5 to-femfuel-gold/5"></div>
         <div className="relative max-w-6xl mx-auto px-4 text-center">
-          <Badge className="mb-6 bg-femfuel-rose text-white hover:bg-femfuel-rose/90">
-            Soporte 24/7 - Estamos Aquí Para Ti
-          </Badge>
+          <div className="inline-flex items-center bg-femfuel-rose/15 border border-femfuel-rose/30 px-4 py-2 rounded-full mb-6">
+            <span className="text-femfuel-rose font-bold text-sm">Estamos Aquí Para Ti</span>
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-femfuel-dark mb-6 leading-tight max-w-5xl mx-auto">
             Centro de Soporte
           </h1>

@@ -139,8 +139,8 @@ export default function WalletPage() {
 
   const chart = buildChartData();
 
-  const handleRequestPayout = async (amount: number, bankName?: string, bankLast4?: string) => {
-    const { data } = await wallet.requestPayout(amount, bankName, bankLast4);
+  const handleRequestPayout = async (amount: number, bankAccountId?: string) => {
+    const { data } = await wallet.requestPayout(amount, bankAccountId);
     if (data) {
       setPayouts([data, ...payouts]);
     }

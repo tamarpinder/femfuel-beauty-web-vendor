@@ -21,7 +21,7 @@ interface Payout {
 interface PayoutSectionProps {
   payouts: Payout[];
   availableBalance: number;
-  onRequestPayout: (amount: number, bankName?: string, bankLast4?: string) => Promise<void>;
+  onRequestPayout: (amount: number, bankAccountId?: string) => Promise<void>;
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -59,11 +59,7 @@ export default function PayoutSection({
     const selected = savedAccounts.find(a => a.id === selectedAccountId);
     setSubmitting(true);
     try {
-      await onRequestPayout(
-        numAmount,
-        selected?.bank_name || undefined,
-        selected?.account_number_last4 || undefined,
-      );
+      await onRequestPayout(numAmount, selectedAccountId || undefined);
       setAmount('');
       setShowForm(false);
     } finally {
